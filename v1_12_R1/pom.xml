@@ -9,6 +9,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>v1_12_R1</artifactId>
+	<artifactId>panilla-v1_12_R1</artifactId>
 
 </project>

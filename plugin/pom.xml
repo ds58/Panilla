@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>plugin</artifactId>
+	<artifactId>panilla-plugin</artifactId>
 
 	<repositories>
 		<repository>
@@ -24,6 +24,18 @@
 			<artifactId>bukkit</artifactId>
 			<version>1.12.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ruinscraft</groupId>
+			<artifactId>panilla-v1_12_R1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ruinscraft</groupId>
+			<artifactId>panilla-v1_13_R2</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
