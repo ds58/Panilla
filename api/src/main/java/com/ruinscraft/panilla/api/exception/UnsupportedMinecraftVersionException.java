@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api;
+package com.ruinscraft.panilla.api.exception;
 
 public class UnsupportedMinecraftVersionException extends Exception {
 

@@ -2,43 +2,46 @@ package com.ruinscraft.panilla.plugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.ruinscraft.panilla.api.PacketHandler;
-import com.ruinscraft.panilla.api.UnsupportedMinecraftVersionException;
+import com.ruinscraft.panilla.api.IPlayerInjector;
+import com.ruinscraft.panilla.api.exception.UnsupportedMinecraftVersionException;
 
 public class PanillaPlugin extends JavaPlugin {
 
-	private PacketHandler packetHandler;
+	private IPlayerInjector playerInjector;
 
-	public PacketHandler getPacketHandler() {
-		return packetHandler;
+	public IPlayerInjector getPlayerInjector() {
+		return playerInjector;
 	}
 	
 	@Override
 	public void onEnable() {
+		singleton = this;
+		
 		final String v_Version = 
 				getServer().
 				getClass().
 				getPackage().
 				getName().
-				substring("net.minecraft.server.".length() - 1);
+				substring("org.bukkit.craftbukkit.".length());
 
 		try {
-			packetHandler = getPacketHandler(v_Version);
+			playerInjector = getPlayerInjector(v_Version);
 		} catch (UnsupportedMinecraftVersionException e) {
-			disable(e.getMessage());
+			disableAndWarn(e.getMessage());
 			
 			return;
 		}
 		
-		
+		/* Register listeners */
+		getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
 	}
 
 	@Override
 	public void onDisable() {
-
+		singleton = null;
 	}
 	
-	private void disable(String reason) {
+	private void disableAndWarn(String reason) {
 		getLogger().severe(reason);
 		getServer().getPluginManager().disablePlugin(this);
 	}
@@ -50,12 +53,12 @@ public class PanillaPlugin extends JavaPlugin {
 		return singleton;
 	}
 	
-	private static PacketHandler getPacketHandler(String v_Version) throws UnsupportedMinecraftVersionException {
+	private static IPlayerInjector getPlayerInjector(String v_Version) throws UnsupportedMinecraftVersionException {
 		switch (v_Version) {
 		case "v1_12_R1":
-			return new com.ruinscraft.panilla.v1_12_R1.PacketHandler();
+			return new com.ruinscraft.panilla.v1_12_R1.PlayerInjector();
 		case "v1_13_R2":
-			return new com.ruinscraft.panilla.v1_13_R2.PacketHandler();
+			return null;	// TODO: impl 1.13.2
 		default:
 			throw new UnsupportedMinecraftVersionException(v_Version);
 		}

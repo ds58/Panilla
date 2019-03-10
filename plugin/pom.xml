@@ -11,12 +11,11 @@
 
 	<artifactId>panilla-plugin</artifactId>
 
-	<repositories>
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-	</repositories>
+	<name>Panilla</name>
+
+	<properties>
+		<mainClass>com.ruinscraft.panilla.plugin.PanillaPlugin</mainClass>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -44,5 +43,41 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>plugin.yml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<finalName>${name}</finalName>
+	</build>
 
 </project>
