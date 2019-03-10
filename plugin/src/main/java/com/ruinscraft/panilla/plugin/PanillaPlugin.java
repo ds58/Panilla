@@ -7,14 +7,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.ruinscraft.panilla.api.IPacketInspector;
 import com.ruinscraft.panilla.api.IPlayerInjector;
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.PanillaConfig;
 import com.ruinscraft.panilla.api.exception.UnsupportedMinecraftVersionException;
 
 public class PanillaPlugin extends JavaPlugin {
 
+	private PanillaConfig panillaConfig;
 	private IProtocolConstants protocolConstants;
 	private IPacketInspector packetInspector;
 	private IPlayerInjector playerInjector;
 
+	public PanillaConfig getPanillaConfig() {
+		return panillaConfig;
+	}
+	
 	public IProtocolConstants getProtocolConstants() {
 		return protocolConstants;
 	}
@@ -30,14 +36,18 @@ public class PanillaPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		singleton = this;
-
+		
+		saveDefaultConfig();
+		
+		panillaConfig = PanillaConfig.build(getConfig());
+		
 		final String v_Version = 
 				getServer().
 				getClass().
 				getPackage().
 				getName().
 				substring("org.bukkit.craftbukkit.".length());
-
+		
 		try {
 			switch (v_Version) {
 			case "v1_12_R1":
