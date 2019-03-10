@@ -46,18 +46,21 @@ public class PanillaPlugin extends JavaPlugin {
 		panillaConfig.packetWhitelist = getConfig().getIntegerList("packet-whitelist");
 	}
 
+	private String v_Version() {
+		return 	getServer().
+				getClass().
+				getPackage().
+				getName().
+				substring("org.bukkit.craftbukkit.".length());
+	}
+
 	@Override
 	public void onEnable() {
 		singleton = this;
 
 		loadConfig();
 
-		final String v_Version = 
-				getServer().
-				getClass().
-				getPackage().
-				getName().
-				substring("org.bukkit.craftbukkit.".length());
+		final String v_Version = v_Version();
 
 		try {
 			switch (v_Version) {
@@ -72,7 +75,6 @@ public class PanillaPlugin extends JavaPlugin {
 			default:
 				throw new UnsupportedMinecraftVersionException(v_Version);
 			}
-
 		} catch (UnsupportedMinecraftVersionException e) {
 			e.printStackTrace();
 			getServer().getPluginManager().disablePlugin(this);
