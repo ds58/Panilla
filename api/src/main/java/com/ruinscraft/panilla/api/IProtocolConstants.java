@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api.io;
+package com.ruinscraft.panilla.api;
 
 public interface IProtocolConstants {
 

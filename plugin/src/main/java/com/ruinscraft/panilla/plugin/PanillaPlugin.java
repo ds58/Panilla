@@ -4,17 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.ruinscraft.panilla.api.INbtChecker;
+import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.UnsupportedMinecraftVersionException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
-import com.ruinscraft.panilla.api.io.IProtocolConstants;
 
 public class PanillaPlugin extends JavaPlugin {
 
 	private PConfig panillaConfig;
 	private IProtocolConstants protocolConstants;
+	private INbtChecker nbtChecker;
 	private IPacketInspector packetInspector;
 	private IPlayerInjector playerInjector;
 
@@ -24,6 +26,10 @@ public class PanillaPlugin extends JavaPlugin {
 
 	public IProtocolConstants getProtocolConstants() {
 		return protocolConstants;
+	}
+	
+	public INbtChecker getNbtChecker() {
+		return nbtChecker;
 	}
 
 	public IPacketInspector getPacketInspector() {
@@ -66,7 +72,8 @@ public class PanillaPlugin extends JavaPlugin {
 			switch (v_Version) {
 			case "v1_12_R1":
 				protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-				packetInspector = new com.ruinscraft.panilla.v1_12_R1.PacketInspector(protocolConstants);
+				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker();
+				packetInspector = new com.ruinscraft.panilla.v1_12_R1.PacketInspector(protocolConstants, nbtChecker);
 				playerInjector = new com.ruinscraft.panilla.v1_12_R1.PlayerInjector(packetInspector);
 				break;
 			case "v1_13_R2":
@@ -98,12 +105,12 @@ public class PanillaPlugin extends JavaPlugin {
 		singleton = null;
 	}
 
-	/* ========================================== static ========================================== */
+	/* ========================================== singleton ========================================== */
 	private static PanillaPlugin singleton;
 
 	public static PanillaPlugin get() {
 		return singleton;
 	}
-	/* ========================================== static ========================================== */
+	/* ========================================== singleton ========================================== */
 
 }
