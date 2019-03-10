@@ -1,25 +1,27 @@
 package com.ruinscraft.panilla.api;
 
+import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
+
 public interface INbtChecker {
 
-	void check_Item(Object object);
-	void check_ench(Object object);
-	void check_display(Object object);
-	void check_AttributeModifiers(Object object);
-	void check_Unbreakable(Object object);
-	void check_SkullOwner(Object object);
-	void check_HideFlags(Object object);
-	void check_CanDestroy(Object object);
-	void check_PickupDelay(Object object);
-	void check_Age(Object object);
-	void check_generation(Object object);
-	void check_CanPlaceOn(Object object);
-	void check_BlockEntityTag(Object object);
-	void check_CustomPotionEffects(Object object);
-	void check_Potion(Object object);
-	void check_CustomPotionColor(Object object);
+	boolean check_Item(Object object);
+	boolean check_ench(Object object);
+	boolean check_display(Object object);
+	boolean check_AttributeModifiers(Object object);
+	boolean check_Unbreakable(Object object);
+	boolean check_SkullOwner(Object object);
+	boolean check_HideFlags(Object object);
+	boolean check_CanDestroy(Object object);
+	boolean check_PickupDelay(Object object);
+	boolean check_Age(Object object);
+	boolean check_generation(Object object);
+	boolean check_CanPlaceOn(Object object);
+	boolean check_BlockEntityTag(Object object);
+	boolean check_CustomPotionEffects(Object object);
+	boolean check_Potion(Object object);
+	boolean check_CustomPotionColor(Object object);
 
-	default void check(Object object) {
+	default void check(Object object) throws NbtNotPermittedException {
 		check_Item(object);
 		check_ench(object);
 		check_display(object);

@@ -11,16 +11,18 @@ import net.minecraft.server.v1_12_R1.NBTTagList;
 public class NbtChecker implements INbtChecker {
 
 	@Override
-	public void check_Item(Object object) {
+	public boolean check_Item(Object object) {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
 			System.out.println(String.join(", ", root.c()));
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_ench(Object object) {
+	public boolean check_ench(Object object) {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
@@ -33,13 +35,13 @@ public class NbtChecker implements INbtChecker {
 					int lvl = 0xFFFF & enchantment.getShort("lvl");
 					
 					Enchantment current = Enchantment.getById(id);
-
+					
 					if (lvl > current.getMaxLevel()) {
-						
+						return false;
 					}
 					
 					if (lvl < current.getStartLevel()) {
-						
+						return false;
 					}
 					
 					for (int j = 0; j < enchantments.size(); j++) {
@@ -49,110 +51,140 @@ public class NbtChecker implements INbtChecker {
 								getShort("id"));
 						
 						if (current.conflictsWith(other)) {
-							
+							return false;
 						}
 					}
 				}
 			}
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_display(Object object) {
+	public boolean check_display(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_AttributeModifiers(Object object) {
+	public boolean check_AttributeModifiers(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_Unbreakable(Object object) {
+	public boolean check_Unbreakable(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_SkullOwner(Object object) {
+	public boolean check_SkullOwner(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_HideFlags(Object object) {
+	public boolean check_HideFlags(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_CanDestroy(Object object) {
+	public boolean check_CanDestroy(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_PickupDelay(Object object) {
+	public boolean check_PickupDelay(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_Age(Object object) {
+	public boolean check_Age(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_generation(Object object) {
+	public boolean check_generation(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_CanPlaceOn(Object object) {
+	public boolean check_CanPlaceOn(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_BlockEntityTag(Object object) {
+	public boolean check_BlockEntityTag(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_CustomPotionEffects(Object object) {
+	public boolean check_CustomPotionEffects(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_Potion(Object object) {
+	public boolean check_Potion(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 	@Override
-	public void check_CustomPotionColor(Object object) {
+	public boolean check_CustomPotionColor(Object object) {
 		if (object instanceof NBTTagCompound) {
 
 		}
+		
+		return true;
 	}
 
 }

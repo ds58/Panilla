@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 
@@ -26,7 +27,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkSize(Object nmsPacket) throws OversizedPacketException {
+	public void checkSize(Object player, Object nmsPacket) throws OversizedPacketException {
 		if (nmsPacket instanceof Packet<?>) {
 			Packet<?> packet = (Packet<?>) nmsPacket;
 			PacketDataSerializer dataSerializer = 
@@ -57,11 +58,13 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayInSetCreativeSlot(Object nmsPacket) {
+	public void checkPacketPlayInSetCreativeSlot(Object player, Object nmsPacket) throws NbtNotPermittedException {
 		if (nmsPacket instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packetPlayInSetCreativeSlot = (PacketPlayInSetCreativeSlot) nmsPacket;
 			ItemStack itemStack = packetPlayInSetCreativeSlot.getItemStack();
-			if (itemStack != null && itemStack.hasTag()) nbtChecker.check(itemStack.getTag());
+			if (itemStack != null && itemStack.hasTag()) {
+				nbtChecker.check(itemStack.getTag());
+			}
 		}
 	}
 
