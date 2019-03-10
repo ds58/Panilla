@@ -4,23 +4,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.ruinscraft.panilla.api.IPacketInspector;
-import com.ruinscraft.panilla.api.IPlayerInjector;
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.PanillaConfig;
+import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.UnsupportedMinecraftVersionException;
+import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.api.io.IProtocolConstants;
 
 public class PanillaPlugin extends JavaPlugin {
 
-	private PanillaConfig panillaConfig;
+	private PConfig panillaConfig;
 	private IProtocolConstants protocolConstants;
 	private IPacketInspector packetInspector;
 	private IPlayerInjector playerInjector;
 
-	public PanillaConfig getPanillaConfig() {
+	public PConfig getPanillaConfig() {
 		return panillaConfig;
 	}
-	
+
 	public IProtocolConstants getProtocolConstants() {
 		return protocolConstants;
 	}
@@ -33,21 +34,31 @@ public class PanillaPlugin extends JavaPlugin {
 		return playerInjector;
 	}
 
+	private synchronized void loadConfig() {
+		saveDefaultConfig();
+
+		panillaConfig = new PConfig();
+
+		panillaConfig.consoleLogging = getConfig().getBoolean("logging.console");
+		panillaConfig.chatLogging = getConfig().getBoolean("logging.chat");
+		panillaConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness").toUpperCase());
+		panillaConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
+		panillaConfig.packetWhitelist = getConfig().getIntegerList("packet-whitelist");
+	}
+
 	@Override
 	public void onEnable() {
 		singleton = this;
-		
-		saveDefaultConfig();
-		
-		panillaConfig = PanillaConfig.build(getConfig());
-		
+
+		loadConfig();
+
 		final String v_Version = 
 				getServer().
 				getClass().
 				getPackage().
 				getName().
 				substring("org.bukkit.craftbukkit.".length());
-		
+
 		try {
 			switch (v_Version) {
 			case "v1_12_R1":
@@ -70,7 +81,7 @@ public class PanillaPlugin extends JavaPlugin {
 
 		/* Register listeners */
 		getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
-		
+
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			playerInjector.register(player);
 		}
@@ -81,7 +92,7 @@ public class PanillaPlugin extends JavaPlugin {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			playerInjector.unregister(player);
 		}
-		
+
 		singleton = null;
 	}
 

@@ -3,10 +3,10 @@ package com.ruinscraft.panilla.v1_12_R1;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import com.ruinscraft.panilla.api.IPacketInspector;
-import com.ruinscraft.panilla.api.IPlayerInjector;
-import com.ruinscraft.panilla.api.PlayerInbound;
-import com.ruinscraft.panilla.api.PlayerOutbound;
+import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.api.io.PlayerInbound;
+import com.ruinscraft.panilla.api.io.PlayerOutbound;
 
 import io.netty.channel.Channel;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
@@ -14,11 +14,11 @@ import net.minecraft.server.v1_12_R1.EntityPlayer;
 public class PlayerInjector implements IPlayerInjector {
 
 	private final IPacketInspector packetInspector;
-	
+
 	public PlayerInjector(IPacketInspector packetInspector) {
 		this.packetInspector = packetInspector;
 	}
-	
+
 	private static Channel getPlayerChannel(Player bukkitPlayer) throws IllegalArgumentException {
 		if (!(bukkitPlayer instanceof CraftPlayer)) {
 			throw new IllegalArgumentException("bukkitPlayer not instanceof CraftPlayer");
@@ -31,7 +31,12 @@ public class PlayerInjector implements IPlayerInjector {
 	}
 
 	@Override
-	public void register(Player bukkitPlayer) {
+	public void register(final Object object) {
+		if (!(object instanceof Player)) {
+			return;
+		}
+
+		Player bukkitPlayer = (Player) object;
 		Channel channel = getPlayerChannel(bukkitPlayer);
 
 		/* Register inbound */
@@ -48,7 +53,12 @@ public class PlayerInjector implements IPlayerInjector {
 	}
 
 	@Override
-	public void unregister(Player bukkitPlayer) {
+	public void unregister(final Object object) {
+		if (!(object instanceof Player)) {
+			return;
+		}
+
+		Player bukkitPlayer = (Player) object;
 		Channel channel = getPlayerChannel(bukkitPlayer);
 
 		/* Unregister inbound */
