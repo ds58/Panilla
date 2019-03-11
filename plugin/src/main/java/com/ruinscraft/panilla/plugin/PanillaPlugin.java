@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.ruinscraft.panilla.api.IItemStackChecker;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
@@ -17,6 +18,7 @@ public class PanillaPlugin extends JavaPlugin {
 	private PConfig panillaConfig;
 	private IProtocolConstants protocolConstants;
 	private INbtChecker nbtChecker;
+	private IItemStackChecker itemStackChecker;
 	private IPacketInspector packetInspector;
 	private IPlayerInjector playerInjector;
 
@@ -30,6 +32,10 @@ public class PanillaPlugin extends JavaPlugin {
 	
 	public INbtChecker getNbtChecker() {
 		return nbtChecker;
+	}
+	
+	public IItemStackChecker getItemStackChecker() {
+		return itemStackChecker;
 	}
 
 	public IPacketInspector getPacketInspector() {
@@ -49,7 +55,6 @@ public class PanillaPlugin extends JavaPlugin {
 		panillaConfig.chatLogging = getConfig().getBoolean("logging.chat");
 		panillaConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness").toUpperCase());
 		panillaConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
-		panillaConfig.packetWhitelist = getConfig().getIntegerList("packet-whitelist");
 	}
 
 	private String v_Version() {
@@ -73,7 +78,8 @@ public class PanillaPlugin extends JavaPlugin {
 			case "v1_12_R1":
 				protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
 				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
-				packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker);
+				itemStackChecker = new com.ruinscraft.panilla.v1_12_R1.ItemStackChecker(protocolConstants);
+				packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker, itemStackChecker);
 				playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector);
 				break;
 			case "v1_13_R2":
