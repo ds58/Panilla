@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
+import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 
 import io.netty.buffer.UnpooledByteBufAllocator;
@@ -15,6 +16,7 @@ import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketDataSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayInCustomPayload;
 import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
+import net.minecraft.server.v1_12_R1.PacketPlayInUpdateSign;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
 
 public class PacketInspector implements IPacketInspector {
@@ -68,6 +70,19 @@ public class PacketInspector implements IPacketInspector {
 			
 			if (itemStack != null && itemStack.hasTag()) {
 				nbtChecker.checkAll(itemStack.getTag(), strictness);
+			}
+		}
+	}
+
+	@Override
+	public void checkPacketPlayInUpdateSign(Object player, Object nmsPacket) throws SignLineLengthTooLongException {
+		if (nmsPacket instanceof PacketPlayInUpdateSign) {
+			PacketPlayInUpdateSign packetPlayInUpdateSign = (PacketPlayInUpdateSign) nmsPacket;
+			
+			for (String line : packetPlayInUpdateSign.b()) {
+				if (line.length() > protocolConstants.maxSignLineLength()) {
+					throw new SignLineLengthTooLongException();
+				}
 			}
 		}
 	}

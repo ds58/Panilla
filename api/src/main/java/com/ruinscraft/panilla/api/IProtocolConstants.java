@@ -13,8 +13,8 @@ public interface IProtocolConstants {
 	int packetMaxBytes();
 	
 	int maxAnvilRenameChars();
-	
-	// TODO: add sign max line length
+
+	int maxSignLineLength();
 
 	/* Default values that I don't expect to change in future versions of Minecraft */
 	
