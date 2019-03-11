@@ -1,5 +1,9 @@
 package com.ruinscraft.panilla.v1_12_R1;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;
 
@@ -115,7 +119,10 @@ public class NbtChecker implements INbtChecker {
 	public void check_SkullOwner(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
+			if (root.hasKey("SkullOwner")) {
+				throw new NbtNotPermittedException("contains SkullOwner");
+			}
 		}
 	}
 
@@ -133,57 +140,94 @@ public class NbtChecker implements INbtChecker {
 	@Override
 	public void check_CanDestroy(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("CanDestroy")) {
+				throw new NbtNotPermittedException("contains CanDestroy");
+			}
 		}
 	}
 
 	@Override
 	public void check_PickupDelay(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("PickupDelay")) {
+				throw new NbtNotPermittedException("contains PickupDelay");
+			}
 		}
 	}
 
 	@Override
 	public void check_Age(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("Age")) {
+				throw new NbtNotPermittedException("contains Age");
+			}
 		}
 	}
 
 	@Override
 	public void check_generation(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-
-		}
+		// do nothing
 	}
 
 	@Override
 	public void check_CanPlaceOn(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("CanPlaceOn")) {
+				throw new NbtNotPermittedException("contains CanPlaceOn");
+			}
 		}
 	}
 
 	@Override
 	public void check_BlockEntityTag(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("BlockEntityTag")) {
+				NBTTagCompound blockEntityTag = root.getCompound("BlockEntityTag");
+
+				if (blockEntityTag.hasKey("Lock")) {
+					throw new NbtNotPermittedException("contains BlockEntityTag.Lock");
+				}
+
+				if (blockEntityTag.hasKey("Text1")
+						|| blockEntityTag.hasKey("Text2")
+						|| blockEntityTag.hasKey("Text3")
+						|| blockEntityTag.hasKey("Text4")) {
+					throw new NbtNotPermittedException("contains BlockEntityTag.Text[1-4]");
+				}
+
+				if (blockEntityTag.hasKey("Items")) {
+					NBTTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND.getId());
+
+					// TODO: check size
+				}
+			}
 		}
 	}
 
 	@Override
 	public void check_CustomPotionEffects(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("CustomPotionEffects")) {
+				throw new NbtNotPermittedException("contains CustomPotionEffects");
+			}
 		}
 	}
 
 	@Override
 	public void check_Potion(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-
-		}
+		// do nothing?
 	}
 
 	@Override
@@ -191,6 +235,7 @@ public class NbtChecker implements INbtChecker {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
+			// TODO: can you obtain these in survival?
 			if (root.hasKey("CustomPotionColor")) {
 				int bgr = root.getInt("CustomPotionColor");
 
@@ -207,21 +252,47 @@ public class NbtChecker implements INbtChecker {
 	public void check_Fireworks(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
 			if (root.hasKey("Fireworks")) {
 				NBTTagCompound fireworks = root.getCompound("Fireworks");
 
 				int flight = fireworks.getInt("Flight");
-				
+
 				if (flight > protocolConstants.fireworksMaxFlight()
 						|| flight < protocolConstants.fireworksMinFlight()) {
 					throw new NbtNotPermittedException("invalid firework flight time");
 				}
-				
+
 				NBTTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND.getId());
 
 				if (explosions != null && explosions.size() > protocolConstants.fireworksMaxExplosions()) {
 					throw new NbtNotPermittedException("too many firework effects");
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void check_EntityTag(Object object) throws NbtNotPermittedException {
+		// do nothing?
+	}
+
+	@Override
+	public void checkNonValid(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			List<String> valid = new ArrayList<>();
+			
+			for (Method method : getClass().getMethods()) {
+				if (method.getName().startsWith("check_")) {
+					valid.add(method.getName().substring("check_".length()));
+				}
+			}
+			
+			NBTTagCompound root = (NBTTagCompound) object;
+			
+			for (String tag : root.c()) {
+				if (!valid.contains(tag)) {
+					throw new NbtNotPermittedException("invalid nbt tag");
 				}
 			}
 		}
