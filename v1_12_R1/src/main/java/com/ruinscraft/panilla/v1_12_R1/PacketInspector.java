@@ -62,6 +62,7 @@ public class PacketInspector implements IPacketInspector {
 		if (nmsPacket instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packetPlayInSetCreativeSlot = (PacketPlayInSetCreativeSlot) nmsPacket;
 			ItemStack itemStack = packetPlayInSetCreativeSlot.getItemStack();
+			
 			if (itemStack != null && itemStack.hasTag()) {
 				nbtChecker.check(itemStack.getTag());
 			}

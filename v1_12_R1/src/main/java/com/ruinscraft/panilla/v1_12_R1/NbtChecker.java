@@ -4,6 +4,7 @@ import org.bukkit.enchantments.Enchantment;
 
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.NbtDataType;
+import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagList;
@@ -11,18 +12,16 @@ import net.minecraft.server.v1_12_R1.NBTTagList;
 public class NbtChecker implements INbtChecker {
 
 	@Override
-	public boolean check_Item(Object object) {
+	public void check_Item(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
 			System.out.println(String.join(", ", root.c()));
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_ench(Object object) {
+	public void check_ench(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
@@ -30,161 +29,125 @@ public class NbtChecker implements INbtChecker {
 				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
 
 				for (int i = 0; i < enchantments.size(); i++) {
-					NBTTagCompound enchantment = enchantments.get(i);
-					int id = 0xFFFF & enchantment.getShort("id");
-					int lvl = 0xFFFF & enchantment.getShort("lvl");
-					
-					Enchantment current = Enchantment.getById(id);
+					Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));
+					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
 					
 					if (lvl > current.getMaxLevel()) {
-						return false;
+						throw new NbtNotPermittedException("enchantment level too high");
 					}
 					
 					if (lvl < current.getStartLevel()) {
-						return false;
+						throw new NbtNotPermittedException("enchantment level too low");
 					}
 					
 					for (int j = 0; j < enchantments.size(); j++) {
-						Enchantment other = Enchantment.getById(
-								enchantments.
-								get(i).
-								getShort("id"));
+						Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id"));
 						
-						if (current.conflictsWith(other)) {
-							return false;
+						if (current != other && current.conflictsWith(other)) {
+							throw new NbtNotPermittedException("conflicting enchantments");
 						}
 					}
 				}
 			}
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_display(Object object) {
+	public void check_display(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_AttributeModifiers(Object object) {
+	public void check_AttributeModifiers(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_Unbreakable(Object object) {
+	public void check_Unbreakable(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_SkullOwner(Object object) {
+	public void check_SkullOwner(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_HideFlags(Object object) {
+	public void check_HideFlags(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_CanDestroy(Object object) {
+	public void check_CanDestroy(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_PickupDelay(Object object) {
+	public void check_PickupDelay(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_Age(Object object) {
+	public void check_Age(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-
-		return true;
 	}
 
 	@Override
-	public boolean check_generation(Object object) {
+	public void check_generation(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_CanPlaceOn(Object object) {
+	public void check_CanPlaceOn(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_BlockEntityTag(Object object) {
+	public void check_BlockEntityTag(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_CustomPotionEffects(Object object) {
+	public void check_CustomPotionEffects(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_Potion(Object object) {
+	public void check_Potion(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 	@Override
-	public boolean check_CustomPotionColor(Object object) {
+	public void check_CustomPotionColor(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 
 		}
-		
-		return true;
 	}
 
 }

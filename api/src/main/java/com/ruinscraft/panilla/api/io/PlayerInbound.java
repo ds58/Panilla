@@ -24,7 +24,7 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
 			
 			super.channelRead(ctx, msg);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
