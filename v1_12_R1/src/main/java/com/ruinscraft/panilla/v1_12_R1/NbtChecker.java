@@ -91,28 +91,41 @@ public class NbtChecker implements INbtChecker {
 	@Override
 	public void check_AttributeModifiers(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
-
+			NBTTagCompound root = (NBTTagCompound) object;
+			
+			if (root.hasKey("AttributeModifiers")) {
+				throw new NbtNotPermittedException("contains AttributeModifiers");
+			}
 		}
 	}
 
 	@Override
 	public void check_Unbreakable(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
-
+			NBTTagCompound root = (NBTTagCompound) object;
+			
+			if (root.hasKey("Unbreakable")) {
+				throw new NbtNotPermittedException("contains Unbreakable");
+			}
 		}
 	}
 
 	@Override
 	public void check_SkullOwner(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
-
+			NBTTagCompound root = (NBTTagCompound) object;
+			
 		}
 	}
 
 	@Override
 	public void check_HideFlags(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
-
+			NBTTagCompound root = (NBTTagCompound) object;
+			
+			if (root.hasKey("HideFlags")) {
+				throw new NbtNotPermittedException("contains HideFlags");
+			}
 		}
 	}
 
