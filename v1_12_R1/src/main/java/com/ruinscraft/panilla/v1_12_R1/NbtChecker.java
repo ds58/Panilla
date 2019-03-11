@@ -1,9 +1,5 @@
 package com.ruinscraft.panilla.v1_12_R1;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;
 
@@ -43,7 +39,7 @@ public class NbtChecker implements INbtChecker {
 				for (int i = 0; i < enchantments.size(); i++) {
 					Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));
 					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
-
+					
 					if (lvl > current.getMaxLevel()) {
 						throw new NbtNotPermittedException("enchantment level too high");
 					}
@@ -202,13 +198,20 @@ public class NbtChecker implements INbtChecker {
 						|| blockEntityTag.hasKey("Text2")
 						|| blockEntityTag.hasKey("Text3")
 						|| blockEntityTag.hasKey("Text4")) {
-					throw new NbtNotPermittedException("contains BlockEntityTag.Text[1-4]");
+					throw new NbtNotPermittedException("contains BlockEntityTag.Text[?1-4]");
 				}
 
+				// TODO: only ShulkerBox should have Items (I think?)
 				if (blockEntityTag.hasKey("Items")) {
 					NBTTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND.getId());
-
-					// TODO: check size
+					
+					for (int i = 0; i < items.size(); i++) {
+						NBTTagCompound item = items.get(i);
+						
+						if (item.hasKey("tag")) {
+							// check item tag
+						}
+					}
 				}
 			}
 		}
@@ -271,7 +274,7 @@ public class NbtChecker implements INbtChecker {
 			}
 		}
 	}
-	
+
 	@Override
 	public void check_EntityTag(Object object) throws NbtNotPermittedException {
 		// do nothing?
@@ -280,18 +283,12 @@ public class NbtChecker implements INbtChecker {
 	@Override
 	public void checkNonValid(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
-			List<String> valid = new ArrayList<>();
-			
-			for (Method method : getClass().getMethods()) {
-				if (method.getName().startsWith("check_")) {
-					valid.add(method.getName().substring("check_".length()));
-				}
-			}
-			
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
 			for (String tag : root.c()) {
-				if (!valid.contains(tag)) {
+				try {
+					getClass().getMethod("check_" + tag, Object.class); // TODO: possible performance hit
+				} catch (NoSuchMethodException | SecurityException e) {
 					throw new NbtNotPermittedException("invalid nbt tag");
 				}
 			}

@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.v1_12_R1;
+package com.ruinscraft.panilla.v1_12_R1.io;
 
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
