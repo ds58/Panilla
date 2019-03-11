@@ -1,5 +1,6 @@
 package com.ruinscraft.panilla.v1_12_R1;
 
+import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;
 
 import com.ruinscraft.panilla.api.INbtChecker;
@@ -13,11 +14,11 @@ import net.minecraft.server.v1_12_R1.NBTTagList;
 public class NbtChecker implements INbtChecker {
 
 	private final IProtocolConstants protocolConstants;
-	
+
 	public NbtChecker(IProtocolConstants protocolConstants) {
 		this.protocolConstants = protocolConstants;
 	}
-	
+
 	@Override
 	public void check_Item(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
@@ -66,19 +67,19 @@ public class NbtChecker implements INbtChecker {
 
 			if (root.hasKey("display")) {
 				NBTTagCompound display = root.getCompound("display");
-				
+
 				String name = display.getString("Name");
 
 				if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
 					throw new NbtNotPermittedException("item name too long");
 				}
-				
+
 				NBTTagList lore = display.getList("Lore", NbtDataType.STRING.getId());
 
 				if (lore != null && !lore.isEmpty()) {
 					for (int i = 0; i < lore.size(); i++) {
 						String line = lore.getString(i);
-						
+
 						if (line != null && line.length() > protocolConstants.NOT_PROTOCOL_maxLoreLineLength()) {
 							throw new NbtNotPermittedException("lore line too long");
 						}
@@ -92,7 +93,7 @@ public class NbtChecker implements INbtChecker {
 	public void check_AttributeModifiers(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
 			if (root.hasKey("AttributeModifiers")) {
 				throw new NbtNotPermittedException("contains AttributeModifiers");
 			}
@@ -103,7 +104,7 @@ public class NbtChecker implements INbtChecker {
 	public void check_Unbreakable(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
 			if (root.hasKey("Unbreakable")) {
 				throw new NbtNotPermittedException("contains Unbreakable");
 			}
@@ -122,7 +123,7 @@ public class NbtChecker implements INbtChecker {
 	public void check_HideFlags(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
-			
+
 			if (root.hasKey("HideFlags")) {
 				throw new NbtNotPermittedException("contains HideFlags");
 			}
@@ -188,7 +189,41 @@ public class NbtChecker implements INbtChecker {
 	@Override
 	public void check_CustomPotionColor(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
 
+			if (root.hasKey("CustomPotionColor")) {
+				int bgr = root.getInt("CustomPotionColor");
+
+				try {
+					Color.fromBGR(bgr);
+				} catch (IllegalArgumentException e) {
+					throw new NbtNotPermittedException("invalid custom potion color");
+				}
+			}
+		}
+	}
+
+	@Override
+	public void check_Fireworks(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
+			
+			if (root.hasKey("Fireworks")) {
+				NBTTagCompound fireworks = root.getCompound("Fireworks");
+
+				int flight = fireworks.getInt("Flight");
+				
+				if (flight > protocolConstants.fireworksMaxFlight()
+						|| flight < protocolConstants.fireworksMinFlight()) {
+					throw new NbtNotPermittedException("invalid firework flight time");
+				}
+				
+				NBTTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND.getId());
+
+				if (explosions != null && explosions.size() > protocolConstants.fireworksMaxExplosions()) {
+					throw new NbtNotPermittedException("too many firework effects");
+				}
+			}
 		}
 	}
 
