@@ -14,10 +14,9 @@ public class ProtocolConstants implements IProtocolConstants {
 		return 35;
 	}
 
-	// TODO: fill in
 	@Override
 	public int maxSignLineLength() {
-		return 0;
+		return 48;
 	}
 	
 }

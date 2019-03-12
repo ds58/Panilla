@@ -30,6 +30,7 @@ public interface INbtChecker {
 		switch (strictness) {
 		case STRICT:	// petty
 			check_display(object);
+			check_EntityTag(object);
 		case AVERAGE:	// somewhat abusive
 			check_Fireworks(object);
 			check_ench(object);
@@ -43,7 +44,6 @@ public interface INbtChecker {
 			check_generation(object);
 			check_CanPlaceOn(object);
 			check_CustomPotionEffects(object);
-			check_EntityTag(object);
 			check_Item(object);
 			check_Potion(object);
 		case LENIENT:	// game breaking

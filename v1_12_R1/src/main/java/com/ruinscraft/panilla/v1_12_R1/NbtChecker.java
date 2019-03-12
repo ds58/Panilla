@@ -277,7 +277,7 @@ public class NbtChecker implements INbtChecker {
 
 	@Override
 	public void check_EntityTag(Object object) throws NbtNotPermittedException {
-		// do nothing?
+		// TODO: handle armor stands, etc
 	}
 
 	@Override

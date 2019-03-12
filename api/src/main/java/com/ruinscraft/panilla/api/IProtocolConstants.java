@@ -30,10 +30,6 @@ public interface IProtocolConstants {
 		return 8;
 	}
 	
-	default int minStackSize() {
-		return 1;
-	}
-	
 	/* Not protocol -- Reasonable values/assumptions */
 	
 	default int NOT_PROTOCOL_maxLoreLineLength() {
