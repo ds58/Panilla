@@ -97,6 +97,9 @@ public class PanillaPlugin extends JavaPlugin {
 		/* Register listeners */
 		getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
 
+		/* Register commands */
+		getCommand("panilla").setExecutor(new PanillaCommand());
+		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			playerInjector.register(player);
 		}
