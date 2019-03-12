@@ -19,87 +19,7 @@ public class NbtChecker implements INbtChecker {
 		this.protocolConstants = protocolConstants;
 	}
 
-	@Override
-	public void check_Item(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			System.out.println(String.join(", ", root.c()));
-		}
-	}
-
-	@Override
-	public void check_ench(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("ench")) {
-				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
-
-				for (int i = 0; i < enchantments.size(); i++) {
-					Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));
-					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
-					
-					if (lvl > current.getMaxLevel()) {
-						throw new NbtNotPermittedException("enchantment level too high");
-					}
-
-					if (lvl < current.getStartLevel()) {
-						throw new NbtNotPermittedException("enchantment level too low");
-					}
-
-					for (int j = 0; j < enchantments.size(); j++) {
-						Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id"));
-
-						if (current != other && current.conflictsWith(other)) {
-							throw new NbtNotPermittedException("conflicting enchantments");
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void check_display(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("display")) {
-				NBTTagCompound display = root.getCompound("display");
-
-				String name = display.getString("Name");
-
-				if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
-					throw new NbtNotPermittedException("item name too long");
-				}
-
-				NBTTagList lore = display.getList("Lore", NbtDataType.STRING.getId());
-
-				if (lore != null && !lore.isEmpty()) {
-					for (int i = 0; i < lore.size(); i++) {
-						String line = lore.getString(i);
-
-						if (line != null && line.length() > protocolConstants.NOT_PROTOCOL_maxLoreLineLength()) {
-							throw new NbtNotPermittedException("lore line too long");
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void check_AttributeModifiers(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("AttributeModifiers")) {
-				throw new NbtNotPermittedException("contains AttributeModifiers");
-			}
-		}
-	}
-
+	/* general */
 	@Override
 	public void check_Unbreakable(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
@@ -107,28 +27,6 @@ public class NbtChecker implements INbtChecker {
 
 			if (root.hasKey("Unbreakable")) {
 				throw new NbtNotPermittedException("contains Unbreakable");
-			}
-		}
-	}
-
-	@Override
-	public void check_SkullOwner(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("SkullOwner")) {
-				throw new NbtNotPermittedException("contains SkullOwner");
-			}
-		}
-	}
-
-	@Override
-	public void check_HideFlags(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("HideFlags")) {
-				throw new NbtNotPermittedException("contains HideFlags");
 			}
 		}
 	}
@@ -142,33 +40,6 @@ public class NbtChecker implements INbtChecker {
 				throw new NbtNotPermittedException("contains CanDestroy");
 			}
 		}
-	}
-
-	@Override
-	public void check_PickupDelay(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("PickupDelay")) {
-				throw new NbtNotPermittedException("contains PickupDelay");
-			}
-		}
-	}
-
-	@Override
-	public void check_Age(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
-
-			if (root.hasKey("Age")) {
-				throw new NbtNotPermittedException("contains Age");
-			}
-		}
-	}
-
-	@Override
-	public void check_generation(Object object) throws NbtNotPermittedException {
-		// do nothing
 	}
 
 	@Override
@@ -204,10 +75,10 @@ public class NbtChecker implements INbtChecker {
 				// TODO: only ShulkerBox should have Items (I think?)
 				if (blockEntityTag.hasKey("Items")) {
 					NBTTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND.getId());
-					
+
 					for (int i = 0; i < items.size(); i++) {
 						NBTTagCompound item = items.get(i);
-						
+
 						if (item.hasKey("tag")) {
 							// check item tag
 						}
@@ -217,6 +88,67 @@ public class NbtChecker implements INbtChecker {
 		}
 	}
 
+	@Override
+	public void check_BlockStateTag(Object object) throws NbtNotPermittedException {
+
+	}
+
+	/* enchantments */
+	@Override
+	public void check_ench(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
+
+			if (root.hasKey("ench")) {
+				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
+
+				for (int i = 0; i < enchantments.size(); i++) {
+					Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));
+					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
+
+					if (lvl > current.getMaxLevel()) {
+						throw new NbtNotPermittedException("enchantment level too high");
+					}
+
+					if (lvl < current.getStartLevel()) {
+						throw new NbtNotPermittedException("enchantment level too low");
+					}
+
+					for (int j = 0; j < enchantments.size(); j++) {
+						Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id"));
+
+						if (current != other && current.conflictsWith(other)) {
+							throw new NbtNotPermittedException("conflicting enchantments");
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void check_StoredEnchantments(Object object) throws NbtNotPermittedException {
+
+	}
+
+	@Override
+	public void check_RepairCost(Object object) throws NbtNotPermittedException {
+
+	}
+
+	/* attribute modifiers */
+	@Override
+	public void check_AttributeModifiers(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
+
+			if (root.hasKey("AttributeModifiers")) {
+				throw new NbtNotPermittedException("contains AttributeModifiers");
+			}
+		}
+	}
+
+	/* potion effects */
 	@Override
 	public void check_CustomPotionEffects(Object object) throws NbtNotPermittedException {
 		if (object instanceof NBTTagCompound) {
@@ -230,7 +162,7 @@ public class NbtChecker implements INbtChecker {
 
 	@Override
 	public void check_Potion(Object object) throws NbtNotPermittedException {
-		// do nothing?
+
 	}
 
 	@Override
@@ -249,6 +181,85 @@ public class NbtChecker implements INbtChecker {
 				}
 			}
 		}
+	}
+
+	/* display properties */
+	@Override
+	public void check_display(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
+
+			if (root.hasKey("display")) {
+				NBTTagCompound display = root.getCompound("display");
+
+				String name = display.getString("Name");
+
+				if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
+					throw new NbtNotPermittedException("item name too long");
+				}
+
+				NBTTagList lore = display.getList("Lore", NbtDataType.STRING.getId());
+
+				if (lore != null && !lore.isEmpty()) {
+					for (int i = 0; i < lore.size(); i++) {
+						String line = lore.getString(i);
+
+						if (line != null && line.length() > protocolConstants.NOT_PROTOCOL_maxLoreLineLength()) {
+							throw new NbtNotPermittedException("lore line too long");
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void check_HideFlags(Object object) throws NbtNotPermittedException {
+		if (object instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) object;
+
+			if (root.hasKey("HideFlags")) {
+				throw new NbtNotPermittedException("contains HideFlags");
+			}
+		}
+	}
+
+	/* written books */
+	@Override
+	public void check_resolved(Object object) throws NbtNotPermittedException {
+
+	}
+
+	@Override
+	public void check_generation(Object object) throws NbtNotPermittedException {
+
+	}
+
+	@Override
+	public void check_author(Object object) throws NbtNotPermittedException {
+
+	}
+
+	@Override
+	public void check_title(Object object) throws NbtNotPermittedException {
+
+	}
+
+	@Override
+	public void check_pages(Object object) throws NbtNotPermittedException {
+
+	}
+
+	/* player heads */
+	@Override
+	public void check_SkullOwner(Object object) throws NbtNotPermittedException {
+		
+	}
+
+	/* fireworks */
+	@Override
+	public void check_Explosion(Object object) throws NbtNotPermittedException {
+
 	}
 
 	@Override
@@ -275,24 +286,38 @@ public class NbtChecker implements INbtChecker {
 		}
 	}
 
+	/* armor stands/spawn eggs/buckets of fish */
 	@Override
 	public void check_EntityTag(Object object) throws NbtNotPermittedException {
-		// TODO: handle armor stands, etc
+
+	}
+
+	/* buckets of fish */
+	@Override
+	public void check_BucketVariantTag(Object object) throws NbtNotPermittedException {
+
+	}
+
+	/* maps */
+	@Override
+	public void check_map(Object object) throws NbtNotPermittedException {
+
 	}
 
 	@Override
-	public void checkNonValid(Object object) throws NbtNotPermittedException {
-		if (object instanceof NBTTagCompound) {
-			NBTTagCompound root = (NBTTagCompound) object;
+	public void check_map_scale_direction(Object object) throws NbtNotPermittedException {
 
-			for (String tag : root.c()) {
-				try {
-					getClass().getMethod("check_" + tag, Object.class); // TODO: possible performance hit
-				} catch (NoSuchMethodException | SecurityException e) {
-					throw new NbtNotPermittedException("invalid nbt tag");
-				}
-			}
-		}
+	}
+
+	@Override
+	public void check_Decorations(Object object) throws NbtNotPermittedException {
+
+	}
+
+	/* suspicious stew */
+	@Override
+	public void check_Effects(Object object) throws NbtNotPermittedException {
+
 	}
 
 }
