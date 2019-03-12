@@ -99,9 +99,13 @@ public class NbtChecker implements INbtChecker {
 		if (object instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) object;
 
-			if (root.hasKey("ench")) {
+			if (root.hasKey("ench") || root.hasKey("Enchantments")) {
 				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
 
+				if (enchantments == null) {
+					enchantments = root.getList("Enchantments", NbtDataType.COMPOUND.getId());
+				}
+				
 				for (int i = 0; i < enchantments.size(); i++) {
 					Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));
 					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
