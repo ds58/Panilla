@@ -12,6 +12,7 @@ With this plugin, you will be able to prevent:
 - Crash Books
 - Crash Signs
 - Crash Chests/Shulker Boxes
+- Crash Potions (invalid CustomPotionColor\s)
 - Oversized packets (which crash the client)
 - Long item names/item lore
 - Additional "AttributeModifiers" on items (eg. Speed)
