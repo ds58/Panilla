@@ -2,7 +2,7 @@
 Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
 
 ## Overview
-Panilla is a plugin for CraftBukkit based Minecraft servers (Craftbukkit, Spigot, Paper, etc) to prevent abusive NBT and potentially harmful packets.
+Panilla is a plugin for CraftBukkit based Minecraft servers (CraftBukkit, Spigot, Paper, etc) to prevent abusive NBT and potentially harmful packets.
 
 With this plugin, you will be able to prevent:
 
@@ -10,6 +10,7 @@ With this plugin, you will be able to prevent:
 - Unobtainable Potions (eg. Insta-kill)
 - Unobtainable Fireworks
 - Crash Books
+- Crash Signs
 - Crash Chests/Shulker Boxes
 - Oversized packets (which crash the client)
 - Long item names/item lore
@@ -20,9 +21,9 @@ With this plugin, you will be able to prevent:
 ## Why is this plugin needed?
 Normally, these NBT tags are not obtainable in vanilla survival-mode Minecraft. With the use of creative-mode, players can use a few different methods to obtain these items such as:
 - use a hacked client to edit the NBT
-- load a toolbar from a single-player world which has edited NBT
+- load a toolbar from a single-player world/other server which has items with edited NBT
 
-This plugin is most useful on creative-mode servers, where players are given creative-mode access. Typically, anti-cheat plugins do not handle these types of "cheats."
+This plugin is most useful on creative-mode servers, where players are given creative-mode access. It could also be beneficial for use on survival-mode servers if you just wish to keep your server in-check. Be aware that this plugin does remove NBT from items if it deems they are "illegitimate" (it does not remove the item itself).
 
 ## Why have you not used ProtocolLib?
 It was a personal decision. I wanted to be as close to Minecraft as possible. It also means users don't have to install an additional plugin.

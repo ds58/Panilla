@@ -9,14 +9,4 @@ public class ProtocolConstants implements IProtocolConstants {
 		return 2097152;
 	}
 
-	@Override
-	public int maxAnvilRenameChars() {
-		return 35;
-	}
-
-	@Override
-	public int maxSignLineLength() {
-		return 48;
-	}
-	
 }
