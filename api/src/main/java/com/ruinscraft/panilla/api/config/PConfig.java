@@ -6,6 +6,7 @@ import java.util.List;
 public class PConfig {
 
 	// defaults
+	public String localeFile = "en_US.yml";
 	public boolean consoleLogging = true;
 	public boolean chatLogging = false;
 	public PStrictness strictness = PStrictness.AVERAGE;
