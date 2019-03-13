@@ -1,7 +1,7 @@
 # Panilla configuration
 
 # Do not change
-configuration_version: 1.0
+configuration-version: 1.0
 
 locale-file: en_US.yml
 
