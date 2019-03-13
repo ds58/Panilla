@@ -2,9 +2,7 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IPanillaLogger;
-import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.OversizedPacketException;
-import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
+import com.ruinscraft.panilla.api.exception.PacketException;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -30,7 +28,7 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		try {
 			packetInspector.checkPlayIn(_player, msg);
-		} catch (OversizedPacketException | NbtNotPermittedException | SignLineLengthTooLongException e) {
+		} catch (PacketException e) {
 			containerCleaner.clean(_player);
 			panillaLogger.warn(_player, e);
 			
