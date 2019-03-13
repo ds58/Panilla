@@ -36,7 +36,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkSize(Object _player, Object _packet) throws OversizedPacketException {
+	public void checkSize(Object _packet) throws OversizedPacketException {
 		if (_packet instanceof Packet<?>) {
 			Packet<?> packet = (Packet<?>) _packet;
 			PacketDataSerializer dataSerializer = 
@@ -67,7 +67,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayInSetCreativeSlot(Object _player, Object _packet) throws NbtNotPermittedException {
+	public void checkPacketPlayInSetCreativeSlot(Object _packet) throws NbtNotPermittedException {
 		if (_packet instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
@@ -76,7 +76,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayInUpdateSign(Object _player, Object _packet) throws SignLineLengthTooLongException {
+	public void checkPacketPlayInUpdateSign(Object _packet) throws SignLineLengthTooLongException {
 		if (_packet instanceof PacketPlayInUpdateSign) {
 			PacketPlayInUpdateSign packet = (PacketPlayInUpdateSign) _packet;
 
@@ -89,7 +89,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayOutSetSlot(Object _player, Object _packet) throws NbtNotPermittedException {
+	public void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException {
 		if (_packet instanceof PacketPlayOutSetSlot) {
 			PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
 
