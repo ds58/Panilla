@@ -64,7 +64,7 @@ public interface INbtChecker {
 	/* suspicious stew */
 	boolean check_Effects(Object _tag);
 
-	boolean checkForNotValid(Object _tag);
+	String checkForNotValid(Object _tag);
 
 	default String checkAll(Object _tag, PStrictness strictness) {
 		switch (strictness) {
@@ -100,7 +100,8 @@ public interface INbtChecker {
 			if (!check_BlockEntityTag(_tag)) return "BlockEntityTag";
 			if (!check_CustomPotionColor(_tag)) return "CustomPotionColor";
 			if (!check_pages(_tag)) return "pages";
-			if (!checkForNotValid(_tag)) return "invalid NBT";
+			String invalid = checkForNotValid(_tag);
+			if (invalid != null) return invalid;
 		}
 		
 		return null;
