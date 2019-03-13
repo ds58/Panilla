@@ -10,78 +10,108 @@ public interface INbtChecker {
 
 	/* general */
 	// TODO: damage
-	void check_Unbreakable(Object object) throws NbtNotPermittedException;
-	void check_CanDestroy(Object object) throws NbtNotPermittedException;
+	void check_Unbreakable(Object _tag) throws NbtNotPermittedException;
+	void check_CanDestroy(Object _tag) throws NbtNotPermittedException;
 
-	/* block tags */
-	void check_CanPlaceOn(Object object) throws NbtNotPermittedException;
-	void check_BlockEntityTag(Object object) throws NbtNotPermittedException;
-	void check_BlockStateTag(Object object) throws NbtNotPermittedException;
+	/* block _tags */
+	void check_CanPlaceOn(Object _tag) throws NbtNotPermittedException;
+	void check_BlockEntityTag(Object _tag) throws NbtNotPermittedException;
+	void check_BlockStateTag(Object _tag) throws NbtNotPermittedException;
 
 	/* enchantments */
-	void check_ench(Object object) throws NbtNotPermittedException;
-	default void check_Enchantments(Object object) throws NbtNotPermittedException {
-		check_ench(object);
+	void check_ench(Object _tag) throws NbtNotPermittedException;
+	default void check_Enchantments(Object _tag) throws NbtNotPermittedException {
+		check_ench(_tag);
 	}
-	void check_StoredEnchantments(Object object) throws NbtNotPermittedException;
-	void check_RepairCost(Object object) throws NbtNotPermittedException;
+	void check_StoredEnchantments(Object _tag) throws NbtNotPermittedException;
+	void check_RepairCost(Object _tag) throws NbtNotPermittedException;
 
 	/* attribute modifiers */
-	void check_AttributeModifiers(Object object) throws NbtNotPermittedException;
+	void check_AttributeModifiers(Object _tag) throws NbtNotPermittedException;
 
 	/* potion effects */
-	void check_CustomPotionEffects(Object object) throws NbtNotPermittedException;
-	void check_Potion(Object object) throws NbtNotPermittedException;
-	void check_CustomPotionColor(Object object) throws NbtNotPermittedException;
+	void check_CustomPotionEffects(Object _tag) throws NbtNotPermittedException;
+	void check_Potion(Object _tag) throws NbtNotPermittedException;
+	void check_CustomPotionColor(Object _tag) throws NbtNotPermittedException;
 
 	/* display properties */
-	void check_display(Object object) throws NbtNotPermittedException;
-	void check_HideFlags(Object object) throws NbtNotPermittedException;
+	void check_display(Object _tag) throws NbtNotPermittedException;
+	void check_HideFlags(Object _tag) throws NbtNotPermittedException;
 
 	/* written books */
-	void check_resolved(Object object) throws NbtNotPermittedException;
-	void check_generation(Object object) throws NbtNotPermittedException;
-	void check_author(Object object) throws NbtNotPermittedException;
-	void check_title(Object object) throws NbtNotPermittedException;
-	void check_pages(Object object) throws NbtNotPermittedException;
+	void check_resolved(Object _tag) throws NbtNotPermittedException;
+	void check_generation(Object _tag) throws NbtNotPermittedException;
+	void check_author(Object _tag) throws NbtNotPermittedException;
+	void check_title(Object _tag) throws NbtNotPermittedException;
+	void check_pages(Object _tag) throws NbtNotPermittedException;
 
 	/* player heads */
-	void check_SkullOwner(Object object) throws NbtNotPermittedException;
+	void check_SkullOwner(Object _tag) throws NbtNotPermittedException;
 
 	/* fireworks */
-	void check_Explosion(Object object) throws NbtNotPermittedException;
-	void check_Fireworks(Object object) throws NbtNotPermittedException;
+	void check_Explosion(Object _tag) throws NbtNotPermittedException;
+	void check_Fireworks(Object _tag) throws NbtNotPermittedException;
 
 	/* armor stands/spawn eggs/buckets of fish */
-	void check_EntityTag(Object object) throws NbtNotPermittedException;
+	void check_EntityTag(Object _tag) throws NbtNotPermittedException;
 
 	/* buckets of fish */
-	void check_BucketVariantTag(Object object) throws NbtNotPermittedException;
+	void check_BucketVariantTag(Object _tag) throws NbtNotPermittedException;
 
 	/* maps */
-	void check_map(Object object) throws NbtNotPermittedException;
-	void check_map_scale_direction(Object object) throws NbtNotPermittedException;
-	void check_Decorations(Object object) throws NbtNotPermittedException;
+	void check_map(Object _tag) throws NbtNotPermittedException;
+	void check_map_scale_direction(Object _tag) throws NbtNotPermittedException;
+	void check_Decorations(Object _tag) throws NbtNotPermittedException;
 
 	/* suspicious stew */
-	void check_Effects(Object object) throws NbtNotPermittedException;
+	void check_Effects(Object _tag) throws NbtNotPermittedException;
 
-	default void checkForNotValid(List<String> tags) throws NbtNotPermittedException {
-		try {
-			for (String tag : tags) {
-				getClass().getMethod("check_" + tag, Object.class); // TODO: possible performance hit
+	default void checkForNotValid(List<String> _tags) throws NbtNotPermittedException {
+			for (String _tag : _tags) {
+				try {
+					getClass().getMethod("check_" + _tag, Object.class);
+				} catch (NoSuchMethodException e) {
+					throw new NbtNotPermittedException(_tag);
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				}
 			}
-		} catch (NoSuchMethodException | SecurityException e) {
-			throw new NbtNotPermittedException("invalid nbt tag");
-		}
 	}
 
-	// TODO: fill out
-	default void checkAll(Object object, PStrictness strictness) throws NbtNotPermittedException {
+	default void checkAll(Object _tag, PStrictness strictness) throws NbtNotPermittedException {
 		switch (strictness) {
 		case STRICT:	// petty
+			check_display(_tag);
+			check_HideFlags(_tag);
 		case AVERAGE:	// somewhat abusive
+			check_Unbreakable(_tag);
+			check_CanDestroy(_tag);
+			check_CanPlaceOn(_tag);
+			check_BlockStateTag(_tag);
+			check_ench(_tag);
+			check_Enchantments(_tag);
+			check_StoredEnchantments(_tag);
+			check_RepairCost(_tag);
+			check_AttributeModifiers(_tag);
+			check_Potion(_tag);
+			check_CustomPotionColor(_tag);
+			check_resolved(_tag);
+			check_generation(_tag);
+			check_author(_tag);
+			check_title(_tag);
+			check_SkullOwner(_tag);
+			check_Explosion(_tag);
+			check_Fireworks(_tag);
+			check_EntityTag(_tag);
+			check_BucketVariantTag(_tag);
+			check_map(_tag);
+			check_map_scale_direction(_tag);
+			check_Decorations(_tag);
+			check_Effects(_tag);
 		case LENIENT:	// game breaking
+			check_BlockEntityTag(_tag);
+			check_CustomPotionEffects(_tag);
+			check_pages(_tag);
 		}
 	}
 
