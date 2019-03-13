@@ -3,6 +3,8 @@
 # Do not change
 configuration_version: 1.0
 
+locale-file: en_US.yml
+
 # Logging options
 logging:
   console: true

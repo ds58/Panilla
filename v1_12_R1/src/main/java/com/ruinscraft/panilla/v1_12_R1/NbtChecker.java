@@ -6,7 +6,6 @@ import org.bukkit.enchantments.Enchantment;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.NbtDataType;
-import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagList;
@@ -21,40 +20,46 @@ public class NbtChecker implements INbtChecker {
 
 	/* general */
 	@Override
-	public void check_Unbreakable(Object _tag) throws NbtNotPermittedException {
+	public boolean check_Unbreakable(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("Unbreakable")) {
-				throw new NbtNotPermittedException("Unbreakable");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_CanDestroy(Object _tag) throws NbtNotPermittedException {
+	public boolean check_CanDestroy(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("CanDestroy")) {
-				throw new NbtNotPermittedException("CanDestroy");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_CanPlaceOn(Object _tag) throws NbtNotPermittedException {
+	public boolean check_CanPlaceOn(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("CanPlaceOn")) {
-				throw new NbtNotPermittedException("CanPlaceOn");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_BlockEntityTag(Object _tag) throws NbtNotPermittedException {
+	public boolean check_BlockEntityTag(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -62,14 +67,14 @@ public class NbtChecker implements INbtChecker {
 				NBTTagCompound blockEntityTag = root.getCompound("BlockEntityTag");
 
 				if (blockEntityTag.hasKey("Lock")) {
-					throw new NbtNotPermittedException("BlockEntityTag");
+					return false;
 				}
 
 				if (blockEntityTag.hasKey("Text1")
 						|| blockEntityTag.hasKey("Text2")
 						|| blockEntityTag.hasKey("Text3")
 						|| blockEntityTag.hasKey("Text4")) {
-					throw new NbtNotPermittedException("BlockEntityTag");
+					return false;
 				}
 
 				// TODO: only ShulkerBox should have Items (I think?)
@@ -80,22 +85,24 @@ public class NbtChecker implements INbtChecker {
 						NBTTagCompound item = items.get(i);
 
 						if (item.hasKey("tag")) {
-							// check item _tag
+							// check item tag
 						}
 					}
 				}
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_BlockStateTag(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_BlockStateTag(Object _tag) {
+		return true;
 	}
 
 	/* enchantments */
 	@Override
-	public void check_ench(Object _tag) throws NbtNotPermittedException {
+	public boolean check_ench(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -114,66 +121,72 @@ public class NbtChecker implements INbtChecker {
 					int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
 
 					if (lvl > current.getMaxLevel()) {
-						throw new NbtNotPermittedException(using);
+						return false;
 					}
 
 					if (lvl < current.getStartLevel()) {
-						throw new NbtNotPermittedException(using);
+						return false;
 					}
 
 					for (int j = 0; j < enchantments.size(); j++) {
 						Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id"));
 
 						if (current != other && current.conflictsWith(other)) {
-							throw new NbtNotPermittedException(using);
+							return false;
 						}
 					}
 				}
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_StoredEnchantments(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_StoredEnchantments(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_RepairCost(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_RepairCost(Object _tag) {
+		return true;
 	}
 
 	/* attribute modifiers */
 	@Override
-	public void check_AttributeModifiers(Object _tag) throws NbtNotPermittedException {
+	public boolean check_AttributeModifiers(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("AttributeModifiers")) {
-				throw new NbtNotPermittedException("AttributeModifiers");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	/* potion effects */
 	@Override
-	public void check_CustomPotionEffects(Object _tag) throws NbtNotPermittedException {
+	public boolean check_CustomPotionEffects(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("CustomPotionEffects")) {
-				throw new NbtNotPermittedException("CustomPotionEffects");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_Potion(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_Potion(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_CustomPotionColor(Object _tag) throws NbtNotPermittedException {
+	public boolean check_CustomPotionColor(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -184,15 +197,17 @@ public class NbtChecker implements INbtChecker {
 				try {
 					Color.fromBGR(bgr);
 				} catch (IllegalArgumentException e) {
-					throw new NbtNotPermittedException("CustomPotionColor");
+					return false;
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/* display properties */
 	@Override
-	public void check_display(Object _tag) throws NbtNotPermittedException {
+	public boolean check_display(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -202,7 +217,7 @@ public class NbtChecker implements INbtChecker {
 				String name = display.getString("Name");
 
 				if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
-					throw new NbtNotPermittedException("display");
+					return false;
 				}
 
 				NBTTagList lore = display.getList("Lore", NbtDataType.STRING.getId());
@@ -212,65 +227,69 @@ public class NbtChecker implements INbtChecker {
 						String line = lore.getString(i);
 
 						if (line != null && line.length() > protocolConstants.NOT_PROTOCOL_maxLoreLineLength()) {
-							throw new NbtNotPermittedException("display");
+							return false;
 						}
 					}
 				}
 			}
 		}
+
+		return true;
 	}
 
 	@Override
-	public void check_HideFlags(Object _tag) throws NbtNotPermittedException {
+	public boolean check_HideFlags(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("HideFlags")) {
-				throw new NbtNotPermittedException("HideFlags");
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	/* written books */
 	@Override
-	public void check_resolved(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_resolved(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_generation(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_generation(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_author(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_author(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_title(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_title(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_pages(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_pages(Object _tag) {
+		return true;
 	}
 
 	/* player heads */
 	@Override
-	public void check_SkullOwner(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_SkullOwner(Object _tag) {
+		return true;
 	}
 
 	/* fireworks */
 	@Override
-	public void check_Explosion(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_Explosion(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_Fireworks(Object _tag) throws NbtNotPermittedException {
+	public boolean check_Fireworks(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -281,53 +300,56 @@ public class NbtChecker implements INbtChecker {
 
 				if (flight > protocolConstants.fireworksMaxFlight()
 						|| flight < protocolConstants.fireworksMinFlight()) {
-					throw new NbtNotPermittedException("Fireworks");
+					return false;
 				}
 
 				NBTTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND.getId());
 
 				if (explosions != null && explosions.size() > protocolConstants.fireworksMaxExplosions()) {
-					throw new NbtNotPermittedException("Fireworks");
+					return false;
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/* armor stands/spawn eggs/buckets of fish */
 	@Override
-	public void check_EntityTag(Object _tag) throws NbtNotPermittedException {
+	public boolean check_EntityTag(Object _tag) {
+		return true;
 	}
 
 	/* buckets of fish */
 	@Override
-	public void check_BucketVariantTag(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_BucketVariantTag(Object _tag) {
+		return true;
 	}
 
 	/* maps */
 	@Override
-	public void check_map(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_map(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_map_scale_direction(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_map_scale_direction(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void check_Decorations(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_Decorations(Object _tag) {
+		return true;
 	}
 
 	/* suspicious stew */
 	@Override
-	public void check_Effects(Object _tag) throws NbtNotPermittedException {
-
+	public boolean check_Effects(Object _tag) {
+		return true;
 	}
 
 	@Override
-	public void checkForNotValid(Object _tag) throws NbtNotPermittedException {
+	public boolean checkForNotValid(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -336,12 +358,14 @@ public class NbtChecker implements INbtChecker {
 					final String methodName = "check_" + subTag;
 					getClass().getMethod(methodName, Object.class);
 				} catch (NoSuchMethodException e) {
-					throw new NbtNotPermittedException(subTag);
+					return false;
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+
+		return true;
 	}
 
 }

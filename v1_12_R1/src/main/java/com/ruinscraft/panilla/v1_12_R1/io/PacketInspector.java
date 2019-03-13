@@ -36,7 +36,7 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkSize(Object _packet) throws OversizedPacketException {
+	public void checkSize(Object _packet, boolean from) throws OversizedPacketException {
 		if (_packet instanceof Packet<?>) {
 			Packet<?> packet = (Packet<?>) _packet;
 			PacketDataSerializer dataSerializer = 
@@ -61,7 +61,7 @@ public class PacketInspector implements IPacketInspector {
 			}
 
 			if (sizeBytes > protocolConstants.packetMaxBytes()) {
-				throw new OversizedPacketException(packet.getClass().getName(), sizeBytes);
+				throw new OversizedPacketException(packet.getClass().getName(), from, sizeBytes);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class PacketInspector implements IPacketInspector {
 		if (_packet instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
-			nbtChecker.checkAll(packet.getItemStack().getTag(), strictness);
+			nbtChecker.checkPlayIn(packet.getItemStack().getTag(), strictness, packet.getClass().getName());
 		}
 	}
 
@@ -82,7 +82,7 @@ public class PacketInspector implements IPacketInspector {
 
 			for (String line : packet.b()) {
 				if (line.length() > protocolConstants.maxSignLineLength()) {
-					throw new SignLineLengthTooLongException();
+					throw new SignLineLengthTooLongException(packet.getClass().getName(), true);
 				}
 			}
 		}
@@ -100,7 +100,7 @@ public class PacketInspector implements IPacketInspector {
 
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
-				nbtChecker.checkAll(itemStack.getTag(), strictness);
+				nbtChecker.checkPlayOut(itemStack.getTag(), strictness, packet.getClass().getName());
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

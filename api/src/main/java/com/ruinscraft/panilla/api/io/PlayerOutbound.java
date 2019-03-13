@@ -32,8 +32,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 			packetInspector.checkPlayOut(msg);
 		} catch (OversizedPacketException | NbtNotPermittedException e) {
 			containerCleaner.clean(_player);
-			
-			panillaLogger.all(panillaLogger.generateWarning(_player, e));
+			panillaLogger.warn(_player, e);
 			
 			return; // drop the packet
 		}
