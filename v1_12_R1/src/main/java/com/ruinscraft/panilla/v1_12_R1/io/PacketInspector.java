@@ -60,7 +60,7 @@ public class PacketInspector implements IPacketInspector {
 				dataSerializer.release();
 			}
 
-			if (sizeBytes > protocolConstants.packetMaxBytes()) {
+			if (sizeBytes > protocolConstants.maxPacketSizeBytes()) {
 				throw new OversizedPacketException(packet.getClass().getSimpleName(), from, sizeBytes);
 			}
 		}

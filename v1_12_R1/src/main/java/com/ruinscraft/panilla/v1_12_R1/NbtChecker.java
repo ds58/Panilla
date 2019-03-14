@@ -319,14 +319,14 @@ public class NbtChecker implements INbtChecker {
 
 				int flight = fireworks.getInt("Flight");
 
-				if (flight > protocolConstants.fireworksMaxFlight()
-						|| flight < protocolConstants.fireworksMinFlight()) {
+				if (flight > protocolConstants.maxFireworksFlight()
+						|| flight < protocolConstants.minFireworksFlight()) {
 					return false;
 				}
 
 				NBTTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND.getId());
 
-				if (explosions != null && explosions.size() > protocolConstants.fireworksMaxExplosions()) {
+				if (explosions != null && explosions.size() > protocolConstants.maxFireworksExplosions()) {
 					return false;
 				}
 			}

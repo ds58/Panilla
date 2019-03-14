@@ -75,7 +75,7 @@ public class PanillaLogger implements IPanillaLogger {
 
 			message += " " + String.format(locale.getString("packet-dropped-reason-too-large"),
 					oversizedPacketException.getSizeBytes(),
-					PanillaPlugin.get().getProtocolConstants().packetMaxBytes());
+					PanillaPlugin.get().getProtocolConstants().maxPacketSizeBytes());
 		}
 
 		else if (e instanceof NbtNotPermittedException) {

@@ -10,7 +10,7 @@ public interface IProtocolConstants {
 	
 	/* Values which could potentially change or have changed in previous versions of Minecraft */
 	
-	int packetMaxBytes();
+	int maxPacketSizeBytes();
 	
 	/* Default values that I don't expect to change in future versions of Minecraft */
 	
@@ -30,15 +30,15 @@ public interface IProtocolConstants {
 		return 48;
 	}
 	
-	default int fireworksMaxFlight() {
+	default int maxFireworksFlight() {
 		return 3;
 	}
 	
-	default int fireworksMinFlight() {
+	default int minFireworksFlight() {
 		return 1;
 	}
 	
-	default int fireworksMaxExplosions() {
+	default int maxFireworksExplosions() {
 		return 8;
 	}
 	
