@@ -6,6 +6,7 @@ import org.bukkit.enchantments.Enchantment;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.NbtDataType;
+import com.ruinscraft.panilla.api.config.PStrictness;
 
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagList;
@@ -59,7 +60,7 @@ public class NbtChecker implements INbtChecker {
 	}
 
 	@Override
-	public boolean check_BlockEntityTag(Object _tag) {
+	public boolean check_BlockEntityTag(Object _tag, PStrictness strictness) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -85,7 +86,7 @@ public class NbtChecker implements INbtChecker {
 						NBTTagCompound item = items.get(i);
 
 						if (item.hasKey("tag")) {
-							// check item tag
+							checkAll(_tag, strictness);	// recursive
 						}
 					}
 				}
@@ -294,19 +295,19 @@ public class NbtChecker implements INbtChecker {
 
 	@Override
 	public boolean check_pages(Object _tag) {
-		return true;
+		return true;	// TODO: can books be forced to have more than 50 pages?
 	}
 
 	/* player heads */
 	@Override
 	public boolean check_SkullOwner(Object _tag) {
-		return true;
+		return true;	// TODO: have crash skulls been patched?
 	}
 
 	/* fireworks */
 	@Override
 	public boolean check_Explosion(Object _tag) {
-		return true;
+		return true;	// shouldn't need to worry about this one
 	}
 
 	@Override
@@ -363,7 +364,7 @@ public class NbtChecker implements INbtChecker {
 		return true;
 	}
 
-	/* suspicious stew */
+	/* suspicious stew (1.14) */
 	@Override
 	public boolean check_Effects(Object _tag) {
 		return true;
