@@ -95,6 +95,7 @@ public class NbtChecker implements INbtChecker {
 		return true;
 	}
 
+	// 1.14
 	@Override
 	public boolean check_BlockStateTag(Object _tag) {
 		return true;
@@ -106,11 +107,15 @@ public class NbtChecker implements INbtChecker {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
-			if (root.hasKey("ench") || root.hasKey("Enchantments")) {
+			if (root.hasKey("ench") || root.hasKey("Enchantments") || root.hasKey("StoredEnchantments")) {
 				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
 
 				if (enchantments == null) {
 					enchantments = root.getList("Enchantments", NbtDataType.COMPOUND.getId());
+				}
+
+				if (enchantments == null) {
+					enchantments = root.getList("StoredEnchantments", NbtDataType.COMPOUND.getId());
 				}
 
 				for (int i = 0; i < enchantments.size(); i++) {
@@ -136,11 +141,6 @@ public class NbtChecker implements INbtChecker {
 			}
 		}
 
-		return true;
-	}
-
-	@Override
-	public boolean check_StoredEnchantments(Object _tag) {
 		return true;
 	}
 
@@ -260,11 +260,35 @@ public class NbtChecker implements INbtChecker {
 
 	@Override
 	public boolean check_author(Object _tag) {
+		if (_tag instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) _tag;
+
+			if (root.hasKey("author")) {
+				int authorLength = root.getString("author").length();
+
+				if (authorLength > protocolConstants.maxUsernameLength()) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
 
 	@Override
 	public boolean check_title(Object _tag) {
+		if (_tag instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) _tag;
+
+			if (root.hasKey("title")) {
+				int titleLength = root.getString("title").length();
+
+				if (titleLength > protocolConstants.maxBookTitleLength()) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
 

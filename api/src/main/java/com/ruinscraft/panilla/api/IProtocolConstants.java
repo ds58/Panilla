@@ -14,6 +14,14 @@ public interface IProtocolConstants {
 	
 	/* Default values that I don't expect to change in future versions of Minecraft */
 	
+	default int maxUsernameLength() {
+		return 16;
+	}
+	
+	default int maxBookTitleLength() {
+		return 16;
+	}
+	
 	default int maxAnvilRenameChars() {
 		return 35;
 	}

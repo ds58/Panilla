@@ -21,7 +21,9 @@ public interface INbtChecker {
 	default boolean check_Enchantments(Object _tag) {
 		return check_ench(_tag);
 	}
-	boolean check_StoredEnchantments(Object _tag);
+	default boolean check_StoredEnchantments(Object _tag) {
+		return check_ench(_tag);
+	}
 	boolean check_RepairCost(Object _tag);
 
 	/* attribute modifiers */
