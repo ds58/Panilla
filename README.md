@@ -36,4 +36,4 @@ If X is < Minecraft 1.12.2, the answer is no. If X is listed as a Maven module i
 Make a GitHub issue on the project's homepage (https://github.com/Ruinscraft/Panilla). It would be very helpful if you included a player.dat file from your world/playerdata/player-uuid.dat so that I can take a look at their inventory contents.
 
 ## Compiling
-In order for you to compile Panilla, you will need to use BuildTools created by SpigotMC and build each version of CraftBukkit which is supported by Panilla. When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository. From there, you can compile the project with `mvn package`. The output plugin jar file will be `plugin/target/Panilla.jar`.
+In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla. When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository. From there, you can compile the project with `mvn package`. The output plugin jar file will be `plugin/target/Panilla.jar`.
