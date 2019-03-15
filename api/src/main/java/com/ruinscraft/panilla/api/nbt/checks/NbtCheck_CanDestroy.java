@@ -1,18 +1,18 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_CanDestroy implements NbtCheck {
+public class NbtCheck_CanDestroy extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "CanDestroy";
+	public NbtCheck_CanDestroy() {
+		super("CanDestroy", PStrictness.AVERAGE);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
-		if (tag.hasKey(getName())) return false;
-		return true;
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+		return false;
 	}
 	
 }

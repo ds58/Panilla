@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.plugin;
+package com.ruinscraft.panilla.api;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,31 +9,40 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-import com.ruinscraft.panilla.api.IPanillaLogger;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
 import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 
-public class PanillaLogger implements IPanillaLogger {
+public class PanillaLogger {
 
 	private static final String CHAT_PERMISSION = "panilla.log.chat";
 
+	private final Plugin plugin;
+	private final PConfig config;
+	private final IProtocolConstants protocolConstants;
 	private FileConfiguration locale;
 
-	@Override
+	public PanillaLogger(Plugin plugin, PConfig config, IProtocolConstants protocolConstants) {
+		this.plugin = plugin;
+		this.config = config;
+		this.protocolConstants = protocolConstants;
+	}
+
 	public void loadLocale(String localeFileName) throws IOException {
-		File file = new File(PanillaPlugin.get().getDataFolder(), localeFileName);
+		File file = new File(plugin.getDataFolder(), localeFileName);
 
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 
-			if (PanillaPlugin.get().getResource(localeFileName) == null) {
+			if (plugin.getResource(localeFileName) == null) {
 				throw new IOException("Could not locate locale file: " + localeFileName);
 			}
 
-			PanillaPlugin.get().saveResource(localeFileName, false);
+			plugin.saveResource(localeFileName, false);
 		}
 
 		locale = new YamlConfiguration();
@@ -45,10 +54,9 @@ public class PanillaLogger implements IPanillaLogger {
 		}
 	}
 
-	@Override
 	public void warn(Object _player, PacketException e) {
 		if (locale == null) {
-			PanillaPlugin.get().getLogger().warning("Locale is not loaded");
+			plugin.getLogger().warning("Locale is not loaded");
 			return;
 		}
 
@@ -75,7 +83,7 @@ public class PanillaLogger implements IPanillaLogger {
 
 			message += " " + String.format(locale.getString("packet-dropped-reason-too-large"),
 					oversizedPacketException.getSizeBytes(),
-					PanillaPlugin.get().getProtocolConstants().maxPacketSizeBytes());
+					protocolConstants.maxPacketSizeBytes());
 		}
 
 		else if (e instanceof NbtNotPermittedException) {
@@ -91,7 +99,7 @@ public class PanillaLogger implements IPanillaLogger {
 
 		message = ChatColor.translateAlternateColorCodes('&', message);
 
-		if (PanillaPlugin.get().getPanillaConfig().chatLogging) {
+		if (config.chatLogging) {
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				if (onlinePlayer.hasPermission(CHAT_PERMISSION)) {
 					onlinePlayer.sendMessage(message);
@@ -99,8 +107,8 @@ public class PanillaLogger implements IPanillaLogger {
 			}
 		}
 
-		if (PanillaPlugin.get().getPanillaConfig().consoleLogging) {
-			PanillaPlugin.get().getLogger().info(message);
+		if (config.consoleLogging) {
+			plugin.getLogger().info(message);
 		}
 	}
 

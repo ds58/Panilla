@@ -1,7 +1,7 @@
 package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
-import com.ruinscraft.panilla.api.IPanillaLogger;
+import com.ruinscraft.panilla.api.PanillaLogger;
 import com.ruinscraft.panilla.api.exception.PacketException;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -12,12 +12,12 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
 	private final Object _player;
 	private final IPacketInspector packetInspector;
 	private final IContainerCleaner containerCleaner;
-	private final IPanillaLogger panillaLogger;
+	private final PanillaLogger panillaLogger;
 
 	public PlayerInbound(Object _player,
 			IPacketInspector packetInspector,
 			IContainerCleaner containerCleaner,
-			IPanillaLogger panillaLogger) {
+			PanillaLogger panillaLogger) {
 		this._player = _player;
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
@@ -31,7 +31,7 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
 		} catch (PacketException e) {
 			containerCleaner.clean(_player);
 			panillaLogger.warn(_player, e);
-			
+
 			return; // drop the packet
 		}
 

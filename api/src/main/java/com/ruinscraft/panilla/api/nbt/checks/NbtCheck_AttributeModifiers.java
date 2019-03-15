@@ -1,18 +1,18 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_AttributeModifiers implements NbtCheck {
+public class NbtCheck_AttributeModifiers extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "AttributeModifiers";
+	public NbtCheck_AttributeModifiers() {
+		super("AttributeModifiers", PStrictness.AVERAGE);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
-		if (tag.hasKey(getName())) return false;
-		return true;
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+		return false;
 	}
 
 }

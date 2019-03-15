@@ -1,18 +1,18 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_CanPlaceOn implements NbtCheck {
+public class NbtCheck_CanPlaceOn extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "CanPlaceOn";
+	public NbtCheck_CanPlaceOn() {
+		super("CanPlaceOn", PStrictness.AVERAGE);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
-		if (tag.hasKey(getName())) return false;
-		return true;
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+		return false;
 	}
 	
 }
