@@ -28,6 +28,6 @@ public abstract class NbtCheck {
 		return aliases;
 	}
 
-	public abstract boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants);
+	public abstract boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness);
 
 }

@@ -7,14 +7,14 @@ locale-file: en_US.yml
 
 # Logging options
 logging:
-  console: true
+  console: false
   chat: false
 
 # Strictness of how much you wish to enforce
 #   lenient - Only prevent game-breaking things or crashes
 #   average    - Prevent most abusive things
 #   strict  - Prevent anything non-vanilla
-strictness: strict
+strictness: average
 
 # Whitelist NBT tags from being checked
 nbt-whitelist:

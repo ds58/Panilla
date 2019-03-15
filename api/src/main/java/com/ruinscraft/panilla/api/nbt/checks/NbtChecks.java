@@ -89,7 +89,7 @@ public final class NbtChecks {
 				continue;
 			}
 
-			if (!check.check(tag, nmsItemClassName, protocolConstants)) {
+			if (!check.check(tag, nmsItemClassName, protocolConstants, strictness)) {
 				return key;
 			}
 		}

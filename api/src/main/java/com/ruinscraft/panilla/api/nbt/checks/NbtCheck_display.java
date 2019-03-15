@@ -11,7 +11,7 @@ public class NbtCheck_display extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		INbtTagCompound display = tag.getCompound(getName());
 
 		String name = display.getString("name");

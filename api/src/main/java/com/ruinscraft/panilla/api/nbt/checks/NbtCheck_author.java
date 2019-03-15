@@ -11,7 +11,7 @@ public class NbtCheck_author extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		int authorLength = tag.getString("author").length();
 
 		if (authorLength > protocolConstants.maxUsernameLength()) {
