@@ -5,6 +5,7 @@ import java.util.Set;
 public interface INbtTagCompound {
 
 	boolean hasKey(String key);
+	boolean hasKeyOfType(String key, NbtDataType nbtDataType);
 	Set<String> getKeys();
 	int getInt(String key);
 	short getShort(String key);
