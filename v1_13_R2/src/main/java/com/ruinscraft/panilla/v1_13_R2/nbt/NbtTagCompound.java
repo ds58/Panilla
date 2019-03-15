@@ -1,5 +1,7 @@
 package com.ruinscraft.panilla.v1_13_R2.nbt;
 
+import java.util.Set;
+
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
@@ -9,21 +11,26 @@ import net.minecraft.server.v1_13_R2.NBTTagCompound;
 public class NbtTagCompound implements INbtTagCompound {
 
 	private final NBTTagCompound handle;
-	
+
 	public NbtTagCompound(NBTTagCompound handle) {
 		this.handle = handle;
 	}
-	
+
 	@Override
 	public boolean hasKey(String key) {
 		return handle.hasKey(key);
 	}
 
 	@Override
+	public Set<String> getKeys() {
+		return handle.getKeys();
+	}
+
+	@Override
 	public int getInt(String key) {
 		return handle.getInt(key);
 	}
-	
+
 	@Override
 	public short getShort(String key) {
 		return handle.getShort(key);
@@ -43,5 +50,5 @@ public class NbtTagCompound implements INbtTagCompound {
 	public INbtTagCompound getCompound(String key) {
 		return new NbtTagCompound(handle.getCompound(key));
 	}
-	
+
 }
