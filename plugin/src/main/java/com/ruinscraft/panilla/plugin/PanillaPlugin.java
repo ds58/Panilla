@@ -127,18 +127,12 @@ public class PanillaPlugin extends JavaPlugin {
 		singleton = null;
 	}
 
-	/*
-	 * ========================================== singleton
-	 * ==========================================
-	 */
+	/* singleton ========================================== */
 	private static PanillaPlugin singleton;
 
 	public static PanillaPlugin get() {
 		return singleton;
 	}
-	/*
-	 * ========================================== singleton
-	 * ==========================================
-	 */
+	/* singleton ========================================== */
 
 }
