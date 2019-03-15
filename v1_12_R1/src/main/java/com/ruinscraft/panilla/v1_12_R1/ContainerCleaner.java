@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.config.PStrictness;
 
 import net.minecraft.server.v1_12_R1.Container;
+import net.minecraft.server.v1_12_R1.ItemStack;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 public class ContainerCleaner implements IContainerCleaner {
@@ -27,9 +28,12 @@ public class ContainerCleaner implements IContainerCleaner {
 			Container container = craftPlayer.getHandle().activeContainer;
 
 			for (int slot = 0; slot < container.slots.size(); slot++) {
-				NBTTagCompound tag = container.getSlot(slot).getItem().getTag();
-
-				String failedNbt = nbtChecker.checkAll(tag, strictness);
+				ItemStack itemStack = container.getSlot(slot).getItem();
+				NBTTagCompound tag = itemStack.getTag();
+				
+				String failedNbt = nbtChecker.checkAll(tag,
+						itemStack.getItem().getClass().getSimpleName(),
+						strictness);
 
 				if (failedNbt != null) {
 					tag.remove(failedNbt);
