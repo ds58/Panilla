@@ -19,8 +19,7 @@ public class PlayerInjector implements IPlayerInjector {
 	private final IContainerCleaner containerCleaner;
 	private final PanillaLogger panillaLogger;
 
-	public PlayerInjector(IPacketInspector packetInspector,
-			IContainerCleaner containerCleaner,
+	public PlayerInjector(IPacketInspector packetInspector, IContainerCleaner containerCleaner,
 			PanillaLogger panillaLogger) {
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
@@ -55,7 +54,8 @@ public class PlayerInjector implements IPlayerInjector {
 
 		/* Register outbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
-			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector, containerCleaner, panillaLogger);
+			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector, containerCleaner,
+					panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}

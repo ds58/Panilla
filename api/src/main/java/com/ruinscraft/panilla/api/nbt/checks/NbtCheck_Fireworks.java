@@ -18,8 +18,7 @@ public class NbtCheck_Fireworks extends NbtCheck {
 
 		int flight = fireworks.getInt("Flight");
 
-		if (flight > protocolConstants.maxFireworksFlight()
-				|| flight < protocolConstants.minFireworksFlight()) {
+		if (flight > protocolConstants.maxFireworksFlight() || flight < protocolConstants.minFireworksFlight()) {
 			return false;
 		}
 

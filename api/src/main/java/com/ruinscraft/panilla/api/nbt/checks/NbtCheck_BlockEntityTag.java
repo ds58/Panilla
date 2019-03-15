@@ -22,16 +22,13 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 		}
 
 		// signs with text
-		if (blockEntityTag.hasKey("Text1")
-				|| blockEntityTag.hasKey("Text2")
-				|| blockEntityTag.hasKey("Text3")
+		if (blockEntityTag.hasKey("Text1") || blockEntityTag.hasKey("Text2") || blockEntityTag.hasKey("Text3")
 				|| blockEntityTag.hasKey("Text4")) {
 			return false;
 		}
 
 		if (blockEntityTag.hasKey("Items")) {
-			if (nmsItemClassName == null 
-					|| !nmsItemClassName.equals("ItemShulkerBox")) {
+			if (nmsItemClassName == null || !nmsItemClassName.equals("ItemShulkerBox")) {
 				return false;
 			}
 

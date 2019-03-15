@@ -74,8 +74,8 @@ public class NbtCheck_ench extends NbtCheck {
 			} catch (Exception e1) {
 				// 1.13
 				try {
-					return (Enchantment) Enchantment.class.getMethod("getByName", String.class).invoke(
-							EnchantmentCompat.getById(id).legacyName);
+					return (Enchantment) Enchantment.class.getMethod("getByName", String.class)
+							.invoke(EnchantmentCompat.getById(id).legacyName);
 				} catch (Exception e2) {
 					return null;
 				}
@@ -87,13 +87,13 @@ public class NbtCheck_ench extends NbtCheck {
 
 			try {
 				// 1.13
-				return (Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class).invoke(
-						NamespacedKey.minecraft(namedKey));
+				return (Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class)
+						.invoke(NamespacedKey.minecraft(namedKey));
 			} catch (Exception e1) {
 				// 1.12
 				try {
-					Enchantment.class.getMethod("getByName", String.class).invoke(
-							EnchantmentCompat.getByNamedKey(namedKey).legacyName);
+					Enchantment.class.getMethod("getByName", String.class)
+							.invoke(EnchantmentCompat.getByNamedKey(namedKey).legacyName);
 				} catch (Exception e2) {
 					return null;
 				}

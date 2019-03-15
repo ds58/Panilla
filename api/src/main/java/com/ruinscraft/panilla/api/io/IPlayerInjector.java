@@ -7,6 +7,7 @@ public interface IPlayerInjector {
 	static String PANILLA_CHANNEL_OUT = "panilla_out";
 
 	void register(final Object _player);
+
 	void unregister(final Object _player);
 
 }

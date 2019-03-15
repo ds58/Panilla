@@ -14,5 +14,5 @@ public class NbtCheck_HideFlags extends NbtCheck {
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
 		return false;
 	}
-	
+
 }

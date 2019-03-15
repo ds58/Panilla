@@ -15,9 +15,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 	private final IContainerCleaner containerCleaner;
 	private final PanillaLogger panillaLogger;
 
-	public PlayerOutbound(Object _player,
-			IPacketInspector packetInspector,
-			IContainerCleaner containerCleaner,
+	public PlayerOutbound(Object _player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
 			PanillaLogger panillaLogger) {
 		this._player = _player;
 		this.packetInspector = packetInspector;

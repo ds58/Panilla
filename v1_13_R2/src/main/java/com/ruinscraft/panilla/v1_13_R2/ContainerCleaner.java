@@ -34,9 +34,7 @@ public class ContainerCleaner implements IContainerCleaner {
 				NBTTagCompound tag = itemStack.getTag();
 
 				String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
-						itemStack.getItem().getClass().getSimpleName(),
-						protocolConstants,
-						strictness);
+						itemStack.getItem().getClass().getSimpleName(), protocolConstants, strictness);
 
 				if (failedNbt != null) {
 					tag.remove(failedNbt);

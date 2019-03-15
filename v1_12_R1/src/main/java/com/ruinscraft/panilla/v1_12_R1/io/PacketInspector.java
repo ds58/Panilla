@@ -27,8 +27,7 @@ public class PacketInspector implements IPacketInspector {
 	private final PStrictness strictness;
 	private final IProtocolConstants protocolConstants;
 
-	public PacketInspector(PStrictness strictness,
-			IProtocolConstants protocolConstants) {
+	public PacketInspector(PStrictness strictness, IProtocolConstants protocolConstants) {
 		this.strictness = strictness;
 		this.protocolConstants = protocolConstants;
 	}
@@ -37,8 +36,7 @@ public class PacketInspector implements IPacketInspector {
 	public void checkSize(Object _packet, boolean from) throws OversizedPacketException {
 		if (_packet instanceof Packet<?>) {
 			Packet<?> packet = (Packet<?>) _packet;
-			PacketDataSerializer dataSerializer = 
-					new PacketDataSerializer(UnpooledByteBufAllocator.DEFAULT.buffer());
+			PacketDataSerializer dataSerializer = new PacketDataSerializer(UnpooledByteBufAllocator.DEFAULT.buffer());
 
 			int sizeBytes = 0;
 
@@ -48,8 +46,7 @@ public class PacketInspector implements IPacketInspector {
 				sizeBytes = dataSerializer.readableBytes();
 
 				// https://github.com/aadnk/ProtocolLib/commit/5ec87c9d7650ae21faca9b7b3cc7ac1629870d24
-				if (packet instanceof PacketPlayInCustomPayload
-						|| packet instanceof PacketPlayOutCustomPayload) {
+				if (packet instanceof PacketPlayInCustomPayload || packet instanceof PacketPlayOutCustomPayload) {
 					packet.a(dataSerializer);
 				}
 			} catch (IOException e) {
@@ -72,10 +69,8 @@ public class PacketInspector implements IPacketInspector {
 			ItemStack itemStack = packet.getItemStack();
 
 			NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
-					itemStack.getItem().getClass().getSimpleName(),
-					packet.getClass().getSimpleName(), 
-					protocolConstants, 
-					strictness);
+					itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
+					protocolConstants, strictness);
 		}
 	}
 
@@ -105,10 +100,8 @@ public class PacketInspector implements IPacketInspector {
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
 				NbtChecks.checkPacketPlayOut(new NbtTagCompound(itemStack.getTag()),
-						itemStack.getItem().getClass().getSimpleName(),
-						packet.getClass().getSimpleName(), 
-						protocolConstants, 
-						strictness);
+						itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
+						protocolConstants, strictness);
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

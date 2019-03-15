@@ -15,7 +15,7 @@ public class PacketException extends Exception {
 	public String getNmsClass() {
 		return nmsClass;
 	}
-	
+
 	// is from client
 	public boolean isFrom() {
 		return from;
