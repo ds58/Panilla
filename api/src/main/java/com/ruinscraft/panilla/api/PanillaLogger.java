@@ -54,17 +54,11 @@ public class PanillaLogger {
 		}
 	}
 
-	public void warn(Object _player, PacketException e) {
+	public void warn(Player player, PacketException e) {
 		if (locale == null) {
 			plugin.getLogger().warning("Locale is not loaded");
 			return;
 		}
-
-		if (!(_player instanceof Player)) {
-			return;
-		}
-
-		Player player = (Player) _player;
 
 		String message = locale.getString("prefix");
 

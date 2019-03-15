@@ -20,8 +20,8 @@ public class NbtCheck_ench extends NbtCheck {
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
 		String using = null;
 
-		if (tag.hasKey("ench")) {
-			using = "ench";
+		if (tag.hasKey(getName())) {
+			using = getName();
 		} else {
 			for (String alias : getAliases()) {
 				if (tag.hasKey(alias)) {
@@ -36,10 +36,8 @@ public class NbtCheck_ench extends NbtCheck {
 			INbtTagCompound enchantment = enchantments.get(i);
 			Enchantment bukkitEnchantment = getEnchantment(enchantment);
 
-			if (bukkitEnchantment == null) {
-				return false;
-			}
-
+			if (bukkitEnchantment == null) return true;
+			
 			int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
 
 			if (lvl > bukkitEnchantment.getMaxLevel()) {
@@ -49,11 +47,11 @@ public class NbtCheck_ench extends NbtCheck {
 			if (lvl < bukkitEnchantment.getStartLevel()) {
 				return false;
 			}
-
+			
 			for (int j = 0; j < enchantments.size(); j++) {
 				INbtTagCompound otherEnchantment = enchantments.get(j);
 				Enchantment otherBukkitEnchantment = getEnchantment(otherEnchantment);
-
+				
 				if (bukkitEnchantment != otherBukkitEnchantment
 						&& bukkitEnchantment.conflictsWith(otherBukkitEnchantment)) {
 					return false;
@@ -65,17 +63,17 @@ public class NbtCheck_ench extends NbtCheck {
 	}
 
 	private static Enchantment getEnchantment(INbtTagCompound enchantment) {
-		if (enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
-			final short id = enchantment.getShort("id");
+		if (enchantment.hasKeyOfType("id", NbtDataType.INT)) {
+			final int id = enchantment.getInt("id");
 
 			try {
 				// 1.12
-				return (Enchantment) Enchantment.class.getMethod("getById", int.class).invoke(id);
+				return (Enchantment) Enchantment.class.getMethod("getById", int.class).invoke(null, id);
 			} catch (Exception e1) {
 				// 1.13
 				try {
 					return (Enchantment) Enchantment.class.getMethod("getByName", String.class)
-							.invoke(EnchantmentCompat.getById(id).legacyName);
+							.invoke(null, EnchantmentCompat.getById(id).legacyName);
 				} catch (Exception e2) {
 					return null;
 				}
@@ -88,12 +86,12 @@ public class NbtCheck_ench extends NbtCheck {
 			try {
 				// 1.13
 				return (Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class)
-						.invoke(NamespacedKey.minecraft(namedKey));
+						.invoke(null, NamespacedKey.minecraft(namedKey));
 			} catch (Exception e1) {
 				// 1.12
 				try {
-					Enchantment.class.getMethod("getByName", String.class)
-							.invoke(EnchantmentCompat.getByNamedKey(namedKey).legacyName);
+					return (Enchantment) Enchantment.class.getMethod("getByName", String.class)
+							.invoke(null, EnchantmentCompat.getByNamedKey(namedKey).legacyName);
 				} catch (Exception e2) {
 					return null;
 				}

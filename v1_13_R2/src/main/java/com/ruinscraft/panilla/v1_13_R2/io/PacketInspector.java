@@ -68,6 +68,8 @@ public class PacketInspector implements IPacketInspector {
 
 			ItemStack itemStack = packet.getItemStack();
 
+			if (itemStack == null || !itemStack.hasTag()) return;
+			
 			NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
 					itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
 					protocolConstants, strictness);
@@ -99,6 +101,8 @@ public class PacketInspector implements IPacketInspector {
 
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
+				if (itemStack == null || !itemStack.hasTag()) return;
+				
 				NbtChecks.checkPacketPlayOut(new NbtTagCompound(itemStack.getTag()),
 						itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
 						protocolConstants, strictness);
