@@ -18,5 +18,5 @@ strictness: average
 
 # Whitelist NBT tags from being checked
 nbt-whitelist:
-#  - Enchantments 	# 1.13 format
-#  - ench						# 1.12 format
+#  - Enchantments   # 1.13 format
+#  - ench           # 1.12 format
