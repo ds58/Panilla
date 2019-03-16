@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ruinscraft</groupId>
 		<artifactId>panilla</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 
 	<artifactId>panilla-v1_12_R1</artifactId>
