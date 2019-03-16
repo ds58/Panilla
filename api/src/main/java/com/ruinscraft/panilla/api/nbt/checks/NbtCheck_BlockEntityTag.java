@@ -16,10 +16,10 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
-		// locked chests
-		if (blockEntityTag.hasKey("Lock")) {
-			return false;
-		}
+//		// locked chests
+//		if (strictness == PStrictness.STRICT && blockEntityTag.hasKey("Lock")) {
+//			return false;
+//		}
 
 		// signs with text
 		if (blockEntityTag.hasKey("Text1") || blockEntityTag.hasKey("Text2") || blockEntityTag.hasKey("Text3")
