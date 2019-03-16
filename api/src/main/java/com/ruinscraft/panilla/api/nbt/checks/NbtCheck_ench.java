@@ -5,6 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 
 import com.ruinscraft.panilla.api.EnchantmentCompat;
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
@@ -17,7 +18,7 @@ public class NbtCheck_ench extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
 		String using = null;
 
 		if (tag.hasKey(getName())) {

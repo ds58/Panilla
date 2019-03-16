@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.v1_12_R1.nbt.NbtTagCompound;
 
@@ -15,12 +15,12 @@ import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 public class ContainerCleaner implements IContainerCleaner {
 
+	private final PConfig config;
 	private final IProtocolConstants protocolConstants;
-	private final PStrictness strictness;
 
-	public ContainerCleaner(PStrictness strictness, IProtocolConstants protocolConstants) {
+	public ContainerCleaner(PConfig config, IProtocolConstants protocolConstants) {
+		this.config = config;
 		this.protocolConstants = protocolConstants;
-		this.strictness = strictness;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ContainerCleaner implements IContainerCleaner {
 			NBTTagCompound tag = itemStack.getTag();
 
 			String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
-					itemStack.getItem().getClass().getSimpleName(), protocolConstants, strictness);
+					itemStack.getItem().getClass().getSimpleName(), protocolConstants, config);
 
 			if (failedNbt != null) {
 				tag.remove(failedNbt);

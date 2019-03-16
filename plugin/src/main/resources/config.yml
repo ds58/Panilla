@@ -18,5 +18,4 @@ strictness: average
 
 # Whitelist NBT tags from being checked
 nbt-whitelist:
-  - display.Lore
-  - display.Name
+  - display

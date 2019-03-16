@@ -79,9 +79,9 @@ public class PanillaPlugin extends JavaPlugin {
 		switch (v_Version) {
 		case "v1_12_R1":
 			protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness,
+			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig,
 					protocolConstants);
-			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness,
+			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig,
 					protocolConstants);
 			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner,
 					protocolConstants, panillaConfig, panillaLogger);
