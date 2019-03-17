@@ -8,12 +8,12 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_CanDestroy extends NbtCheck {
 
 	public NbtCheck_CanDestroy() {
-		super("CanDestroy", PStrictness.AVERAGE);
+		super("CanDestroy", PStrictness.STRICT);
 	}
 
 	@Override
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return true;
+		return false;
 	}
 
 }
