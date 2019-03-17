@@ -10,6 +10,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public final class NbtChecks {
 
+	private static final int MAX_NON_MINECRAFT_KEYS = 16;
 	private static final Map<String, NbtCheck> checks = new HashMap<>();
 
 	static {
@@ -70,7 +71,7 @@ public final class NbtChecks {
 			IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
-		
+
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt);
 		}
@@ -78,15 +79,18 @@ public final class NbtChecks {
 
 	public static String checkAll(INbtTagCompound tag, String nmsItemClassName,
 			IProtocolConstants protocolConstants, PConfig config) {
+		int nonMinecraftKeys = 0;
+
 		for (String key : tag.getKeys()) {
 			if (config.nbtWhitelist.contains(key)) {
 				continue;
 			}
-			
+
 			NbtCheck check = checks.get(key);
 
 			if (check == null) {
-				return key;
+				nonMinecraftKeys++;
+				continue;
 			}
 
 			if (check.getTolerance().lvl > config.strictness.lvl) {
@@ -95,6 +99,14 @@ public final class NbtChecks {
 
 			if (!check.check(tag, nmsItemClassName, protocolConstants, config)) {
 				return key;
+			}
+		}
+
+		if (nonMinecraftKeys > MAX_NON_MINECRAFT_KEYS) {
+			for (String key : tag.getKeys()) {
+				if (checks.get(key) == null) {
+					return key;
+				}
 			}
 		}
 
