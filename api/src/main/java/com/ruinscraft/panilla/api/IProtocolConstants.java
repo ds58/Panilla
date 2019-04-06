@@ -46,6 +46,10 @@ public interface IProtocolConstants {
 	default int maxFireworksExplosions() {
 		return 8;
 	}
+	
+	default int maxSlimeSize() {
+		return 3; // large slime
+	}
 
 	/* Not protocol -- Reasonable values/assumptions */
 

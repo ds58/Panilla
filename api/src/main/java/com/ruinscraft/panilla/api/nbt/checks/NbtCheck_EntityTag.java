@@ -32,6 +32,12 @@ public class NbtCheck_EntityTag extends NbtCheck {
 		if (entityTag.hasKey("Motion")) {
 			return false;
 		}
+		
+		if (entityTag.hasKey("Size")) {
+			if (entityTag.getInt("Size") > protocolConstants.maxSlimeSize()) {
+				return false;
+			}
+		}
 
 		if (entityTag.hasKey("ArmorItems")) {
 			INbtTagList items = entityTag.getList("ArmorItems", NbtDataType.COMPOUND);
