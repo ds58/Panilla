@@ -35,7 +35,13 @@ public enum EnchantmentCompat {
     SWEEPING("minecraft:sweeping", "SWEEPING_EDGE", 22),
     THORNS("minecraft:thorns", "THORNS", 7),
     UNBREAKING("minecraft:unbreaking", "DURABILITY", 34),
-    VANISHING_CURSE("minecraft:vanishing_curse", "VANISHING_CURSE", 71);
+    VANISHING_CURSE("minecraft:vanishing_curse", "VANISHING_CURSE", 71),
+
+    // 1.14
+    MULTISHOT("minecraft:multishot", "", -1),
+    PIERCING("minecraft:piercing", "", -1),
+    QUICK_CHARGE("minecraft:quick_charge", "", -1)
+    ;
 
     public final String namedKey;
     public final String legacyName;
