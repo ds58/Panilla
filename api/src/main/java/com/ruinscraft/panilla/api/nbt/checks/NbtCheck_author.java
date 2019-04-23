@@ -7,19 +7,19 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_author extends NbtCheck {
 
-	public NbtCheck_author() {
-		super("author", PStrictness.AVERAGE);
-	}
+    public NbtCheck_author() {
+        super("author", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		int authorLength = tag.getString("author").length();
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        int authorLength = tag.getString("author").length();
 
-		if (authorLength > protocolConstants.maxUsernameLength()) {
-			return false;
-		}
+        if (authorLength > protocolConstants.maxUsernameLength()) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

@@ -8,18 +8,18 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinQuitListener implements Listener {
 
-	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
-		PanillaPlugin.get().getPlayerInjector().register(player);
-	}
+        PanillaPlugin.get().getPlayerInjector().register(player);
+    }
 
-	@EventHandler
-	public void onQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
 
-		PanillaPlugin.get().getPlayerInjector().unregister(player);
-	}
+        PanillaPlugin.get().getPlayerInjector().unregister(player);
+    }
 
 }

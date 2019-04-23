@@ -9,27 +9,27 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_Fireworks extends NbtCheck {
 
-	public NbtCheck_Fireworks() {
-		super("Fireworks", PStrictness.AVERAGE);
-	}
+    public NbtCheck_Fireworks() {
+        super("Fireworks", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		INbtTagCompound fireworks = tag.getCompound("Fireworks");
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        INbtTagCompound fireworks = tag.getCompound("Fireworks");
 
-		int flight = fireworks.getInt("Flight");
+        int flight = fireworks.getInt("Flight");
 
-		if (flight > protocolConstants.maxFireworksFlight() || flight < protocolConstants.minFireworksFlight()) {
-			return false;
-		}
+        if (flight > protocolConstants.maxFireworksFlight() || flight < protocolConstants.minFireworksFlight()) {
+            return false;
+        }
 
-		INbtTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND);
+        INbtTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND);
 
-		if (explosions != null && explosions.size() > protocolConstants.maxFireworksExplosions()) {
-			return false;
-		}
+        if (explosions != null && explosions.size() > protocolConstants.maxFireworksExplosions()) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }
