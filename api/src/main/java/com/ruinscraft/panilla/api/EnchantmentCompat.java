@@ -63,6 +63,7 @@ public enum EnchantmentCompat {
         return null;
     }
 
+    @Deprecated
     public static EnchantmentCompat getByLegacyName(String legacyName) {
         if (legacyName.isEmpty())
             return null;
@@ -76,7 +77,8 @@ public enum EnchantmentCompat {
         return null;
     }
 
-    public static EnchantmentCompat getById(int legacyId) {
+    @Deprecated
+    public static EnchantmentCompat getByLegacyId(int legacyId) {
         for (EnchantmentCompat enchantmentCompat : EnchantmentCompat.values()) {
             if (enchantmentCompat.legacyId == legacyId) {
                 return enchantmentCompat;

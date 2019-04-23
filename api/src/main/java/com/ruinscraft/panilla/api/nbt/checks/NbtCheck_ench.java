@@ -75,7 +75,7 @@ public class NbtCheck_ench extends NbtCheck {
                 // 1.13
                 try {
                     return (Enchantment) Enchantment.class.getMethod("getByName", String.class)
-                            .invoke(null, EnchantmentCompat.getById(id).legacyName);
+                            .invoke(null, EnchantmentCompat.getByLegacyId(id).legacyName);
                 } catch (Exception e2) {
                     return null;
                 }
