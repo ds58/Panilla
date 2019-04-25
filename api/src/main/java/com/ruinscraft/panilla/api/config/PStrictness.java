@@ -6,7 +6,7 @@ public enum PStrictness {
 
     public final int lvl;
 
-    private PStrictness(int lvl) {
+    PStrictness(int lvl) {
         this.lvl = lvl;
     }
 

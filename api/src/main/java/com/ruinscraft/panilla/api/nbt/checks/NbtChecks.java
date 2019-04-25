@@ -42,6 +42,7 @@ public final class NbtChecks {
         register(new NbtCheck_map_scale_direction());
         register(new NbtCheck_Decorations());
         register(new NbtCheck_Effects());
+        register(new NbtCheck_CustomModelData());
     }
 
     public static void register(NbtCheck check) {
