@@ -7,13 +7,13 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_CanPlaceOn extends NbtCheck {
 
-	public NbtCheck_CanPlaceOn() {
-		super("CanPlaceOn", PStrictness.STRICT);
-	}
+    public NbtCheck_CanPlaceOn() {
+        super("CanPlaceOn", PStrictness.STRICT);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return false;
-	}
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        return false;
+    }
 
 }

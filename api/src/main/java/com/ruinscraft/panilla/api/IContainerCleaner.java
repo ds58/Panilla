@@ -4,6 +4,6 @@ import org.bukkit.entity.Player;
 
 public interface IContainerCleaner {
 
-	void clean(Player player);
+    void clean(Player player);
 
 }

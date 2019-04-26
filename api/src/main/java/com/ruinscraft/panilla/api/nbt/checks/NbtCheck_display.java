@@ -4,24 +4,32 @@ import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
+import com.ruinscraft.panilla.api.nbt.INbtTagList;
+import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_display extends NbtCheck {
 
-	public NbtCheck_display() {
-		super("display", PStrictness.AVERAGE);
-	}
+    public NbtCheck_display() {
+        super("display", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		INbtTagCompound display = tag.getCompound(getName());
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        INbtTagCompound display = tag.getCompound(getName());
 
-		String name = display.getString("name");
+        String name = display.getString("Name");
 
-		if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
-			return false;
-		}
+        if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
+            return false;
+        }
 
-		return true;
-	}
+        INbtTagList lore = display.getList("Lore", NbtDataType.LIST);
+
+        if (lore.size() > protocolConstants.NOT_PROTOCOL_maxLoreLines()) {
+            return false;
+        }
+
+        return true;
+    }
 
 }

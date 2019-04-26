@@ -9,44 +9,44 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_BlockEntityTag extends NbtCheck {
 
-	public NbtCheck_BlockEntityTag() {
-		super("BlockEntityTag", PStrictness.LENIENT);
-	}
+    public NbtCheck_BlockEntityTag() {
+        super("BlockEntityTag", PStrictness.LENIENT);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		INbtTagCompound blockEntityTag = tag.getCompound(getName());
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
-//		// locked chests
-//		if (strictness == PStrictness.STRICT && blockEntityTag.hasKey("Lock")) {
-//			return false;
-//		}
+        // locked chests
+        if (config.strictness == PStrictness.STRICT && blockEntityTag.hasKey("Lock")) {
+            return false;
+        }
 
-		// signs with text
-		if (blockEntityTag.hasKey("Text1") || blockEntityTag.hasKey("Text2") || blockEntityTag.hasKey("Text3")
-				|| blockEntityTag.hasKey("Text4")) {
-			return false;
-		}
+        // signs with text
+        if (blockEntityTag.hasKey("Text1") || blockEntityTag.hasKey("Text2") || blockEntityTag.hasKey("Text3")
+                || blockEntityTag.hasKey("Text4")) {
+            return false;
+        }
 
-		if (blockEntityTag.hasKey("Items")) {
-			if (nmsItemClassName == null || !nmsItemClassName.equals("ItemShulkerBox")) {
-				return false;
-			}
+        if (blockEntityTag.hasKey("Items")) {
+            if (nmsItemClassName == null || !nmsItemClassName.equals("ItemShulkerBox")) {
+                return false;
+            }
 
-			INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
+            INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
 
-			for (int i = 0; i < items.size(); i++) {
-				INbtTagCompound item = items.get(i);
+            for (int i = 0; i < items.size(); i++) {
+                INbtTagCompound item = items.get(i);
 
-				if (item.hasKey("tag")) {
-					String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, config);
-					
-					if (failedNbt != null) return false;
-				}
-			}
-		}
+                if (item.hasKey("tag")) {
+                    String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, config);
 
-		return true;
-	}
+                    if (failedNbt != null) return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
 }
