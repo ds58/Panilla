@@ -1,9 +1,7 @@
 name: ${name}
 version: ${version}
 main: ${mainClass}
-# Panilla is built on the 1.12 Bukkit API.
-# Since it does not use any incompatible/deprecated API with 1.13/1.14, it is safe to not specify the api-version.
-# api-version: 1.13
+api-version: 1.13
 description: Prevent abusive NBT and harmful packets
 authors: [royalkingkb]
 website: https://github.com/Ruinscraft/Panilla

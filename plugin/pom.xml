@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ruinscraft</groupId>
         <artifactId>panilla</artifactId>
-        <version>1.2</version>
+        <version>1.2.1</version>
     </parent>
 
     <artifactId>panilla-plugin</artifactId>
@@ -27,25 +27,25 @@
         <dependency>
             <groupId>com.ruinscraft</groupId>
             <artifactId>panilla-api</artifactId>
-            <version>1.2</version>
+            <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.ruinscraft</groupId>
             <artifactId>panilla-v1_12_R1</artifactId>
-            <version>1.2</version>
+            <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.ruinscraft</groupId>
             <artifactId>panilla-v1_13_R2</artifactId>
-            <version>1.2</version>
+            <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.ruinscraft</groupId>
             <artifactId>panilla-v1_14_R1</artifactId>
-            <version>1.2</version>
+            <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
