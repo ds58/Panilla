@@ -19,7 +19,18 @@ public class NbtCheck_display extends NbtCheck {
 
         String name = display.getString("Name");
 
-        if (name != null && name.length() > protocolConstants.maxAnvilRenameChars()) {
+        final int maxNameLength;
+
+        // if strict, use anvil length
+        if (config.strictness.lvl >= PStrictness.STRICT.lvl) {
+            maxNameLength = protocolConstants.maxAnvilRenameChars();
+        }
+
+        else {
+            maxNameLength = protocolConstants.NOT_PROTOCOL_maxItemNameLength();
+        }
+
+        if (name != null && name.length() > maxNameLength) {
             return false;
         }
 
