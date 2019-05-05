@@ -13,15 +13,12 @@ public interface IPacketInspector {
     /* inbound packets (client->server) */
     void checkPacketPlayInSetCreativeSlot(Object _packet) throws NbtNotPermittedException;
 
-    void checkPacketPlayInUpdateSign(Object _packet) throws SignLineLengthTooLongException;
-
     /* outbound packets (server->client) */
     void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException;
 
     default void checkPlayIn(Object _packet) throws PacketException {
         checkSize(_packet, true);
         checkPacketPlayInSetCreativeSlot(_packet);
-        checkPacketPlayInUpdateSign(_packet);
     }
 
     default void checkPlayOut(Object _packet) throws PacketException {
