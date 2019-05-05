@@ -19,9 +19,7 @@ public class NbtCheck_title extends NbtCheck {
             if (titleLength > protocolConstants.maxBookTitleLength()) {
                 return false;
             }
-        }
-
-        else {
+        } else {
             if (titleLength > protocolConstants.NOT_PROTOCOL_maxItemNameLength()) {
                 return false;
             }
