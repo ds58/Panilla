@@ -33,14 +33,14 @@ public class NbtCheck_ench extends NbtCheck {
         INbtTagList enchantments = tag.getList(using, NbtDataType.COMPOUND);
 
         for (int i = 0; i < enchantments.size(); i++) {
-            INbtTagCompound enchantment = enchantments.get(i);
+            INbtTagCompound enchantment = enchantments.getCompound(i);
             Enchantment bukkitEnchantment = getEnchantment(enchantment);
 
             if (bukkitEnchantment == null) {
                 continue;
             }
 
-            int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
+            int lvl = 0xFFFF & enchantments.getCompound(i).getShort("lvl");
 
             if (lvl > bukkitEnchantment.getMaxLevel()) {
                 return false;
@@ -51,7 +51,7 @@ public class NbtCheck_ench extends NbtCheck {
             }
 
             for (int j = 0; j < enchantments.size(); j++) {
-                INbtTagCompound otherEnchantment = enchantments.get(j);
+                INbtTagCompound otherEnchantment = enchantments.getCompound(j);
                 Enchantment otherBukkitEnchantment = getEnchantment(otherEnchantment);
 
                 if (bukkitEnchantment != otherBukkitEnchantment
