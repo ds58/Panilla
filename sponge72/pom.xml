@@ -12,4 +12,24 @@
 
     <artifactId>panilla-sponge72</artifactId>
 
+    <repositories>
+        <repository>
+            <id>sponge-repo</id>
+            <url>http://repo.spongepowered.org/maven</url>
+        </repository>
+        <repository>
+            <id>forge-repo</id>
+            <url>http://files.minecraftforge.net/maven</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>spongeapi</artifactId>
+            <version>7.2.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 </project>

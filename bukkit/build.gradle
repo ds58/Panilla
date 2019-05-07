@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':panilla-api')
+    compile project(':panilla-craftbukkit-v1_8_R3')
+    compile project(':panilla-craftbukkit-v1_12_R1')
+    compile project(':panilla-craftbukkit-v1_13_R2')
+    compile project(':panilla-craftbukkit-v1_14_R1')
+    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
+}
