@@ -152,6 +152,8 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
 
         PanillaLogger panillaLogger = new PanillaLogger(this);
 
+        enchantments = new BukkitEnchantments();
+
         final String v_Version = v_Version();
 
         switch (v_Version) {
@@ -160,21 +162,18 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
                 playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(this, panillaLogger);
                 packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(this);
-                enchantments = new com.ruinscraft.panilla.v1_12_R1.Enchantments();
                 break;
             case "v1_13_R2":
                 protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(this, panillaLogger);
                 packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(this);
-                enchantments = new com.ruinscraft.panilla.v1_13_R2.Enchantments();
                 break;
             case "v1_14_R1":
                 protocolConstants = new com.ruinscraft.panilla.v1_14_R1.ProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.v1_14_R1.io.PlayerInjector(this, panillaLogger);
                 packetInspector = new com.ruinscraft.panilla.v1_14_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.v1_14_R1.ContainerCleaner(this);
-                enchantments = new com.ruinscraft.panilla.v1_14_R1.Enchantments();
                 break;
             default:
                 getLogger().severe("Minecraft version " + v_Version + " is not supported.");

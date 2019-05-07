@@ -66,10 +66,10 @@ public class NbtCheck_ench extends NbtCheck {
     private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IEnchantments enchantments) {
         if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
             final int id = enchantment.getInt("id");
-            return enchantments.getById(id);
+            return EnchantmentCompat.getByLegacyId(id);
         } else if (enchantment.hasKeyOfType("id", NbtDataType.STRING)) {
             final String namedKey = enchantment.getString("id");
-            return enchantments.getByKey(namedKey);
+            return EnchantmentCompat.getByNamedKey(namedKey);
         }
         return null;
     }
