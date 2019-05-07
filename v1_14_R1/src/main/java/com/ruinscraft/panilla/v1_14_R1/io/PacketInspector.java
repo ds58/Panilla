@@ -1,7 +1,7 @@
 package com.ruinscraft.panilla.v1_14_R1.io;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
+import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
@@ -10,19 +10,16 @@ import com.ruinscraft.panilla.v1_14_R1.nbt.NbtTagCompound;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import net.minecraft.server.v1_14_R1.*;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 
 public class PacketInspector implements IPacketInspector {
 
-    private final PConfig config;
-    private final IProtocolConstants protocolConstants;
+    private final IPanilla panilla;
 
-    public PacketInspector(PConfig config, IProtocolConstants protocolConstants) {
-        this.config = config;
-        this.protocolConstants = protocolConstants;
+    public PacketInspector(IPanilla panilla) {
+        this.panilla = panilla;
     }
 
     @Override
@@ -48,7 +45,7 @@ public class PacketInspector implements IPacketInspector {
                 dataSerializer.release();
             }
 
-            if (sizeBytes > protocolConstants.maxPacketSizeBytes()) {
+            if (sizeBytes > panilla.getProtocolConstants().maxPacketSizeBytes()) {
                 throw new OversizedPacketException(packet.getClass().getSimpleName(), from, sizeBytes);
             }
         }
@@ -64,9 +61,9 @@ public class PacketInspector implements IPacketInspector {
 
             if (itemStack == null || !itemStack.hasTag()) return;
 
-            NbtChecks.checkPacketPlayIn(slot, new NbtTagCompound(itemStack.getTag()),
-                    itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
-                    protocolConstants, config);
+            NbtChecks.checkPacketPlayIn(slot, new NbtTagCompound(
+                            itemStack.getTag()), itemStack.getItem().getClass().getSimpleName(),
+                    packet.getClass().getSimpleName(), panilla);
         }
     }
 
@@ -87,9 +84,9 @@ public class PacketInspector implements IPacketInspector {
 
                 if (itemStack == null || !itemStack.hasTag()) return;
 
-                NbtChecks.checkPacketPlayOut(slot, new NbtTagCompound(itemStack.getTag()),
-                        itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
-                        protocolConstants, config);
+                NbtChecks.checkPacketPlayOut(slot, new NbtTagCompound(
+                                itemStack.getTag()), itemStack.getItem().getClass().getSimpleName(),
+                        packet.getClass().getSimpleName(), panilla);
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -97,12 +94,12 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void sendPacketPlayOutSetSlotAir(Player player, int slot) {
+    public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
         // int          windowId (0 for player)
         // int          slotId
         // ItemStack    item
         PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, ItemStack.a);
-        CraftPlayer craftPlayer = (CraftPlayer) player;
+        CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
         entityPlayer.playerConnection.sendPacket(packet);
     }

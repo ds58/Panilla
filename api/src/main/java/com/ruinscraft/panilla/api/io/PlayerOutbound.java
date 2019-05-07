@@ -1,35 +1,26 @@
 package com.ruinscraft.panilla.api.io;
 
-import com.ruinscraft.panilla.api.IContainerCleaner;
-import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.IPanilla;
+import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.PanillaLogger;
-import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.PacketException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
-import org.bukkit.entity.Player;
 
 public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
-    private final Player player;
-    private final IPacketInspector packetInspector;
-    private final IContainerCleaner containerCleaner;
-    private final IProtocolConstants protocolConstants;
-    private final PConfig config;
+    private final IPanillaPlayer player;
+    private final IPanilla panilla;
     private final PanillaLogger panillaLogger;
 
     // a cache for permission checking
     private short packetsSinceBypassCheck = 0;
     private boolean bypass;
 
-    public PlayerOutbound(Player player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
-                          IProtocolConstants protocolConstants, PConfig config, PanillaLogger panillaLogger) {
+    public PlayerOutbound(IPanillaPlayer player, IPanilla panilla, PanillaLogger panillaLogger) {
         this.player = player;
-        this.packetInspector = packetInspector;
-        this.containerCleaner = containerCleaner;
-        this.protocolConstants = protocolConstants;
-        this.config = config;
+        this.panilla = panilla;
         this.panillaLogger = panillaLogger;
 
         bypass = IPlayerInjector.canBypass(player);
@@ -44,10 +35,10 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
         if (!bypass) {
             try {
-                packetInspector.checkPlayOut(player, msg);
+                panilla.getPacketInspector().checkPlayOut(player, msg);
             } catch (PacketException e) {
-                containerCleaner.clean(player);
-                panillaLogger.warn(player, e, protocolConstants, config);
+                panilla.getContainerCleaner().clean(player);
+                panillaLogger.warn(player, e, panilla.getProtocolConstants(), panilla.getPanillaConfig());
 
                 return; // drop the packet
             } catch (Exception e) {

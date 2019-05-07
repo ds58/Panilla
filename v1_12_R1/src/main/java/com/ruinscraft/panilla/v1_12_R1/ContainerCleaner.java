@@ -1,8 +1,8 @@
 package com.ruinscraft.panilla.v1_12_R1;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
+import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.v1_12_R1.nbt.NbtTagCompound;
 import net.minecraft.server.v1_12_R1.Container;
@@ -10,15 +10,13 @@ import net.minecraft.server.v1_12_R1.ItemStack;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.Slot;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 public class ContainerCleaner implements IContainerCleaner {
 
-    private final PConfig config;
-    private final IProtocolConstants protocolConstants;
+    private final IPanilla panilla;
 
     private static boolean is_1_12_2;
 
@@ -31,14 +29,13 @@ public class ContainerCleaner implements IContainerCleaner {
         }
     }
 
-    public ContainerCleaner(PConfig config, IProtocolConstants protocolConstants) {
-        this.config = config;
-        this.protocolConstants = protocolConstants;
+    public ContainerCleaner(IPanilla panilla) {
+        this.panilla = panilla;
     }
 
     @Override
-    public void clean(Player player) {
-        CraftPlayer craftPlayer = (CraftPlayer) player;
+    public void clean(IPanillaPlayer player) {
+        CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         Container container = craftPlayer.getHandle().activeContainer;
 
         int containerSlotsSize = 0;
@@ -64,8 +61,8 @@ public class ContainerCleaner implements IContainerCleaner {
 
             NBTTagCompound tag = itemStack.getTag();
 
-            String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
-                    itemStack.getItem().getClass().getSimpleName(), protocolConstants, config);
+            String failedNbt = NbtChecks.checkAll(
+                    new NbtTagCompound(tag), itemStack.getItem().getClass().getSimpleName(), panilla);
 
             if (failedNbt != null) {
                 tag.remove(failedNbt);

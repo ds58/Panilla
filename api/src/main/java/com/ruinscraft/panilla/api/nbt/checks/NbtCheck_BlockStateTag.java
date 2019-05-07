@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -13,7 +12,7 @@ public class NbtCheck_BlockStateTag extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         return false;   // TODO: test variations of BlockStateTag to see what is potentially malicious
     }
 

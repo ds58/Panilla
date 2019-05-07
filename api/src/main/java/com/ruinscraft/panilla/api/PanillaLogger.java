@@ -4,80 +4,56 @@ import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
-import java.io.File;
-import java.io.IOException;
 
 public class PanillaLogger {
 
     private static final String CHAT_PERMISSION = "panilla.log.chat";
 
-    private final Plugin plugin;
-    private FileConfiguration locale;
+    private final IPanilla panilla;
 
-    public PanillaLogger(Plugin plugin) {
-        this.plugin = plugin;
+    public PanillaLogger(IPanilla panilla) {
+        this.panilla = panilla;
     }
 
-    public void loadLocale(String localeFileName) throws IOException {
-        File file = new File(plugin.getDataFolder(), localeFileName);
-
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-
-            if (plugin.getResource(localeFileName) == null) {
-                throw new IOException("Could not locate locale file: " + localeFileName);
-            }
-
-            plugin.saveResource(localeFileName, false);
-        }
-
-        locale = new YamlConfiguration();
-
-        try {
-            locale.load(file);
-        } catch (InvalidConfigurationException e) {
-            throw new IOException(e.getMessage());
-        }
-    }
-
-    public void warn(Player player, PacketException e, IProtocolConstants protocolConstants, PConfig config) {
-        if (locale == null) {
-            plugin.getLogger().warning("Locale is not loaded");
+    public void warn(IPanillaPlayer player, PacketException e, IProtocolConstants protocolConstants, PConfig config) {
+        if (panilla.getPanillaLocale() == null) {
+            panilla.getPlatform().getLogger().warning("Locale is not loaded");
             return;
         }
 
-        String message = locale.getString("prefix");
+        String message = panilla.getPanillaLocale().getTranslation("prefix");
 
         if (e.isFrom()) {
-            message += String.format(locale.getString("packet-from-dropped"), player.getName(), e.getNmsClass());
+            message += String.format(
+                    panilla.getPanillaLocale().getTranslation("packet-from-dropped"),
+                    player.getName(),
+                    e.getNmsClass());
         } else {
-            message += String.format(locale.getString("packet-to-dropped"), player.getName(), e.getNmsClass());
+            message += String.format(
+                    panilla.getPanillaLocale().getTranslation("packet-to-dropped"),
+                    player.getName(),
+                    e.getNmsClass());
         }
 
         if (e instanceof OversizedPacketException) {
             OversizedPacketException oversizedPacketException = (OversizedPacketException) e;
 
-            message += " " + String.format(locale.getString("packet-dropped-reason-too-large"),
-                    oversizedPacketException.getSizeBytes(), protocolConstants.maxPacketSizeBytes());
+            message += " " + String.format(
+                    panilla.getPanillaLocale().getTranslation("packet-dropped-reason-too-large"),
+                    oversizedPacketException.getSizeBytes(),
+                    protocolConstants.maxPacketSizeBytes());
         } else if (e instanceof NbtNotPermittedException) {
             NbtNotPermittedException nbtNotPermittedException = (NbtNotPermittedException) e;
 
-            message += " " + String.format(locale.getString("packet-dropped-reason-invalid-nbt"),
+            message += " " + String.format(
+                    panilla.getPanillaLocale().getTranslation("packet-dropped-reason-invalid-nbt"),
                     nbtNotPermittedException.getTagName());
         }
 
-        message = ChatColor.translateAlternateColorCodes('&', message);
+        message = panilla.getPlatform().translateColorCodes(message);
 
         if (config.chatLogging) {
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            for (IPanillaPlayer onlinePlayer : panilla.getPlatform().getOnlinePlayers()) {
                 if (onlinePlayer.hasPermission(CHAT_PERMISSION)) {
                     onlinePlayer.sendMessage(message);
                 }
@@ -85,7 +61,7 @@ public class PanillaLogger {
         }
 
         if (config.consoleLogging) {
-            plugin.getLogger().info(message);
+            panilla.getPlatform().getLogger().info(message);
         }
     }
 
