@@ -30,6 +30,12 @@
         </dependency>
         <dependency>
             <groupId>com.ruinscraft</groupId>
+            <artifactId>panilla-craftbukkit-v1_8_R3</artifactId>
+            <version>1.2.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ruinscraft</groupId>
             <artifactId>panilla-craftbukkit-v1_12_R1</artifactId>
             <version>1.2.3</version>
             <scope>compile</scope>
