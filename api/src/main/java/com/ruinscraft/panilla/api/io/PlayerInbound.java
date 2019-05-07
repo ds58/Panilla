@@ -43,7 +43,7 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
 
         if (!bypass) {
             try {
-                packetInspector.checkPlayIn(msg);
+                packetInspector.checkPlayIn(player, msg);
             } catch (PacketException e) {
                 containerCleaner.clean(player);
                 panillaLogger.warn(player, e, protocolConstants, config);

@@ -9,6 +9,8 @@ import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.v1_12_R1.nbt.NbtTagCompound;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -57,11 +59,12 @@ public class PacketInspector implements IPacketInspector {
         if (_packet instanceof PacketPlayInSetCreativeSlot) {
             PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
+            int slot = packet.a();
             ItemStack itemStack = packet.getItemStack();
 
             if (itemStack == null || !itemStack.hasTag()) return;
 
-            NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
+            NbtChecks.checkPacketPlayIn(slot, new NbtTagCompound(itemStack.getTag()),
                     itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
                     protocolConstants, config);
         }
@@ -73,21 +76,35 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
 
             try {
-                Field itemStackField = packet.getClass().getDeclaredField("c");
+                Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("b");
+                Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("c");
 
+                slotField.setAccessible(true);
                 itemStackField.setAccessible(true);
 
+                int slot = (int) slotField.get(packet);
                 ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
                 if (itemStack == null || !itemStack.hasTag()) return;
 
-                NbtChecks.checkPacketPlayOut(new NbtTagCompound(itemStack.getTag()),
+                NbtChecks.checkPacketPlayOut(slot, new NbtTagCompound(itemStack.getTag()),
                         itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
                         protocolConstants, config);
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void sendPacketPlayOutSetSlotAir(Player player, int slot) {
+        // int          windowId (0 for player)
+        // int          slotId
+        // ItemStack    item
+        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, ItemStack.a);
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        EntityPlayer entityPlayer = craftPlayer.getHandle();
+        entityPlayer.playerConnection.sendPacket(packet);
     }
 
 }

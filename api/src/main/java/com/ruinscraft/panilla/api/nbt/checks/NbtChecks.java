@@ -57,23 +57,23 @@ public final class NbtChecks {
         return checks.containsKey(tag);
     }
 
-    public static void checkPacketPlayIn(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
+    public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                          IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
 
         String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
 
         if (failedNbt != null) {
-            throw new NbtNotPermittedException(nmsPacketClassName, true, failedNbt);
+            throw new NbtNotPermittedException(nmsPacketClassName, true, slot, failedNbt);
         }
     }
 
-    public static void checkPacketPlayOut(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
+    public static void checkPacketPlayOut(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                           IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
 
         String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
 
         if (failedNbt != null) {
-            throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt);
+            throw new NbtNotPermittedException(nmsPacketClassName, false, slot, failedNbt);
         }
     }
 
