@@ -37,7 +37,7 @@ public class PlayerInbound extends ChannelInboundHandlerAdapter {
                 panilla.getPacketInspector().checkPlayIn(player, msg);
             } catch (PacketException e) {
                 panilla.getContainerCleaner().clean(player);
-                panillaLogger.warn(player, e, panilla.getProtocolConstants(), panilla.getPanillaConfig());
+                panillaLogger.warn(player, e);
 
                 return; // drop the packet
             } catch (Exception e) {
