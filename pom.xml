@@ -10,10 +10,10 @@
 
     <modules>
         <module>api</module>
-        <module>plugin</module>
-        <module>v1_12_R1</module>
-        <module>v1_13_R2</module>
-        <module>v1_14_R1</module>
+        <module>bukkit</module>
+        <module>craftbukkit-v1_12_R1</module>
+        <module>craftbukkit-v1_13_R2</module>
+        <module>craftbukkit-v1_14_R1</module>
     </modules>
 
     <properties>
