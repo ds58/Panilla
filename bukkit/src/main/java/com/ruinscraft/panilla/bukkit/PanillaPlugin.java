@@ -32,6 +32,11 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     private IEnchantments enchantments;
 
     @Override
+    public String getVersionString() {
+        return getDescription().getVersion();
+    }
+
+    @Override
     public PConfig getPanillaConfig() {
         return pConfig;
     }

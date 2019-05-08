@@ -7,6 +7,8 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
 public interface IPanilla {
 
+    String getVersionString();
+
     PConfig getPanillaConfig();
 
     PLocale getPanillaLocale();
