@@ -1,10 +1,10 @@
-package com.ruinscraft.panilla.sponge72;
+package com.ruinscraft.panilla.forge112;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
-import com.ruinscraft.panilla.sponge72.nbt.NbtTagCompound;
+import com.ruinscraft.panilla.forge112.nbt.NbtTagCompound;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;

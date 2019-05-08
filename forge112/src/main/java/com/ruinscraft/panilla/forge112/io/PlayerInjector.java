@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.sponge72.io;
+package com.ruinscraft.panilla.forge112.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
