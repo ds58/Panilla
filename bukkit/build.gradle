@@ -6,3 +6,28 @@ dependencies {
     compile project(':panilla-craftbukkit-v1_14_R1')
     compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
 }
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    dependencies {
+        include(dependency(':panilla-api'))
+        include(dependency(':panilla-craftbukkit-v1_8_R3'))
+        include(dependency(':panilla-craftbukkit-v1_12_R1'))
+        include(dependency(':panilla-craftbukkit-v1_13_R2'))
+        include(dependency(':panilla-craftbukkit-v1_14_R1'))
+    }
+    archiveName = "Panilla.jar"
+    destinationDir = file '../target/bukkit'
+}
+
+build.dependsOn(shadowJar)
