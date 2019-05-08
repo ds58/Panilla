@@ -112,14 +112,12 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     }
 
     private synchronized void loadLocale(String localeFileName) throws IOException {
+        getDataFolder().mkdirs();
+
         File file = new File(getDataFolder(), localeFileName);
 
         if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            if (getResource(localeFileName) == null) {
-                throw new IOException("Could not find locale file: " + localeFileName);
-            }
-            saveResource(localeFileName, false);
+            PLocale.saveDefaultLocaleFile(localeFileName, getDataFolder());
         }
 
         YamlConfiguration yaml = new YamlConfiguration();
