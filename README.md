@@ -35,4 +35,4 @@ With this software, you will be able to prevent:
 ## Compiling
 In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla.
 When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
-From there, you can compile the project with `./gradlew build`. The output plugin jars file will be the `target/` directory.
+From there, you can compile the project with `./gradlew build`. The output plugin jars file will located in the `target/` directory.
