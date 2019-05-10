@@ -2,6 +2,7 @@ package com.ruinscraft.panilla.bukkit;
 
 import com.ruinscraft.panilla.api.*;
 import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.config.PFiles;
 import com.ruinscraft.panilla.api.config.PLocale;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
@@ -117,7 +118,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         File file = new File(getDataFolder(), localeFileName);
 
         if (!file.exists()) {
-            PLocale.saveDefaultLocaleFile(localeFileName, getDataFolder());
+            PFiles.saveResource(localeFileName, getDataFolder());
         }
 
         YamlConfiguration yaml = new YamlConfiguration();
