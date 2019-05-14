@@ -99,8 +99,8 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         return panillaPlayers;
     }
 
-    private synchronized void loadConfig() {
-        saveDefaultConfig();
+    private synchronized void loadConfig() throws IOException {
+        PFiles.saveResource("config.yml", getDataFolder());
 
         pConfig = new PConfig();
 
@@ -113,15 +113,11 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     }
 
     private synchronized void loadLocale(String localeFileName) throws IOException {
-        getDataFolder().mkdirs();
-
-        File file = new File(getDataFolder(), localeFileName);
-
-        if (!file.exists()) {
-            PFiles.saveResource(localeFileName, getDataFolder());
-        }
+        PFiles.saveResource(localeFileName, getDataFolder());
 
         YamlConfiguration yaml = new YamlConfiguration();
+
+        File file = new File(getDataFolder(), localeFileName);
 
         try {
             yaml.load(file);
@@ -146,7 +142,15 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     public void onEnable() {
         singleton = this;
 
-        loadConfig();
+        getDataFolder().mkdirs();
+
+        try {
+            loadConfig();
+        } catch (IOException e) {
+            getLogger().warning("Could not load config file");
+            e.printStackTrace();
+        }
+
         try {
             loadLocale(pConfig.localeFile);
         } catch (IOException e) {
