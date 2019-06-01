@@ -34,7 +34,6 @@ public class PlayerInjector implements IPlayerInjector {
         /* Register inbound */
         if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
             PlayerInbound inbound = new PlayerInbound(player, panilla, panillaLogger);
-            if (channel.isActive())
             channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
         }
 
