@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
 public interface IPanilla {
 
-    String getVersionString();
+    PanillaLogger getPanlliaLogger();
 
     PConfig getPanillaConfig();
 

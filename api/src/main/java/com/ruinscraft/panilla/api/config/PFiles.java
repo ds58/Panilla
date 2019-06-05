@@ -20,4 +20,8 @@ public class PFiles {
         }
     }
 
+    public static File getResource(String resourceFileName) {
+        return new File(PFiles.class.getClassLoader().getResource(resourceFileName).getFile());
+    }
+
 }

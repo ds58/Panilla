@@ -2,7 +2,6 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
-import com.ruinscraft.panilla.api.PanillaLogger;
 import com.ruinscraft.panilla.api.exception.PacketException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
@@ -12,16 +11,14 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
     private final IPanillaPlayer player;
     private final IPanilla panilla;
-    private final PanillaLogger panillaLogger;
 
     // a cache for permission checking
     private short packetsSinceBypassCheck = 0;
     private boolean bypass;
 
-    public PlayerOutbound(IPanillaPlayer player, IPanilla panilla, PanillaLogger panillaLogger) {
+    public PlayerOutbound(IPanillaPlayer player, IPanilla panilla) {
         this.player = player;
         this.panilla = panilla;
-        this.panillaLogger = panillaLogger;
 
         bypass = IPlayerInjector.canBypass(player);
     }
@@ -36,10 +33,10 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
             if (!bypass) {
                 try {
-                    panilla.getPacketInspector().checkPlayOut(player, msg);
+                    panilla.getPacketInspector().checkPlayOut(player, msg, panilla);
                 } catch (PacketException e) {
                     panilla.getContainerCleaner().clean(player);
-                    panillaLogger.warn(player, e);
+                    panilla.getPanlliaLogger().warn(player, e);
 
                     return; // drop the packet
                 } catch (Exception e) {
