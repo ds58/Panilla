@@ -19,9 +19,7 @@ public class NbtCheck_ench extends NbtCheck {
 
         if (tag.hasKey(getName())) {
             using = getName();
-        }
-
-        else {
+        } else {
             for (String alias : getAliases()) {
                 if (tag.hasKey(alias)) {
                     using = alias;

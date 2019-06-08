@@ -20,7 +20,7 @@ processResources {
     from('src/main/resources') {
         include 'plugin.yml'
         expand(
-            version: project.parent.version
+                version: project.parent.version
         )
     }
 }

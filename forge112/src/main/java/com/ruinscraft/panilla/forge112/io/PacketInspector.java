@@ -6,18 +6,12 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.forge112.nbt.NbtTagCompound;
-import io.netty.buffer.UnpooledByteBufAllocator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
-import net.minecraft.network.play.client.CPacketCustomPayload;
-import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.network.play.server.SPacketSetSlot;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 public class PacketInspector implements IPacketInspector {
@@ -26,32 +20,6 @@ public class PacketInspector implements IPacketInspector {
 
     public PacketInspector(IPanilla panilla) {
         this.panilla = panilla;
-    }
-
-    @Override
-    public int getPacketSize(Object _packet) {
-        int sizeBytes = 0;
-        if (_packet instanceof Packet<?>) {
-            Packet<?> packet = (Packet<?>) _packet;
-            PacketBuffer dataSerializer = new PacketBuffer(UnpooledByteBufAllocator.DEFAULT.buffer());
-
-            try {
-                packet.readPacketData(dataSerializer);
-
-                sizeBytes = dataSerializer.readVarInt();
-
-                // https://github.com/aadnk/ProtocolLib/commit/5ec87c9d7650ae21faca9b7b3cc7ac1629870d24
-                if (packet instanceof CPacketCustomPayload || packet instanceof SPacketCustomPayload) {
-                    packet.writePacketData(dataSerializer);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                dataSerializer.release();
-            }
-        }
-
-        return sizeBytes;
     }
 
     @Override

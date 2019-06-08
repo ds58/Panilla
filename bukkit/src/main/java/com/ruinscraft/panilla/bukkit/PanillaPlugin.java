@@ -130,7 +130,6 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         Map<String, String> defaultTranslations = new HashMap<>();
 
         for (String key : defaultEnglishYaml.getKeys(false)) {
-            System.out.println(key);
             defaultTranslations.put(key, defaultEnglishYaml.getString(key));
         }
 
@@ -168,25 +167,25 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
 
         switch (v_Version) {
             case "v1_8_R3":
-                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ProtocolConstants();
+                protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
                 break;
             case "v1_12_R1":
-                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ProtocolConstants();
+                protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
                 break;
             case "v1_13_R2":
-                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ProtocolConstants();
+                protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
                 break;
             case "v1_14_R1":
-                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ProtocolConstants();
+                protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
@@ -204,7 +203,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         getCommand("panilla").setExecutor(new PanillaCommand());
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            playerInjector.register(new BukkitPanillaPlayer(player), this);
+            playerInjector.register(this, new BukkitPanillaPlayer(player));
         }
     }
 

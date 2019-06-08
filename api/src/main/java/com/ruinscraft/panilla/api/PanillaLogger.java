@@ -1,9 +1,7 @@
 package com.ruinscraft.panilla.api;
 
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
-import com.ruinscraft.panilla.api.exception.UndersizedPacketException;
 
 public class PanillaLogger {
 
@@ -35,25 +33,7 @@ public class PanillaLogger {
                     e.getNmsClass());
         }
 
-        if (e instanceof UndersizedPacketException) {
-            UndersizedPacketException undersizedPacketException = (UndersizedPacketException) e;
-
-            message += " " + String.format(
-                    panilla.getPanillaLocale().getTranslation("packet-dropped-reason-too-small"),
-                    undersizedPacketException.getSizeBytes(),
-                    panilla.getProtocolConstants().packetCompressionLevel());
-        }
-
-        else if (e instanceof OversizedPacketException) {
-            OversizedPacketException oversizedPacketException = (OversizedPacketException) e;
-
-            message += " " + String.format(
-                    panilla.getPanillaLocale().getTranslation("packet-dropped-reason-too-large"),
-                    oversizedPacketException.getSizeBytes(),
-                    panilla.getProtocolConstants().maxPacketSizeBytes());
-        }
-
-        else if (e instanceof NbtNotPermittedException) {
+        if (e instanceof NbtNotPermittedException) {
             NbtNotPermittedException nbtNotPermittedException = (NbtNotPermittedException) e;
 
             message += " " + String.format(

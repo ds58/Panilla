@@ -6,48 +6,28 @@ import io.netty.channel.Channel;
 
 public interface IPlayerInjector {
 
-    // channels : timeout,decrypt,splitter,decompress,decoder,encrypt,prepender,compress,encoder,packet_handler,DefaultChannelPipeline$TailContext#0
-
-    String PANILLA_CHANNEL_IN = "panilla_in";
-    String PANILLA_CHANNEL_OUT = "panilla_out";
-    String BYPASS_PERMISSION = "panilla.bypass";
+    String CHANNEL_HANDLER_MINECRAFT = "packet_handler";
+    String CHANNEL_HANDLER_PANILLA = "panilla_handler";
 
     Channel getPlayerChannel(IPanillaPlayer player);
 
-    default void register(IPanillaPlayer player, IPanilla panilla) {
+    default void register(IPanilla panilla, IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
-
-        System.out.println("names: " + String.join(",", channel.pipeline().names()));
-
-        /* Register inbound */
-        if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
-            PlayerInbound inbound = new PlayerInbound(player, panilla);
-            channel.pipeline().addFirst(PANILLA_CHANNEL_IN, inbound);
-        }
-
-        /* Register outbound */
-        if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
-            PlayerOutbound outbound = new PlayerOutbound(player, panilla);
-            channel.pipeline().addFirst(PANILLA_CHANNEL_OUT, outbound);
+        if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) == null) {
+            PanillaChannelHandler channelHandler = new PanillaChannelHandler(panilla, player);
+            if (channel.pipeline().get(CHANNEL_HANDLER_MINECRAFT) != null) {
+                channel.pipeline().addBefore(CHANNEL_HANDLER_MINECRAFT, CHANNEL_HANDLER_PANILLA, channelHandler);
+            } else {
+                System.out.println("no packet_handler channel!");
+            }
         }
     }
 
     default void unregister(final IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
-
-        /* Unregister inbound */
-        if (channel.pipeline().get(PANILLA_CHANNEL_IN) != null) {
-            channel.pipeline().remove(PANILLA_CHANNEL_IN);
+        if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) != null) {
+            channel.pipeline().remove(CHANNEL_HANDLER_PANILLA);
         }
-
-        /* Unregister outbound */
-        if (channel.pipeline().get(PANILLA_CHANNEL_OUT) != null) {
-            channel.pipeline().remove(PANILLA_CHANNEL_OUT);
-        }
-    }
-
-    static boolean canBypass(IPanillaPlayer player) {
-        return player.isOp() || player.hasPermission(BYPASS_PERMISSION);
     }
 
 }
