@@ -4,6 +4,8 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import io.netty.channel.Channel;
 
+import java.util.concurrent.TimeUnit;
+
 public interface IPlayerInjector {
 
     String CHANNEL_HANDLER_MINECRAFT = "packet_handler";
@@ -19,8 +21,10 @@ public interface IPlayerInjector {
             if (channel.pipeline().get(CHANNEL_HANDLER_MINECRAFT) != null) {
                 channel.pipeline().addBefore(CHANNEL_HANDLER_MINECRAFT, CHANNEL_HANDLER_PANILLA, channelHandler);
             } else {
-                panilla.getPlatform().getLogger().warning(
-                        "Could not find Minecraft Netty channel: " + CHANNEL_HANDLER_MINECRAFT + ". Please report this as a bug.");
+                // try again later, server was likely booting up
+                panilla.getPlatform().runTaskLater(TimeUnit.SECONDS.toMillis(10), () -> {
+                    register(panilla, player);
+                });
             }
         }
     }
