@@ -8,6 +8,8 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_BlockEntityTag extends NbtCheck {
 
+    private static final int MAX_STRING_SIZE_BYTES = 3612536 / 2;
+
     public NbtCheck_BlockEntityTag() {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
@@ -15,6 +17,11 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
     @Override
     public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound blockEntityTag = tag.getCompound(getName());
+
+        // ensure BlockEntityTag isn't huge
+        if (blockEntityTag.getStringSizeBytes() > MAX_STRING_SIZE_BYTES) {
+            return false;
+        }
 
         if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
             // locked chests

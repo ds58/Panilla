@@ -1,8 +1,11 @@
 package com.ruinscraft.panilla.api.nbt;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Set;
 
 public interface INbtTagCompound {
+
+    Object getHandle();
 
     boolean hasKey(String key);
 
@@ -19,5 +22,14 @@ public interface INbtTagCompound {
     INbtTagList getList(String key, NbtDataType nbtDataType);
 
     INbtTagCompound getCompound(String key);
+
+    default int getStringSizeBytes() {
+        try {
+            return getHandle().toString().getBytes("UTF-8").length;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

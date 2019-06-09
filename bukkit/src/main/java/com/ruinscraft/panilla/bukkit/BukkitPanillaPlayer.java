@@ -22,11 +22,6 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public boolean isOp() {
-        return handle.isOp();
-    }
-
-    @Override
     public boolean hasPermission(String node) {
         return handle.hasPermission(node);
     }

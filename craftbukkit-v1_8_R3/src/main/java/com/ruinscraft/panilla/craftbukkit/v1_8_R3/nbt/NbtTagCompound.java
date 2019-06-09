@@ -16,6 +16,11 @@ public class NbtTagCompound implements INbtTagCompound {
     }
 
     @Override
+    public Object getHandle() {
+        return handle;
+    }
+
+    @Override
     public boolean hasKey(String key) {
         return handle.hasKey(key);
     }

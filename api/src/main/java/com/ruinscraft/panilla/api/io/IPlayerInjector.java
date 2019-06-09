@@ -13,18 +13,21 @@ public interface IPlayerInjector {
 
     default void register(IPanilla panilla, IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
+        if (channel == null) return;
         if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) == null) {
             PanillaChannelHandler channelHandler = new PanillaChannelHandler(panilla, player);
             if (channel.pipeline().get(CHANNEL_HANDLER_MINECRAFT) != null) {
                 channel.pipeline().addBefore(CHANNEL_HANDLER_MINECRAFT, CHANNEL_HANDLER_PANILLA, channelHandler);
             } else {
-                System.out.println("no packet_handler channel!");
+                panilla.getPlatform().getLogger().warning(
+                        "Could not find Minecraft Netty channel: " + CHANNEL_HANDLER_MINECRAFT + ". Please report this as a bug.");
             }
         }
     }
 
     default void unregister(final IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
+        if (channel == null) return;
         if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) != null) {
             channel.pipeline().remove(CHANNEL_HANDLER_PANILLA);
         }

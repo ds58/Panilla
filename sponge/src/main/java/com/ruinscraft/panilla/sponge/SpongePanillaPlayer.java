@@ -23,11 +23,6 @@ public class SpongePanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public boolean isOp() {
-        return false;   // TODO:
-    }
-
-    @Override
     public boolean hasPermission(String node) {
         return handle.hasPermission(node);
     }
