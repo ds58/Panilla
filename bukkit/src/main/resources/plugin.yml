@@ -16,3 +16,6 @@ permissions:
 commands:
   panilla:
     description: Information about your Panilla instance
+  panilla debug:
+    description: Show debug information
+    permission: panilla.command.debug
