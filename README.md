@@ -3,6 +3,20 @@ Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanill
 
 [Support the development of this plugin and purchase a precompiled .jar file on SpigotMC](https://www.spigotmc.org/resources/65694/) (or compile your own for free)
 
+## Supported Platforms
+Currently Panilla supports:
+- Bukkit
+  - CraftBukkit* 1.8.8
+  - CraftBukkit* 1.12.x
+  - CraftBukkit* 1.13.x
+  - CraftBukkit* 1.14.x
+  
+  **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
+- Sponge
+  - Forge 1.12.2 (work in progress)
+
+If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
+
 ## Overview
 Panilla is software to prevent abusive NBT and packets on Minecraft: Java Edition servers.
 
