@@ -114,6 +114,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         pConfig.consoleLogging = getConfig().getBoolean("logging.console");
         pConfig.chatLogging = getConfig().getBoolean("logging.chat");
         pConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness", pConfig.strictness.name()).toUpperCase());
+        pConfig.preventMinecraftEducationSkulls = getConfig().getBoolean("prevent-minecraft-education-skulls", false);
         pConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
         pConfig.maxNonMinecraftNbtKeys = getConfig().getInt("max-non-minecraft-nbt-keys", pConfig.maxNonMinecraftNbtKeys);
     }
