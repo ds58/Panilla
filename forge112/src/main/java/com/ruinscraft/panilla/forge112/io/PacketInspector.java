@@ -6,8 +6,8 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.forge112.nbt.NbtTagCompound;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.minecraft.network.play.server.SPacketSetSlot;
@@ -66,12 +66,9 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
-        // int          windowId (0 for player)
-        // int          slotId
-        // ItemStack    item
-        SPacketSetSlot packet = new SPacketSetSlot(0, slot, new ItemStack(Block.getBlockById(0)));
         EntityPlayerMP entityPlayerMP = (EntityPlayerMP) player.getHandle();
-        entityPlayerMP.connection.sendPacket(packet);
+//        SPacketSetSlot packet = new SPacketSetSlot(0, slot, new ItemStack(Blocks.AIR));
+//        entityPlayerMP.connection.sendPacket(packet);
     }
 
 }
