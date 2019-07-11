@@ -33,13 +33,15 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
                             try {
                                 String decoded = new String(Base64.getDecoder().decode(b64));
-                                decoded = decoded.trim().replace(" ", "");
+                                decoded = decoded.trim()
+                                        .replace(" ", "")
+                                        .replace("\"", "");
 
-                                // example: {"textures":{"SKIN":{"url":"https://education.minecraft.net/wp-content/uploads/deezcord.png"}}}
-                                int urlIndex = decoded.indexOf("url") + 6;
+                                // example: {textures:{SKIN:{url:https://education.minecraft.net/wp-content/uploads/deezcord.png}}}
+                                String url = decoded.substring(21);
 
-                                if (decoded.substring(urlIndex).startsWith("http://textures.minecraft.net")
-                                        || decoded.substring(urlIndex).startsWith("https://textures.minecraft.net")) {
+                                if (url.startsWith("http://textures.minecraft.net")
+                                        || url.startsWith("https://textures.minecraft.net")) {
                                     return true;
                                 } else {
                                     return false;
