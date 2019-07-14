@@ -65,9 +65,8 @@ public class PacketInspector implements IPacketInspector {
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
-        entityPlayer.inventory.update();
-//        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, new ItemStack(Blocks.AIR));
-//        entityPlayer.playerConnection.sendPacket(packet);
+        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, new ItemStack(Blocks.AIR));
+        entityPlayer.playerConnection.sendPacket(packet);
     }
 
 }

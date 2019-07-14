@@ -40,11 +40,13 @@ public class NbtCheck_SkullOwner extends NbtCheck {
                                 // example: {textures:{SKIN:{url:https://education.minecraft.net/wp-content/uploads/deezcord.png}}}
                                 String url = decoded.substring(21);
 
-                                if (url.startsWith("http://textures.minecraft.net")
-                                        || url.startsWith("https://textures.minecraft.net")) {
-                                    return true;
-                                } else {
-                                    return false;
+                                if (url.startsWith("http")) {
+                                    if (url.startsWith("http://textures.minecraft.net")
+                                            || url.startsWith("https://textures.minecraft.net")) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
                                 }
                             } catch (IllegalArgumentException e) {
                                 panilla.getPlatform().getLogger().info("Invalid head texture");
