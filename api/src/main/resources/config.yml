@@ -24,6 +24,14 @@ strictness: average
 # See this paste: https://paste.ubuntu.com/p/SSGg6szMc4/
 prevent-minecraft-education-skulls: false
 
+# This prevents FAWE brush NBT on items
+#
+# This stops users from giving out FAWE brush items which may trick users
+# into accidentally WorldEdit'ing
+#
+# Good for creative-mode servers which give FAWE to regular users
+prevent-fawe-brush-nbt: false
+
 # Whitelist NBT tags from being checked
 nbt-whitelist:
 #  - Enchantments   # 1.13 and up format
