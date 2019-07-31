@@ -24,8 +24,12 @@ public interface IPlayerInjector {
     default void unregister(final IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
         if (channel == null) return;
-        if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) == null) return;
-        channel.pipeline().remove(CHANNEL_HANDLER_PANILLA);
+        if (channel.pipeline().get(CHANNEL_HANDLER_PANILLA) != null) {
+            channel.pipeline().remove(CHANNEL_HANDLER_PANILLA);
+        }
+        if (channel.pipeline().get(CHANNEL_EXCEPTION_PANILLA) != null) {
+            channel.pipeline().remove(CHANNEL_EXCEPTION_PANILLA);
+        }
     }
 
 }

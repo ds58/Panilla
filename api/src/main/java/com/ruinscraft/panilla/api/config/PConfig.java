@@ -13,6 +13,7 @@ public class PConfig {
     public boolean preventMinecraftEducationSkulls = false;
     public boolean preventFaweBrushNbt = false;
     public List<String> nbtWhitelist = new ArrayList<>();
+    public List<String> disabledWorlds = new ArrayList<>();
     public int maxNonMinecraftNbtKeys = 16;
 
 }

@@ -35,6 +35,12 @@ nbt-whitelist:
 #  - Enchantments   # 1.13 and up format
 #  - ench           # 1.12 and below format
 
+# Prevent Panilla from checking NBT in certain worlds
+# Effectively sets the world to the lenient strictness
+disabled-worlds:
+#  - world_nether
+#  - some_other_world_name
+
 # You shouldn't have to touch this.
 #
 # If you have plugins which use an excessive amount of

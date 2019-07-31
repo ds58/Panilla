@@ -117,6 +117,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         pConfig.preventMinecraftEducationSkulls = getConfig().getBoolean("prevent-minecraft-education-skulls", false);
         pConfig.preventFaweBrushNbt = getConfig().getBoolean("prevent-fawe-brush-nbt", false);
         pConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
+        pConfig.disabledWorlds = getConfig().getStringList("disabled-worlds");
         pConfig.maxNonMinecraftNbtKeys = getConfig().getInt("max-non-minecraft-nbt-keys", pConfig.maxNonMinecraftNbtKeys);
     }
 

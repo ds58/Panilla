@@ -1,5 +1,6 @@
 package com.ruinscraft.panilla.sponge;
 
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
@@ -23,6 +24,11 @@ public class SpongePanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
+    public String getCurrentWorldName() {
+        return handle.getWorld().getName();
+    }
+
+    @Override
     public boolean hasPermission(String node) {
         return handle.hasPermission(node);
     }
@@ -30,6 +36,12 @@ public class SpongePanillaPlayer implements IPanillaPlayer {
     @Override
     public void sendMessage(String message) {
         handle.sendMessage(Text.of(message));
+    }
+
+    @Override
+    public boolean canBypassChecks() {
+        return PanillaPlugin.get().getPanillaConfig().disabledWorlds.contains(getCurrentWorldName())
+                || hasPermission(IPanilla.PERMISSION_BYPASS);
     }
 
 }
