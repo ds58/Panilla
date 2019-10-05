@@ -7,8 +7,12 @@ import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 import java.util.Base64;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NbtCheck_SkullOwner extends NbtCheck {
+
+    private static final Pattern URL_MATCHER = Pattern.compile("url");
 
     public NbtCheck_SkullOwner() {
         super("SkullOwner", PStrictness.AVERAGE);
@@ -30,28 +34,37 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
                         if (entry.hasKey("Value")) {
                             String b64 = entry.getString("Value");
+                            String decoded;
 
                             try {
-                                String decoded = new String(Base64.getDecoder().decode(b64));
-                                decoded = decoded.trim()
-                                        .replace(" ", "")
-                                        .replace("\"", "");
-
-                                // example: {textures:{SKIN:{url:https://education.minecraft.net/wp-content/uploads/deezcord.png}}}
-                                String url = decoded.substring(21);
-
-                                if (url.startsWith("http")) {
-                                    if (url.startsWith("http://textures.minecraft.net")
-                                            || url.startsWith("https://textures.minecraft.net")) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                }
+                                decoded = new String(Base64.getDecoder().decode(b64));
                             } catch (IllegalArgumentException e) {
                                 panilla.getPlatform().getLogger().info("Invalid head texture");
                                 return false;
                             }
+
+                            // all lowercase, no parentheses or spaces
+                            decoded = decoded.trim()
+                                    .replace(" ", "")
+                                    .replace("\"", "")
+                                    .toLowerCase();
+
+                            Matcher matcher = URL_MATCHER.matcher(decoded);
+
+                            // example: {textures:{SKIN:{url:https://education.minecraft.net/wp-content/uploads/deezcord.png}}}
+                            // may contain multiple url tags
+                            while (matcher.find()) {
+                                String url = decoded.substring(matcher.end() + 1);
+
+                                if (url.startsWith("http://textures.minecraft.net") ||
+                                        url.startsWith("https://textures.minecraft.net")) {
+                                    continue;
+                                } else {
+                                    return false;
+                                }
+                            }
+
+                            return true;
                         }
                     }
                 }
