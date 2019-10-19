@@ -78,11 +78,20 @@ public class PacketInspector implements IPacketInspector {
                 UUID entityId = (UUID) typeField.get(packet);
                 org.bukkit.entity.Entity bukkitEntity = org.bukkit.Bukkit.getEntity(entityId);
                 CraftEntity craftEntity = (CraftEntity) bukkitEntity;
+
+                if (craftEntity == null) {
+                    return;
+                }
+
                 Entity entity = craftEntity.getHandle();
 
                 if (entity != null) {
                     if (entity instanceof EntityItem) {
                         EntityItem item = (EntityItem) entity;
+
+                        if (item.getItemStack() == null) {
+                            return;
+                        }
 
                         if (!item.getItemStack().hasTag()) {
                             return;
