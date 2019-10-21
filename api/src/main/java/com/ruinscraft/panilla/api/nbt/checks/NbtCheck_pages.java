@@ -19,7 +19,7 @@ public class NbtCheck_pages extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
 
         for (int i = 0; i < pages.size(); i++) {
@@ -34,12 +34,12 @@ public class NbtCheck_pages extends NbtCheck {
                 String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
 
                 if (page.equalsIgnoreCase(translationJson)) {
-                    return false;
+                    return NbtCheckResult.CRITICAL;
                 }
             }
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

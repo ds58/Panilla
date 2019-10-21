@@ -28,6 +28,12 @@ public abstract class NbtCheck {
         return aliases;
     }
 
-    public abstract boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla);
+    public abstract NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla);
+
+    public enum NbtCheckResult {
+        PASS,
+        FAIL,
+        CRITICAL
+    }
 
 }

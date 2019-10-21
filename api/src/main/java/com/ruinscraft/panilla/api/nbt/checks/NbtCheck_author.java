@@ -11,14 +11,14 @@ public class NbtCheck_author extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         int authorLength = tag.getString("author").length();
 
         if (authorLength > panilla.getProtocolConstants().maxUsernameLength()) {
-            return false;
+            return NbtCheckResult.FAIL;
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

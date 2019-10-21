@@ -11,8 +11,8 @@ public class NbtCheck_CanPlaceOn extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        return false;
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        return NbtCheckResult.FAIL;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.ruinscraft.panilla.api;
 
+import com.ruinscraft.panilla.api.exception.PacketException;
+
 public interface IPanillaPlayer {
 
     Object getHandle();
@@ -12,6 +14,6 @@ public interface IPanillaPlayer {
 
     void sendMessage(String message);
 
-    boolean canBypassChecks();
+    boolean canBypassChecks(PacketException e);
 
 }

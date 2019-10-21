@@ -11,20 +11,20 @@ public class NbtCheck_title extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         final int titleLength = tag.getString("title").length();
 
         if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
             if (titleLength > panilla.getProtocolConstants().maxBookTitleLength()) {
-                return false;
+                return NbtCheckResult.CRITICAL;
             }
         } else {
             if (titleLength > panilla.getProtocolConstants().NOT_PROTOCOL_maxItemNameLength()) {
-                return false;
+                return NbtCheckResult.CRITICAL;
             }
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

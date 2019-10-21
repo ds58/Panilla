@@ -11,8 +11,8 @@ public class NbtCheck_map_scale_direction extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        return true;
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        return NbtCheckResult.PASS;
     }
 
 }

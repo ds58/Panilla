@@ -11,8 +11,8 @@ public class NbtCheck_Decorations extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        return true;
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        return NbtCheckResult.FAIL;
     }
 
 }
