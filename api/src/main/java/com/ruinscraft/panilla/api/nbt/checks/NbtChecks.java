@@ -13,6 +13,7 @@ public final class NbtChecks {
     private static final Map<String, NbtCheck> checks = new HashMap<>();
 
     static {
+        // vanilla
         register(new NbtCheck_Unbreakable());
         register(new NbtCheck_CanDestroy());
         register(new NbtCheck_CanPlaceOn());
