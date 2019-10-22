@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:7.1.0'
+    compile('org.spongepowered:spongeapi:7.1.0')
     compile project(":panilla-api")
     compile project(":panilla-forge112")
     compile project(":panilla-forge113")
@@ -17,7 +17,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath('com.github.jengelman.gradle.plugins:shadow:1.2.3')
     }
 }
 
@@ -25,9 +25,9 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {
     dependencies {
-        include(dependency(':panilla-api'))
-        include(dependency(':panilla-forge112'))
-        include(dependency(':panilla-forge113'))
+        include(':panilla-api')
+        include(':panilla-forge112')
+        include(':panilla-forge113')
     }
     archiveName = "Panilla.jar"
     destinationDir = file '../target/sponge'
