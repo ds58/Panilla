@@ -13,3 +13,7 @@ subprojects {
 
     sourceCompatibility = '1.8'
 }
+
+task clean {
+    delete './target'
+}

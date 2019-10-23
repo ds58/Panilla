@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.glowstone_r2018_9_0;
+package com.ruinscraft.panilla.glowstone.r2018_9_0;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
-import com.ruinscraft.panilla.glowstone_r2018_9_0.nbt.NbtTagCompound;
+import com.ruinscraft.panilla.glowstone.r2018_9_0.nbt.NbtTagCompound;
 import net.glowstone.entity.GlowPlayer;
 import net.glowstone.inventory.GlowInventory;
 import net.glowstone.inventory.GlowMetaItem;

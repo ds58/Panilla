@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.glowstone_r2018_9_0.io;
+package com.ruinscraft.panilla.glowstone.r2018_9_0.io;
 
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
