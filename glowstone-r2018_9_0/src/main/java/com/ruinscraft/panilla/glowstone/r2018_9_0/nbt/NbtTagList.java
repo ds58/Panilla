@@ -4,6 +4,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import net.glowstone.util.nbt.ListTag;
 import net.glowstone.util.nbt.Tag;
+import net.glowstone.util.nbt.TagType;
 
 public class NbtTagList<T extends Tag> implements INbtTagList {
 
@@ -15,7 +16,10 @@ public class NbtTagList<T extends Tag> implements INbtTagList {
 
     @Override
     public INbtTagCompound getCompound(int index) {
-        return (INbtTagCompound) handle.getValue().get(index);  // TODO: safe cast?
+        if (handle.getChildType() != TagType.COMPOUND) {
+            return null;    // probably safe...
+        }
+        return (INbtTagCompound) handle.getValue().get(index);
     }
 
     @Override
