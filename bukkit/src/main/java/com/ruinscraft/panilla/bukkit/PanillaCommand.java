@@ -12,21 +12,6 @@ import java.util.List;
 
 public class PanillaCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        switch (args.length) {
-            case 1:
-                switch (args[0].toLowerCase()) {
-                    case "debug":
-                        if (sender.hasPermission("panilla.command.debug")) {
-                            return showDebug(sender);
-                        }
-                }
-            default:
-                return showInfo(sender);
-        }
-    }
-
     private static boolean showInfo(CommandSender sender) {
         final String version = PanillaPlugin.get().getDescription().getVersion();
         final List<String> authors = PanillaPlugin.get().getDescription().getAuthors();
@@ -49,6 +34,21 @@ public class PanillaCommand implements CommandExecutor {
             sender.sendMessage(line);
         }
         return true;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        switch (args.length) {
+            case 1:
+                switch (args[0].toLowerCase()) {
+                    case "debug":
+                        if (sender.hasPermission("panilla.command.debug")) {
+                            return showDebug(sender);
+                        }
+                }
+            default:
+                return showInfo(sender);
+        }
     }
 
 }

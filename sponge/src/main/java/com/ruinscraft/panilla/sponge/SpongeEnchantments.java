@@ -7,6 +7,10 @@ import org.spongepowered.api.item.enchantment.EnchantmentType;
 
 public class SpongeEnchantments implements IEnchantments {
 
+    private static EnchantmentType getSpongeEnch(EnchantmentCompat enchCompat) {
+        return Sponge.getGame().getRegistry().getType(EnchantmentType.class, enchCompat.namedKey).get();
+    }
+
     @Override
     public int getMaxLevel(EnchantmentCompat enchCompat) {
         return getSpongeEnch(enchCompat).getMaximumLevel();
@@ -20,10 +24,6 @@ public class SpongeEnchantments implements IEnchantments {
     @Override
     public boolean conflicting(EnchantmentCompat enchCompat, EnchantmentCompat _enchCompat) {
         return getSpongeEnch(enchCompat).isCompatibleWith(getSpongeEnch(_enchCompat));
-    }
-
-    private static EnchantmentType getSpongeEnch(EnchantmentCompat enchCompat) {
-        return Sponge.getGame().getRegistry().getType(EnchantmentType.class, enchCompat.namedKey).get();
     }
 
 }

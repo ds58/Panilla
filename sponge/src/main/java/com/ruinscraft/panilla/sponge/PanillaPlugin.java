@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 @Plugin(id = "panilla", name = "Panilla")
 public class PanillaPlugin implements IPanilla, IPanillaPlatform {
 
+    private static PanillaPlugin instance;
     @Inject
     private Logger logger;
-
     private PanillaLogger panillaLogger;
     private PConfig pConfig;
     private PLocale pLocale;
@@ -38,6 +38,10 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     private IPacketInspector packetInspector;
     private IContainerCleaner containerCleaner;
     private IEnchantments enchantments;
+
+    public static PanillaPlugin get() {
+        return instance;
+    }
 
     @Override
     public PanillaLogger getPanlliaLogger() {
@@ -190,12 +194,6 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     public void onClientConnectionDisconnect(ClientConnectionEvent.Disconnect event) {
         Player player = event.getTargetEntity();
         playerInjector.unregister(new SpongePanillaPlayer(player));
-    }
-
-    private static PanillaPlugin instance;
-
-    public static PanillaPlugin get() {
-        return instance;
     }
 
 }
