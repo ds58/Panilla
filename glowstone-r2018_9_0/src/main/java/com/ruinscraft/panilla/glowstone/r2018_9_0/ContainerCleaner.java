@@ -5,7 +5,6 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
-import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.glowstone.r2018_9_0.nbt.GlowNbtHelper;
 import com.ruinscraft.panilla.glowstone.r2018_9_0.nbt.NbtTagCompound;
@@ -35,12 +34,14 @@ public class ContainerCleaner implements IContainerCleaner {
                 continue;
             }
 
+            itemStack = itemStack.clone();  // TODO: I think this should be cloned...
+
             GlowMetaItem meta = (GlowMetaItem) glowInventory.getItem(i).getItemMeta();
             CompoundTag ngTag = GlowNbtHelper.getNbt(meta);
             INbtTagCompound tag = new NbtTagCompound(ngTag);
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getClass().getSimpleName(), panilla);
 
-            if (failedNbt != null && failedNbt.result != NbtCheck.NbtCheckResult.PASS) {
+            if (FailedNbt.fails(failedNbt)) {
                 ngTag.remove(failedNbt.key);
                 GlowNbtHelper.applyNbt(meta, ngTag);
                 itemStack.setItemMeta(meta);
