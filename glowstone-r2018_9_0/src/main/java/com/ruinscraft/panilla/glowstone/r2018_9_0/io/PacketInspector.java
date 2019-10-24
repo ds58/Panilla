@@ -81,12 +81,13 @@ public class PacketInspector implements IPacketInspector {
 
             if (glowEntity instanceof GlowItem) {
                 GlowItem glowItem = (GlowItem) glowEntity;
+                ItemStack itemStack = glowItem.getItemStack();
 
-                if (glowItem.getItemStack() == null) {
+                if (itemStack == null) {
                     return;
                 }
 
-                if (!(glowItem.getItemStack().getItemMeta() instanceof GlowMetaItem)) {
+                if (!(itemStack.getItemMeta() instanceof GlowMetaItem)) {
                     return;
                 }
 

@@ -150,6 +150,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         pLocale = new PLocale(translations, defaultTranslations);
     }
 
+    // TODO: what happens with glowstone?
     private String v_Version() {
         return getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
     }
@@ -178,6 +179,8 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         enchantments = new BukkitEnchantments();
 
         final String v_Version = v_Version();
+
+        // TODO: add glowstone support
 
         switch (v_Version) {
             case "v1_8_R3":
