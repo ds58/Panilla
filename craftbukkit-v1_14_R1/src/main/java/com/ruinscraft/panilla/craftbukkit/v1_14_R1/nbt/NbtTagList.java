@@ -4,7 +4,6 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import net.minecraft.server.v1_14_R1.NBTTagList;
 
-// TODO: I implemented this completely wrong...
 public class NbtTagList implements INbtTagList {
 
     private final NBTTagList handle;

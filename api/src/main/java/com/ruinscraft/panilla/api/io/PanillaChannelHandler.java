@@ -48,7 +48,7 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
     private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
         if (!player.canBypassChecks(e)) {
             panilla.getContainerCleaner().clean(player);
-            panilla.getPanlliaLogger().warn(player, e);
+            panilla.getPanillaLogger().warn(player, e);
             return true;
         }
         return false;
