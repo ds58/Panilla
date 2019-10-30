@@ -9,8 +9,22 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_ench extends NbtCheck {
 
+    // 1.12- ench
+    // 1.13+ Enchantments
     public NbtCheck_ench() {
         super("ench", PStrictness.AVERAGE, "Enchantments", "StoredEnchantments");
+    }
+
+    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {
+        if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
+            final int id = enchantment.getInt("id");
+            return EnchantmentCompat.getByLegacyId(id);
+        } else if (enchantment.hasKeyOfType("id", NbtDataType.STRING)) {
+            final String namedKey = enchantment.getString("id");
+            return EnchantmentCompat.getByNamedKey(namedKey);
+        }
+        panilla.getPlatform().getLogger().info("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]");
+        return null;
     }
 
     @Override
@@ -68,18 +82,6 @@ public class NbtCheck_ench extends NbtCheck {
         }
 
         return NbtCheckResult.PASS;
-    }
-
-    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {
-        if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
-            final int id = enchantment.getInt("id");
-            return EnchantmentCompat.getByLegacyId(id);
-        } else if (enchantment.hasKeyOfType("id", NbtDataType.STRING)) {
-            final String namedKey = enchantment.getString("id");
-            return EnchantmentCompat.getByNamedKey(namedKey);
-        }
-        panilla.getPlatform().getLogger().info("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]");
-        return null;
     }
 
 }

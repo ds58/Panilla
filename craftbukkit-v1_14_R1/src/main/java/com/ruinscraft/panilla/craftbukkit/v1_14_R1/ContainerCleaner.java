@@ -29,7 +29,7 @@ public class ContainerCleaner implements IContainerCleaner {
         for (int slot = 0; slot < container.slots.size(); slot++) {
             ItemStack itemStack = container.getSlot(slot).getItem();
 
-            if (itemStack == null || !itemStack.hasTag()){
+            if (itemStack == null || !itemStack.hasTag()) {
                 continue;
             }
 

@@ -28,13 +28,21 @@ public class NbtCheck_display extends NbtCheck {
         }
 
         if (name != null && name.length() > maxNameLength) {
-            return NbtCheckResult.CRITICAL;
+            return NbtCheckResult.CRITICAL; // can cause crashes
         }
 
         INbtTagList lore = display.getList("Lore", NbtDataType.LIST);
 
         if (lore.size() > panilla.getProtocolConstants().NOT_PROTOCOL_maxLoreLines()) {
-            return NbtCheckResult.CRITICAL;
+            return NbtCheckResult.CRITICAL; // can cause crashes
+        }
+
+        for (int i = 0; i < lore.size(); i++) {
+            String line = lore.getString(i);
+
+            if (line.length() > panilla.getProtocolConstants().NOT_PROTOCOL_maxLoreLineLength()) {
+                return NbtCheckResult.CRITICAL; // can cause crashes
+            }
         }
 
         return NbtCheckResult.PASS;
