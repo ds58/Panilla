@@ -13,7 +13,7 @@ public class NbtCheck_CustomPotionColor extends NbtCheck {
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         int bgr = tag.getInt(getName());
-        boolean validColor = panilla.getPlatform().isValidPotionColor(bgr);
+        boolean validColor = true;  // TODO:
         if (!validColor) {
             return NbtCheckResult.CRITICAL;
         }

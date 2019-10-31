@@ -1,0 +1,55 @@
+##################################################################
+# Panilla Bukkit Configuration
+#
+# Resource page: https://www.spigotmc.org/resources/65694/
+# Source code: https://github.com/Ruinscraft/Panilla
+# Issues and help https://github.com/Ruinscraft/Panilla/issues
+##################################################################
+
+# Current translations include: [en, es, ru]
+# Submit your own translation by making a pull request or an issue on GitHub
+language: en
+
+# Logging options
+logging:
+  console: false
+  chat: false
+
+# Strictness of how much you wish to enforce
+#   lenient - Only prevent game-breaking things or crashes
+#   average - Prevent most abusive things (recommended)
+#   strict  - Prevent anything non-vanilla
+strictness: average
+
+# This prevents users from creating high resolution skulls with
+# a Minecraft Education account (or possibly other methods)
+#
+# See this paste for more information: https://paste.ubuntu.com/p/SSGg6szMc4/
+prevent-minecraft-education-skulls: false
+
+# This prevents FAWE brush NBT on items. It stops users from giving
+# out FAWE brush items which may trick others into accidentally WorldEdit'ing
+prevent-fawe-brush-nbt: false
+
+# Whitelist NBT tags from being checked
+# Keep in mind some NBT tags vary between Minecraft versions
+#     (eg: ench vs Enchantments)
+nbt-whitelist:
+#  - ench           # 1.12 and below format
+#  - Enchantments   # 1.13 and up format
+
+# Prevent Panilla from checking NBT in certain worlds
+# Effectively sets the world to the lenient strictness (to prevent crash exploits)
+disabled-worlds:
+#  - world_nether
+#  - some_other_world_name
+
+# This is to prevent crash items which have an excessive
+# amount of NBT keys.
+#
+# If you have plugins which use an excessive amount of
+# custom NBT keys, then you can raise it as high as you like.
+#
+#
+# Generally, you should never have to touch this.
+max-non-minecraft-nbt-keys: 16

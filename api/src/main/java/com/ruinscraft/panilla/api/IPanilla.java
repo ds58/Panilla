@@ -1,21 +1,17 @@
 package com.ruinscraft.panilla.api;
 
 import com.ruinscraft.panilla.api.config.PConfig;
-import com.ruinscraft.panilla.api.config.PLocale;
+import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
 public interface IPanilla {
 
-    String PERMISSION_BYPASS = "panilla.bypass";
+    PConfig getPConfig();
 
-    PanillaLogger getPanillaLogger();
+    PTranslations getPTranslations();
 
-    PConfig getPanillaConfig();
-
-    PLocale getPanillaLocale();
-
-    IPanillaPlatform getPlatform();
+    IPanillaLogger getPanillaLogger();
 
     IProtocolConstants getProtocolConstants();
 

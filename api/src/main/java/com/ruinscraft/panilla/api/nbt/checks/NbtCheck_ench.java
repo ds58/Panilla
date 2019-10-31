@@ -23,7 +23,7 @@ public class NbtCheck_ench extends NbtCheck {
             final String namedKey = enchantment.getString("id");
             return EnchantmentCompat.getByNamedKey(namedKey);
         }
-        panilla.getPlatform().getLogger().info("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]");
+        panilla.getPanillaLogger().warning("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]", false);
         return null;
     }
 

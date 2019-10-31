@@ -12,18 +12,24 @@ import java.util.List;
 
 public class PanillaCommand implements CommandExecutor {
 
-    private static boolean showInfo(CommandSender sender) {
-        final String version = PanillaPlugin.get().getDescription().getVersion();
-        final List<String> authors = PanillaPlugin.get().getDescription().getAuthors();
+    private final PanillaPlugin panillaPlugin;
+
+    public PanillaCommand(PanillaPlugin panillaPlugin) {
+        this.panillaPlugin = panillaPlugin;
+    }
+
+    private boolean showInfo(CommandSender sender) {
+        String version = panillaPlugin.getDescription().getVersion();
+        List<String> authors = panillaPlugin.getDescription().getAuthors();
         sender.sendMessage(ChatColor.GOLD + "Running Panilla version: " + version + " by " + String.join(", ", authors));
         return true;
     }
 
-    private static boolean showDebug(CommandSender sender) {
+    private boolean showDebug(CommandSender sender) {
         List<String> debugInfo = new ArrayList<>();
         debugInfo.add(ChatColor.BOLD + "=== Panilla Debug ===");
         debugInfo.add("Bukkit version: " + Bukkit.getVersion());
-        debugInfo.add("Panilla version: " + PanillaPlugin.get().getDescription().getVersion());
+        debugInfo.add("Panilla version: " + panillaPlugin.getDescription().getVersion());
         debugInfo.add("Java version: " + System.getProperty("java.version"));
         List<String> pluginNames = new ArrayList<>();
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
@@ -38,17 +44,13 @@ public class PanillaCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        switch (args.length) {
-            case 1:
-                switch (args[0].toLowerCase()) {
-                    case "debug":
-                        if (sender.hasPermission("panilla.command.debug")) {
-                            return showDebug(sender);
-                        }
-                }
-            default:
-                return showInfo(sender);
+        if (args.length < 1) {
+            return showInfo(sender);
+        } else if (args[0].equalsIgnoreCase("debug")) {
+            return showDebug(sender);
         }
+
+        return true;
     }
 
 }

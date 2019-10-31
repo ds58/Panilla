@@ -35,7 +35,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound entityTag = tag.getCompound(getName());
 
-        if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
+        if (panilla.getPConfig().strictness == PStrictness.STRICT) {
             for (String armorStandTag : ARMOR_STAND_TAGS) {
                 if (entityTag.hasKey(armorStandTag)) {
                     return NbtCheckResult.FAIL;
