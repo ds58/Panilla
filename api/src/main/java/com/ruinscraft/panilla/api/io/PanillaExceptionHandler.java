@@ -22,7 +22,10 @@ public class PanillaExceptionHandler extends ChannelDuplexHandler {
         IPanillaLogger panillaLogger = panilla.getPanillaLogger();
         PTranslations pTranslations = panilla.getPTranslations();
 
-        panillaLogger.log(pTranslations.getTranslation("preventedKick"), true);
+        String username = player.getName();
+        String exception = cause.getMessage();
+
+        panillaLogger.log(pTranslations.getTranslation("preventedKick", username, exception), true);
 
         panilla.getContainerCleaner().clean(player);
     }

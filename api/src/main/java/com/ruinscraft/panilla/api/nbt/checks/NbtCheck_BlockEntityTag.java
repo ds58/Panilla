@@ -9,8 +9,6 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_BlockEntityTag extends NbtCheck {
 
-    private static final int MAX_STRING_SIZE_BYTES = 707958;
-
     public NbtCheck_BlockEntityTag() {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
@@ -44,7 +42,8 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
         // ensure BlockEntityTag isn't huge
-        if (blockEntityTag.getStringSizeBytes() > MAX_STRING_SIZE_BYTES) {
+        if (blockEntityTag.getStringSizeBytes() >
+                panilla.getProtocolConstants().NOT_PROTOCOL_maxBlockEntityTagLengthBytes()) {
             return NbtCheckResult.CRITICAL;
         }
 

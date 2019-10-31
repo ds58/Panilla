@@ -5,7 +5,6 @@ import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 import net.glowstone.util.nbt.CompoundTag;
 import net.glowstone.util.nbt.ListTag;
-import net.glowstone.util.nbt.Tag;
 import net.glowstone.util.nbt.TagType;
 
 import java.util.List;

@@ -54,11 +54,19 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
             IPanillaLogger panillaLogger = panilla.getPanillaLogger();
             PTranslations pTranslations = panilla.getPTranslations();
 
+            String nmsClass = e.getNmsClass();
+            String username = player.getName();
+            String tag = e.getFailedNbt().key;
+
+            final String message;
+
             if (e.isFrom()) {
-                panillaLogger.log(pTranslations.getTranslation("packetFromDropped"), true);
+                message = pTranslations.getTranslation("packetFromDropped", nmsClass, username, tag);
             } else {
-                panillaLogger.log(pTranslations.getTranslation("packetToDropped"), true);
+                message = pTranslations.getTranslation("packetToDropped", nmsClass, username, tag);
             }
+
+            panillaLogger.log(message, true);
 
             return true;
         }
