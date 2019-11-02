@@ -20,10 +20,10 @@ public interface IPanilla {
 
     IPacketInspector getPacketInspector();
 
-    IPacketSerializer getPacketSerializer();
-
     IContainerCleaner getContainerCleaner();
 
     IEnchantments getEnchantments();
+
+    IPacketSerializer createPacketSerializer(Object byteBuf);
 
 }

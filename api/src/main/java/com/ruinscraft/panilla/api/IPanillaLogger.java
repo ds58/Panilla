@@ -2,7 +2,7 @@ package com.ruinscraft.panilla.api;
 
 public interface IPanillaLogger {
 
-    void log(String translationKey, boolean colorize);
+    void log(String message, boolean colorize);
 
     void info(String message, boolean colorize);
 

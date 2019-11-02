@@ -1,6 +1,8 @@
 package com.ruinscraft.panilla.api.io.dplx;
 
 import com.ruinscraft.panilla.api.IPanilla;
+import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -13,15 +15,16 @@ import java.util.zip.Inflater;
 public class PacketDecompressorDplx extends ByteToMessageDecoder {
 
     private final IPanilla panilla;
-
+    private final IPanillaPlayer player;
     private final int minBytes;
     private final int maxBytes;
     private final Inflater inflater;
 
-    public PacketDecompressorDplx(IPanilla panilla, int minBytes, int maxBytes) {
+    public PacketDecompressorDplx(IPanilla panilla, IPanillaPlayer player) {
         this.panilla = panilla;
-        this.minBytes = minBytes;
-        this.maxBytes = maxBytes;
+        this.player = player;
+        this.minBytes = panilla.getProtocolConstants().minPacketSize();
+        this.maxBytes = panilla.getProtocolConstants().maxPacketSize();
         this.inflater = new Inflater();
     }
 
@@ -33,7 +36,7 @@ public class PacketDecompressorDplx extends ByteToMessageDecoder {
             return;
         }
 
-        IPacketSerializer packetSerializer = panilla.getPacketSerializer();
+        IPacketSerializer packetSerializer = panilla.createPacketSerializer(byteBuf);
 
         int packetLength = packetSerializer.readVarInt();
 
@@ -45,9 +48,15 @@ public class PacketDecompressorDplx extends ByteToMessageDecoder {
         // compressed packet
         else if (packetLength > 0) {
             if (packetLength > maxBytes) {
+                PTranslations translations = panilla.getPTranslations();
+                String message = translations.getTranslation("preventedKick", player.getName(), " oversized packet");
+                panilla.getPanillaLogger().log(message, true);
             }
 
             if (packetLength < minBytes) {
+                PTranslations translations = panilla.getPTranslations();
+                String message = translations.getTranslation("preventedKick", player.getName(), " undersized packet");
+                panilla.getPanillaLogger().log(message, true);
             }
 
             byte[] buffer = new byte[packetSerializer.readableBytes()];
@@ -67,7 +76,9 @@ public class PacketDecompressorDplx extends ByteToMessageDecoder {
 
         // a negative length packet? ignore it.
         else {
-
+            PTranslations translations = panilla.getPTranslations();
+            String message = translations.getTranslation("preventedKick", player.getName(), " invalid packet length");
+            panilla.getPanillaLogger().log(message, true);
         }
     }
 

@@ -16,12 +16,12 @@ public class PlayerInjector implements IPlayerInjector {
     }
 
     @Override
-    public String getDecompressorChannelName() {
+    public String getDecompressorHandlerName() {
         return "";  // TODO:
     }
 
     @Override
-    public String getPacketHandlerChannelName() {
+    public String getPacketHandlerName() {
         return "handler";
     }
 

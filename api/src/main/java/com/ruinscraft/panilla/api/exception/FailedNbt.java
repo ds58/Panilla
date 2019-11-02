@@ -5,6 +5,7 @@ import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 public class FailedNbt {
 
     public static FailedNbt NOFAIL = new FailedNbt(null, NbtCheck.NbtCheckResult.PASS);
+
     public final String key;
     public final NbtCheck.NbtCheckResult result;
 

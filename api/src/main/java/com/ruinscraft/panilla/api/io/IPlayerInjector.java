@@ -2,22 +2,22 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.io.dplx.PacketDecompressorDplx;
 import com.ruinscraft.panilla.api.io.dplx.PacketInspectorDplx;
 import io.netty.channel.Channel;
 
 public interface IPlayerInjector {
 
-    String CHANNEL_DECOMPRESSOR_PANILLA = "panilla_decompressor";
-    String CHANNEL_INSPECTOR_PANILLA = "panilla_inspector";
-    String CHANNEL_EXCEPTION_PANILLA = "panilla_exception";
+    String HANDLER_PANILLA_DECOMPRESSOR = "panilla_decompressor";
+    String HANDLER_PANILLA_INSPECTOR = "panilla_inspector";
 
     Channel getPlayerChannel(IPanillaPlayer player);
 
-    default String getDecompressorChannelName() {
+    default String getDecompressorHandlerName() {
         return "decompress";
     }
 
-    default String getPacketHandlerChannelName() {
+    default String getPacketHandlerName() {
         return "packet_handler";
     }
 
@@ -28,27 +28,37 @@ public interface IPlayerInjector {
             return;
         }
 
-        if (pChannel.pipeline().get(getDecompressorChannelName()) != null) {
+        /* Replace Minecraft packet decompressor */
+        if (pChannel.pipeline().get(getDecompressorHandlerName()) != null) {
             /* Inject Panilla decompressor */
-            pChannel.pipeline().addBefore(getDecompressorChannelName(), CHANNEL_DECOMPRESSOR_PANILLA, null);
+            PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
+            pChannel.pipeline().addBefore(getDecompressorHandlerName(), HANDLER_PANILLA_DECOMPRESSOR, packetDecompressor);
             /* Remove Minecraft decompressor */
-            pChannel.pipeline().remove(getDecompressorChannelName());
+            pChannel.pipeline().remove(getDecompressorHandlerName());
         }
 
-        if (pChannel.pipeline().get(getPacketHandlerChannelName()) != null) {
-            PacketInspectorDplx channel = new PacketInspectorDplx(panilla, player);
-            pChannel.pipeline().addBefore(getPacketHandlerChannelName(), CHANNEL_INSPECTOR_PANILLA, channel);
+        /* Inject packet inspector */
+        if (pChannel.pipeline().get(getPacketHandlerName()) != null) {
+            PacketInspectorDplx packetInspector = new PacketInspectorDplx(panilla, player);
+            pChannel.pipeline().addBefore(getPacketHandlerName(), HANDLER_PANILLA_INSPECTOR, packetInspector);
         }
     }
 
     default void unregister(final IPanillaPlayer player) {
         Channel channel = getPlayerChannel(player);
-        if (channel == null) return;
-        if (channel.pipeline().get(CHANNEL_INSPECTOR_PANILLA) != null) {
-            channel.pipeline().remove(CHANNEL_INSPECTOR_PANILLA);
+
+        if (channel == null) {
+            return;
         }
-        if (channel.pipeline().get(CHANNEL_EXCEPTION_PANILLA) != null) {
-            channel.pipeline().remove(CHANNEL_EXCEPTION_PANILLA);
+
+        /* Remove packet decompressor */
+        if (channel.pipeline().get(HANDLER_PANILLA_DECOMPRESSOR) != null) {
+            channel.pipeline().remove(HANDLER_PANILLA_DECOMPRESSOR);
+        }
+
+        /* Remove packet inspector */
+        if (channel.pipeline().get(HANDLER_PANILLA_INSPECTOR) != null) {
+            channel.pipeline().remove(HANDLER_PANILLA_INSPECTOR);
         }
     }
 
