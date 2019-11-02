@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api.io;
+package com.ruinscraft.panilla.api.io.dplx;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaLogger;
@@ -9,12 +9,12 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 
-public class PanillaChannelHandler extends ChannelDuplexHandler {
+public class PacketInspectorDplx extends ChannelDuplexHandler {
 
     private final IPanilla panilla;
     private final IPanillaPlayer player;
 
-    public PanillaChannelHandler(IPanilla panilla, IPanillaPlayer player) {
+    public PacketInspectorDplx(IPanilla panilla, IPanillaPlayer player) {
         this.panilla = panilla;
         this.player = player;
     }

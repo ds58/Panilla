@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api.io;
+package com.ruinscraft.panilla.api.io.dplx;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaLogger;
@@ -7,12 +7,12 @@ import com.ruinscraft.panilla.api.config.PTranslations;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 
-public class PanillaExceptionHandler extends ChannelDuplexHandler {
+public class ExceptionHandlerDplx extends ChannelDuplexHandler {
 
     private final IPanilla panilla;
     private final IPanillaPlayer player;
 
-    public PanillaExceptionHandler(IPanilla panilla, IPanillaPlayer player) {
+    public ExceptionHandlerDplx(IPanilla panilla, IPanillaPlayer player) {
         this.panilla = panilla;
         this.player = player;
     }

@@ -3,6 +3,7 @@ package com.ruinscraft.panilla.api;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
 public interface IPanilla {
@@ -18,6 +19,8 @@ public interface IPanilla {
     IPlayerInjector getPlayerInjector();
 
     IPacketInspector getPacketInspector();
+
+    IPacketSerializer getPacketSerializer();
 
     IContainerCleaner getContainerCleaner();
 
