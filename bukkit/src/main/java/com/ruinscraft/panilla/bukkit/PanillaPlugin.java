@@ -148,6 +148,13 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
                         break imp;
+                    case "v1_15_R1":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.dplx.PacketSerializer.class;
+                        protocolConstants = new DefaultProtocolConstants();
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.ContainerCleaner(this);
+                        break imp;
                 }
             case "GlowServer":
                 if (Bukkit.getVersion().contains("1.12")) {
