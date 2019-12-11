@@ -3,6 +3,7 @@ package com.ruinscraft.panilla.forge112.io;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetworkManager;
 
@@ -24,6 +25,16 @@ public class PlayerInjector implements IPlayerInjector {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public int getCompressionLevel() {
+        return 0;   // TODO:
+    }
+
+    @Override
+    public ByteToMessageDecoder getDecompressor() {
+        return null;   // TODO:
     }
 
 }

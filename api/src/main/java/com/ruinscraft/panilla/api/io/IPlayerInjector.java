@@ -5,12 +5,17 @@ import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.dplx.PacketDecompressorDplx;
 import com.ruinscraft.panilla.api.io.dplx.PacketInspectorDplx;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.ByteToMessageDecoder;
 
 public interface IPlayerInjector {
 
     String HANDLER_PANILLA_INSPECTOR = "panilla_inspector";
 
     Channel getPlayerChannel(IPanillaPlayer player);
+
+    int getCompressionLevel();
+
+    ByteToMessageDecoder getDecompressor();
 
     default String getDecompressorHandlerName() {
         return "decompress";
@@ -28,36 +33,34 @@ public interface IPlayerInjector {
         }
 
         /* Replace Minecraft packet decompressor */
-        if (pChannel.pipeline().get(getDecompressorHandlerName()) != null) {
-            /* Inject Panilla decompressor (Panilla uses the same channel name as the vanilla decompressor) */
+        if (!(pChannel.pipeline().get(getDecompressorHandlerName()) instanceof PacketDecompressorDplx)) {
             PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
-            pChannel.pipeline().addBefore(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
-            /* Remove Minecraft decompressor */
-            pChannel.pipeline().remove(getDecompressorHandlerName());
+            pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
         }
 
         /* Inject packet inspector */
-        if (pChannel.pipeline().get(getPacketHandlerName()) != null) {
+        if (!(pChannel.pipeline().get(getPacketHandlerName()) instanceof PacketInspectorDplx)) {
             PacketInspectorDplx packetInspector = new PacketInspectorDplx(panilla, player);
             pChannel.pipeline().addBefore(getPacketHandlerName(), HANDLER_PANILLA_INSPECTOR, packetInspector);
         }
     }
 
     default void unregister(final IPanillaPlayer player) {
-        Channel channel = getPlayerChannel(player);
+        Channel pChannel = getPlayerChannel(player);
 
-        if (channel == null) {
+        if (pChannel == null) {
             return;
         }
 
-        /* Remove packet decompressor */
-        if (channel.pipeline().get(HANDLER_PANILLA_DECOMPRESSOR) != null) {
-            channel.pipeline().remove(HANDLER_PANILLA_DECOMPRESSOR);
+        /* Replace Panilla packet decompressor with the default */
+        if (pChannel.pipeline().get(getDecompressorHandlerName()) instanceof PacketDecompressorDplx) {
+            ByteToMessageDecoder defaultDecompressor = getDecompressor();
+            pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), defaultDecompressor);
         }
 
         /* Remove packet inspector */
-        if (channel.pipeline().get(HANDLER_PANILLA_INSPECTOR) != null) {
-            channel.pipeline().remove(HANDLER_PANILLA_INSPECTOR);
+        if (pChannel.pipeline().get(HANDLER_PANILLA_INSPECTOR) instanceof PacketInspectorDplx) {
+            pChannel.pipeline().remove(HANDLER_PANILLA_INSPECTOR);
         }
     }
 
