@@ -51,12 +51,6 @@ public class NbtCheck_EntityTag extends NbtCheck {
             return NbtCheckResult.FAIL;
         }
 
-        if (entityTag.hasKey("Size")) {
-            if (entityTag.getInt("Size") > panilla.getProtocolConstants().maxSlimeSize()) {
-                return NbtCheckResult.CRITICAL;
-            }
-        }
-
         if (entityTag.hasKey("ArmorItems")) {
             INbtTagList items = entityTag.getList("ArmorItems", NbtDataType.COMPOUND);
 
@@ -74,6 +68,71 @@ public class NbtCheck_EntityTag extends NbtCheck {
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
+            }
+        }
+
+        boolean hasIdTag = entityTag.hasKey("id");
+
+        if (hasIdTag) {
+            if (panilla.getPConfig().strictness == PStrictness.STRICT) {
+                return NbtCheckResult.FAIL;
+            }
+
+            // check for massive slime spawn eggs
+            if (entityTag.hasKey("Size")) {
+                if (entityTag.getInt("Size") > panilla.getProtocolConstants().maxSlimeSize()) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
+
+            // blow tags are mostly for EntityAreaEffectCloud
+            // see nms.EntityAreaEffectCloud
+            if (entityTag.hasKey("Age")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Duration")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("WaitTime")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("ReapplicationDelay")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("DurationOnUse")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("RadiusOnUse")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("RadiusPerTick")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Radius")) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Particle") && panilla.getPConfig().strictness == PStrictness.STRICT) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Color") && panilla.getPConfig().strictness == PStrictness.STRICT) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Potion") && panilla.getPConfig().strictness == PStrictness.STRICT) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (entityTag.hasKey("Effects")) {
+                return NbtCheckResult.FAIL;
             }
         }
 
