@@ -5,6 +5,8 @@ import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.dplx.PacketDecompressorDplx;
 import com.ruinscraft.panilla.api.io.dplx.PacketInspectorDplx;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 public interface IPlayerInjector {
@@ -33,7 +35,9 @@ public interface IPlayerInjector {
         }
 
         /* Replace Minecraft packet decompressor */
-        if (!(pChannel.pipeline().get(getDecompressorHandlerName()) instanceof PacketDecompressorDplx)) {
+        ChannelHandler defaultChannel = pChannel.pipeline().get(getDecompressorHandlerName());
+
+        if (defaultChannel != null && !(defaultChannel instanceof PacketDecompressorDplx)) {
             PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
             pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
         }
