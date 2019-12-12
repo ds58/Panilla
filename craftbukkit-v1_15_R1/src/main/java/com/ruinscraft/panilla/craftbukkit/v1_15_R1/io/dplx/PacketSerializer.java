@@ -30,7 +30,6 @@ public class PacketSerializer implements IPacketSerializer {
     @Override
     public ByteBuf readBytes(byte[] buffer) {
         return handle.readBytes(buffer);
-
     }
 
 }

@@ -21,7 +21,7 @@ public class PanillaCommand implements CommandExecutor {
     private boolean showInfo(CommandSender sender) {
         String version = panillaPlugin.getDescription().getVersion();
         List<String> authors = panillaPlugin.getDescription().getAuthors();
-        sender.sendMessage(ChatColor.GOLD + "Running Panilla version: " + version + " by " + String.join(", ", authors));
+        sender.sendMessage(ChatColor.GOLD + "Running Panilla version " + version + " by " + String.join(", ", authors));
         return true;
     }
 
