@@ -59,7 +59,7 @@ public interface IProtocolConstants {
     }
 
     default int NOT_PROTOCOL_maxBlockEntityTagLengthBytes() {
-        return 65536 * 2;
+        return 65536 * 4;
     }
 
 }
