@@ -32,7 +32,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound entityTag = tag.getCompound(getName());
 
         if (panilla.getPConfig().strictness == PStrictness.STRICT) {
@@ -54,7 +54,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
         if (entityTag.hasKey("ArmorItems")) {
             INbtTagList items = entityTag.getList("ArmorItems", NbtDataType.COMPOUND);
 
-            FailedNbt failedNbt = checkItems(items, nmsItemClassName, panilla);
+            FailedNbt failedNbt = checkItems(items, itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
@@ -64,7 +64,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
         if (entityTag.hasKey("HandItems")) {
             INbtTagList items = entityTag.getList("HandItems", NbtDataType.COMPOUND);
 
-            FailedNbt failedNbt = checkItems(items, nmsItemClassName, panilla);
+            FailedNbt failedNbt = checkItems(items, itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;

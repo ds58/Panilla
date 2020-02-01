@@ -19,7 +19,7 @@ public class NbtCheck_pages extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
 
         for (int i = 0; i < pages.size(); i++) {

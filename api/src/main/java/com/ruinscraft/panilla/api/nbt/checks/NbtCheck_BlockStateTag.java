@@ -12,7 +12,7 @@ public class NbtCheck_BlockStateTag extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         return NbtCheckResult.FAIL;   // TODO: test variations of BlockStateTag to see what is potentially malicious
     }
 

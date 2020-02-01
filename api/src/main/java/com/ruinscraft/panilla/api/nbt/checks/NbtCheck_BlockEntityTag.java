@@ -13,9 +13,9 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
 
-    private static FailedNbt checkItems(INbtTagList items, String nmsItemClassName, IPanilla panilla) {
+    private static FailedNbt checkItems(INbtTagList items, String itemName, IPanilla panilla) {
         for (int i = 0; i < items.size(); i++) {
-            FailedNbt failedNbt = checkItem(items.getCompound(i), nmsItemClassName, panilla);
+            FailedNbt failedNbt = checkItem(items.getCompound(i), itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt;
@@ -25,9 +25,9 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         return FailedNbt.NOFAIL;
     }
 
-    private static FailedNbt checkItem(INbtTagCompound item, String nmsItemClassName, IPanilla panilla) {
+    private static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
         if (item.hasKey("tag")) {
-            FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, panilla);
+            FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt;
@@ -38,7 +38,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
         int sizeBytes = blockEntityTag.getStringSizeBytes();
@@ -68,17 +68,15 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         if (blockEntityTag.hasKey("Items")) {
             // only ItemShulkerBoxes should have "Items" NBT tag in survival
             if (panilla.getPConfig().strictness == PStrictness.STRICT) {
-                switch (nmsItemClassName) {
-                    case "ItemShulkerBox":
-                        break;
-                    default:
-                        return NbtCheckResult.FAIL;
+                itemName = itemName.toLowerCase();
+
+                if (!(itemName.contains("shulker") || itemName.contains("itemstack") || itemName.contains("itemblock"))) {
+                    return NbtCheckResult.FAIL;
                 }
             }
 
             INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
-
-            FailedNbt failedNbt = checkItems(items, nmsItemClassName, panilla);
+            FailedNbt failedNbt = checkItems(items, itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
@@ -89,7 +87,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         if (blockEntityTag.hasKey("RecordItem")) {
             INbtTagCompound item = blockEntityTag.getCompound("RecordItem");
 
-            FailedNbt failedNbt = checkItem(item, nmsItemClassName, panilla);
+            FailedNbt failedNbt = checkItem(item, itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
