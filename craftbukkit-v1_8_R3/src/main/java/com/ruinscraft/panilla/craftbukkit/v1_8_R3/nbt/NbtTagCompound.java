@@ -3,7 +3,9 @@ package com.ruinscraft.panilla.craftbukkit.v1_8_R3.nbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
+import net.minecraft.server.v1_8_R3.NBTBase;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagList;
 
 import java.util.Set;
 
@@ -53,6 +55,18 @@ public class NbtTagCompound implements INbtTagCompound {
     @Override
     public INbtTagList getList(String key, NbtDataType nbtDataType) {
         return new NbtTagList(handle.getList(key, nbtDataType.id));
+    }
+
+    @Override
+    public INbtTagList getList(String key) {
+        NBTBase base = handle.get(key);
+
+        if (base instanceof NBTTagList) {
+            NBTTagList list = (NBTTagList) base;
+            return getList(key, NbtDataType.fromId(list.getTypeId()));
+        }
+
+        return null;
     }
 
     @Override

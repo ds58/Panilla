@@ -88,6 +88,11 @@ public class NbtTagCompound implements INbtTagCompound {
     }
 
     @Override
+    public INbtTagList getList(String key) {
+        return null;    // TODO:
+    }
+
+    @Override
     public INbtTagCompound getCompound(String key) {
         return new NbtTagCompound(handle.getCompound(key));
     }

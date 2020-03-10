@@ -21,6 +21,8 @@ public interface INbtTagCompound {
 
     INbtTagList getList(String key, NbtDataType nbtDataType);
 
+    INbtTagList getList(String key);
+
     INbtTagCompound getCompound(String key);
 
     default int getStringSizeBytes() {
