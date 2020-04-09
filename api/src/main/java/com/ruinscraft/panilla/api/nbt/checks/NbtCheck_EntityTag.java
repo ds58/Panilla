@@ -48,7 +48,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
             try {
                 panilla.getPacketInspector().validateBaseComponentParse(customName);
             } catch (Exception e) {
-                return NbtCheckResult.FAIL;
+                return NbtCheckResult.CRITICAL;
             }
         }
 
