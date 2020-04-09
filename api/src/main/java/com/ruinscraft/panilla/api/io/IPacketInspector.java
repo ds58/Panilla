@@ -24,6 +24,8 @@ public interface IPacketInspector {
     @Deprecated
     void removeEntityLegacy(int entityId);
 
+    void validateBaseComponentParse(String string) throws Exception;
+
     default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException {
         try {
             checkPacketPlayInSetCreativeSlot(packetHandle);

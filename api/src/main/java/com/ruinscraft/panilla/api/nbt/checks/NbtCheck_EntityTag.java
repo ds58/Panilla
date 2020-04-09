@@ -43,6 +43,19 @@ public class NbtCheck_EntityTag extends NbtCheck {
             }
         }
 
+        if (entityTag.hasKey("CustomName")) {
+            String customName = entityTag.getString("CustomName");
+            try {
+                panilla.getPacketInspector().validateBaseComponentParse(customName);
+            } catch (Exception e) {
+                return NbtCheckResult.FAIL;
+            }
+        }
+
+        if (entityTag.hasKey("ExplosionPower")) {
+            return NbtCheckResult.FAIL;
+        }
+
         if (entityTag.hasKey("Invulnerable")) {
             return NbtCheckResult.FAIL;
         }

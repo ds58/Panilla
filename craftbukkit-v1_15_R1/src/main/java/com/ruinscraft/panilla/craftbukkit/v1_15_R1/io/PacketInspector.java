@@ -136,4 +136,9 @@ public class PacketInspector implements IPacketInspector {
         throw new IllegalStateException("Cannot use #removeEntityLegacy on 1.15");
     }
 
+    @Override
+    public void validateBaseComponentParse(String string) throws Exception {
+        IChatBaseComponent.ChatSerializer.a(string);
+    }
+
 }
