@@ -79,13 +79,13 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void removeEntity(UUID entityId) {
+    public void stripNbtFromItemEntity(UUID entityId) {
         // TODO:
     }
 
     @Override
-    public void removeEntityLegacy(int entityId) {
-        throw new IllegalStateException("Cannot use #removeEntityLegacy on 1.12");
+    public void stripNbtFromItemEntityLegacy(int entityId) {
+        // TODO:
     }
 
     @Override

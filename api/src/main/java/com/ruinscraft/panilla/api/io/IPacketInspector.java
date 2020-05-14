@@ -19,10 +19,9 @@ public interface IPacketInspector {
 
     void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot);
 
-    void removeEntity(UUID entityId);
+    void stripNbtFromItemEntity(UUID entityId);
 
-    @Deprecated
-    void removeEntityLegacy(int entityId);
+    void stripNbtFromItemEntityLegacy(int entityId);
 
     void validateBaseComponentParse(String string) throws Exception;
 
@@ -39,13 +38,14 @@ public interface IPacketInspector {
 
     default void checkPlayOut(Object packetHandle) throws PacketException {
         checkPacketPlayOutSetSlot(packetHandle);
+
         try {
             checkPacketPlayOutSpawnEntity(packetHandle);
         } catch (EntityNbtNotPermittedException e) {
-            removeEntity(e.getEntityId());
+            stripNbtFromItemEntity(e.getEntityId());
             throw e;
         } catch (LegacyEntityNbtNotPermittedException e) {
-            removeEntityLegacy(e.getEntityId());
+            stripNbtFromItemEntityLegacy(e.getEntityId());
             throw e;
         }
     }
