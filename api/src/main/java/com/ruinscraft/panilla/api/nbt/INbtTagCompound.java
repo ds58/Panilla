@@ -1,6 +1,9 @@
 package com.ruinscraft.panilla.api.nbt;
 
+import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
+
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
 import java.util.Set;
 
 public interface INbtTagCompound {
@@ -12,6 +15,19 @@ public interface INbtTagCompound {
     boolean hasKeyOfType(String key, NbtDataType nbtDataType);
 
     Set<String> getKeys();
+
+    default Set<String> getNonMinecraftKeys() {
+        Set<String> defaultKeys = NbtChecks.getChecks().keySet();
+        Set<String> nonMinecraftKeys = new HashSet<>();
+
+        for (String key : getKeys()) {
+            if (!defaultKeys.contains(key)) {
+                nonMinecraftKeys.add(key);
+            }
+        }
+
+        return nonMinecraftKeys;
+    }
 
     int getInt(String key);
 
