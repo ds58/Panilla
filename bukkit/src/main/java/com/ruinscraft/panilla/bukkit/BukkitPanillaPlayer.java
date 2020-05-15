@@ -41,7 +41,7 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
             return false;   // to prevent crash exploits
         }
 
-        boolean inDisabledWorld = panilla.getPConfig().disabledWorlds.equals(getCurrentWorldName());
+        boolean inDisabledWorld = panilla.getPConfig().disabledWorlds.contains(getCurrentWorldName());
 
         return inDisabledWorld || hasPermission(PConfig.PERMISSION_BYPASS);
     }
