@@ -36,16 +36,18 @@ public interface IPacketInspector {
         }
     }
 
-    default void checkPlayOut(Object packetHandle) throws PacketException {
+    default void checkPlayOut(IPanilla panilla, Object packetHandle) throws PacketException {
         checkPacketPlayOutSetSlot(packetHandle);
 
         try {
             checkPacketPlayOutSpawnEntity(packetHandle);
         } catch (EntityNbtNotPermittedException e) {
             stripNbtFromItemEntity(e.getEntityId());
+            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getNmsClass(), e.getFailedNbt().key), true);
             throw e;
         } catch (LegacyEntityNbtNotPermittedException e) {
             stripNbtFromItemEntityLegacy(e.getEntityId());
+            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getNmsClass(), e.getFailedNbt().key), true);
             throw e;
         }
     }
