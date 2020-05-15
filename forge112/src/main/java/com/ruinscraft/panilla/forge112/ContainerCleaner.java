@@ -35,7 +35,11 @@ public class ContainerCleaner implements IContainerCleaner {
             // TODO fix
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getItem().getClass().getSimpleName(), panilla);
 
-            if (FailedNbt.fails(failedNbt)) {
+            if (FailedNbt.failsThreshold(failedNbt)) {
+                container.getSlot(slot).getStack().setTagCompound(null);
+            }
+
+            else if (FailedNbt.fails(failedNbt)) {
                 nmsTag.removeTag(failedNbt.key);
                 container.getSlot(slot).getStack().setTagCompound(nmsTag);
             }

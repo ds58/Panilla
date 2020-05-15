@@ -28,7 +28,7 @@ public class NbtCheck_EntityTag extends NbtCheck {
             }
         }
 
-        return FailedNbt.NOFAIL;
+        return FailedNbt.NO_FAIL;
     }
 
     @Override

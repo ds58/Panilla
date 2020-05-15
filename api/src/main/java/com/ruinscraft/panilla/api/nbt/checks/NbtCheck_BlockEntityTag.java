@@ -22,7 +22,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
-        return FailedNbt.NOFAIL;
+        return FailedNbt.NO_FAIL;
     }
 
     private static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
@@ -34,7 +34,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
-        return FailedNbt.NOFAIL;
+        return FailedNbt.NO_FAIL;
     }
 
     @Override

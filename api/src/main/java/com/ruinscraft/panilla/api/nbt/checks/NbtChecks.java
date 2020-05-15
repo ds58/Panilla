@@ -133,7 +133,7 @@ public final class NbtChecks {
             }
         }
 
-        return FailedNbt.NOFAIL;
+        return FailedNbt.NO_FAIL;
     }
 
 }

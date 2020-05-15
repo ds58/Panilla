@@ -42,7 +42,11 @@ public class ContainerCleaner implements IContainerCleaner {
             // TODO fix
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getClass().getSimpleName(), panilla);
 
-            if (FailedNbt.fails(failedNbt)) {
+            if (FailedNbt.failsThreshold(failedNbt)) {
+                // TODO:
+            }
+
+            else if (FailedNbt.fails(failedNbt)) {
                 ngTag.remove(failedNbt.key);
                 GlowNbtHelper.applyNbt(meta, ngTag);
                 itemStack.setItemMeta(meta);
