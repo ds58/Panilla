@@ -122,7 +122,7 @@ public final class NbtChecks {
                 continue;
             }
 
-            if (check.getTolerance().lvl > panilla.getPConfig().strictness.lvl) {
+            if (check.getTolerance().ordinal() > panilla.getPConfig().strictness.ordinal()) {
                 continue;
             }
 
