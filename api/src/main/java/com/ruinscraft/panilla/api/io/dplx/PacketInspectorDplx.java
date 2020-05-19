@@ -4,9 +4,7 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaLogger;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.config.PTranslations;
-import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
-import com.ruinscraft.panilla.api.exception.LegacyEntityNbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.PacketException;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -52,7 +50,7 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
 
     private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
         if (!player.canBypassChecks(panilla, e)) {
-            panilla.getContainerCleaner().clean(player);
+            panilla.getInventoryCleaner().clean(player);
 
             IPanillaLogger panillaLogger = panilla.getPanillaLogger();
             PTranslations pTranslations = panilla.getPTranslations();

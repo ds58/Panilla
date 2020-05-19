@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.craftbukkit.v1_14_R1.InventoryCleaner;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +26,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
     private IProtocolConstants protocolConstants;
     private IPlayerInjector playerInjector;
     private IPacketInspector packetInspector;
-    private IContainerCleaner containerCleaner;
+    private IInventoryCleaner containerCleaner;
     private IEnchantments enchantments;
 
     @Override
@@ -59,7 +60,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
     }
 
     @Override
-    public IContainerCleaner getContainerCleaner() {
+    public IInventoryCleaner getInventoryCleaner() {
         return containerCleaner;
     }
 
@@ -125,35 +126,35 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
-                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.InventoryCleaner(this);
                         break imp;
                     case "v1_12_R1":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
-                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.InventoryCleaner(this);
                         break imp;
                     case "v1_13_R2":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
-                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.InventoryCleaner(this);
                         break imp;
                     case "v1_14_R1":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
-                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
+                        containerCleaner = new InventoryCleaner(this);
                         break imp;
                     case "v1_15_R1":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PacketInspector(this);
-                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.ContainerCleaner(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.InventoryCleaner(this);
                         break imp;
                 }
             case "GlowServer":
@@ -162,7 +163,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                     protocolConstants = new DefaultProtocolConstants();
                     playerInjector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PlayerInjector();
                     packetInspector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PacketInspector(this);
-                    containerCleaner = new com.ruinscraft.panilla.glowstone.r2018_9_0.ContainerCleaner(this);
+                    containerCleaner = new com.ruinscraft.panilla.glowstone.r2018_9_0.InventoryCleaner(this);
                     break imp;
                 }
             default:

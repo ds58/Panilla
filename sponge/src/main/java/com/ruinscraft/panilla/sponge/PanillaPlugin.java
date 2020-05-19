@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.forge112.InventoryCleaner;
 import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -34,7 +35,7 @@ public class PanillaPlugin implements IPanilla {
     private IProtocolConstants protocolConstants;
     private IPlayerInjector playerInjector;
     private IPacketInspector packetInspector;
-    private IContainerCleaner containerCleaner;
+    private IInventoryCleaner containerCleaner;
     private IEnchantments enchantments;
 
     @Override
@@ -68,7 +69,7 @@ public class PanillaPlugin implements IPanilla {
     }
 
     @Override
-    public IContainerCleaner getContainerCleaner() {
+    public IInventoryCleaner getInventoryCleaner() {
         return containerCleaner;
     }
 
@@ -112,7 +113,7 @@ public class PanillaPlugin implements IPanilla {
                 protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.forge112.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.forge112.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.forge112.ContainerCleaner(this);
+                containerCleaner = new InventoryCleaner(this);
                 break;
             default:
                 logger.severe("Minecraft version " + minecraftVersion.getName() + " is not supported.");

@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.glowstone.r2018_9_0;
 
-import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IInventoryCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
@@ -14,11 +14,11 @@ import net.glowstone.inventory.GlowMetaItem;
 import net.glowstone.util.nbt.CompoundTag;
 import org.bukkit.inventory.ItemStack;
 
-public class ContainerCleaner implements IContainerCleaner {
+public class InventoryCleaner implements IInventoryCleaner {
 
     private IPanilla panilla;
 
-    public ContainerCleaner(IPanilla panilla) {
+    public InventoryCleaner(IPanilla panilla) {
         this.panilla = panilla;
     }
 

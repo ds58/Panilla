@@ -20,7 +20,7 @@ public interface IPanilla {
 
     IPacketInspector getPacketInspector();
 
-    IContainerCleaner getContainerCleaner();
+    IInventoryCleaner getInventoryCleaner();
 
     IEnchantments getEnchantments();
 

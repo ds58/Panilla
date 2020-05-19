@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.craftbukkit.v1_12_R1;
 
-import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IInventoryCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
@@ -16,7 +16,7 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class ContainerCleaner implements IContainerCleaner {
+public class InventoryCleaner implements IInventoryCleaner {
 
     private static boolean is_1_12_2;
 
@@ -31,7 +31,7 @@ public class ContainerCleaner implements IContainerCleaner {
 
     private final IPanilla panilla;
 
-    public ContainerCleaner(IPanilla panilla) {
+    public InventoryCleaner(IPanilla panilla) {
         this.panilla = panilla;
     }
 
