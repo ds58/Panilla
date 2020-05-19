@@ -6,6 +6,8 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
+import java.util.Arrays;
+
 public class NbtCheck_pages extends NbtCheck {
 
     // translations in the game which (intentionally) crash the user
@@ -13,6 +15,19 @@ public class NbtCheck_pages extends NbtCheck {
             "translation.test.invalid",
             "translation.test.invalid2"
     };
+
+    private static final int MINECRAFT_UNICODE_MAX = 65535;
+    private static final short[] EMPTY_CHAR_MAP = new short[MINECRAFT_UNICODE_MAX];
+
+    private static short[] createCharMap(String string) {
+        short[] charMap = Arrays.copyOf(EMPTY_CHAR_MAP, EMPTY_CHAR_MAP.length);
+
+        for (char c : string.toCharArray()) {
+            charMap[c]++;
+        }
+
+        return charMap;
+    }
 
     public NbtCheck_pages() {
         super("pages", PStrictness.LENIENT);
@@ -22,19 +37,33 @@ public class NbtCheck_pages extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
 
+        // iterate through book pages
         for (int i = 0; i < pages.size(); i++) {
             final String page = pages.getString(i);
-            final String noSpaces = page.replace(" ", "");
+            final String pageNoSpaces = page.replace(" ", "");
 
-            if (!noSpaces.startsWith("{\"translate\"")) {
-                continue;
+            // check char map
+            short[] charMap = createCharMap(pageNoSpaces);
+            int uniqueChars = 0;
+
+            for (short count : charMap) {
+                if (count > 0) {
+                    uniqueChars++;
+                }
             }
 
-            for (String crashTranslation : MOJANG_CRASH_TRANSLATIONS) {
-                String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
+            if (uniqueChars > 150) { // temp of 150
+                return NbtCheckResult.CRITICAL; // most likely a "crash" book
+            }
 
-                if (page.equalsIgnoreCase(translationJson)) {
-                    return NbtCheckResult.CRITICAL;
+            // check if contains mojang crash translations
+            if (pageNoSpaces.startsWith("{\"translate\"")) {
+                for (String crashTranslation : MOJANG_CRASH_TRANSLATIONS) {
+                    String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
+
+                    if (page.equals(translationJson)) {
+                        return NbtCheckResult.CRITICAL;
+                    }
                 }
             }
         }
