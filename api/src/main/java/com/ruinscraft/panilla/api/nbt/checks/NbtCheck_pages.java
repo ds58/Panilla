@@ -37,6 +37,10 @@ public class NbtCheck_pages extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
 
+        if (pages.size() > panilla.getProtocolConstants().maxBookPages()) {
+            return NbtCheckResult.CRITICAL; // too many pages
+        }
+
         // iterate through book pages
         for (int i = 0; i < pages.size(); i++) {
             final String page = pages.getString(i);
@@ -52,7 +56,7 @@ public class NbtCheck_pages extends NbtCheck {
                 }
             }
 
-            if (uniqueChars > 150) { // temp of 150
+            if (uniqueChars > 180) { // 180 is a reasonable guess for max characters on a book page. It does depend on character size
                 return NbtCheckResult.CRITICAL; // most likely a "crash" book
             }
 

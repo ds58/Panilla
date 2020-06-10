@@ -144,14 +144,24 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         break imp;
                     case "v1_14_R1":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.dplx.PacketSerializer.class;
-                        protocolConstants = new DefaultProtocolConstants();
+                        protocolConstants = new IProtocolConstants() {
+                            @Override
+                            public int maxBookPages() {
+                                return 100;
+                            }
+                        };
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
                         containerCleaner = new InventoryCleaner(this);
                         break imp;
                     case "v1_15_R1":
                         packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.dplx.PacketSerializer.class;
-                        protocolConstants = new DefaultProtocolConstants();
+                        protocolConstants = new IProtocolConstants() {
+                            @Override
+                            public int maxBookPages() {
+                                return 100;
+                            }
+                        };
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_15_R1.InventoryCleaner(this);
