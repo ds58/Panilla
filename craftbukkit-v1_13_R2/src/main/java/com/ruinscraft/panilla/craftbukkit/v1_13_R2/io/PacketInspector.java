@@ -15,6 +15,7 @@ import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.UUID;
 
 public class PacketInspector implements IPacketInspector {
@@ -66,6 +67,35 @@ public class PacketInspector implements IPacketInspector {
 
                 NbtChecks.checkPacketPlayOut(slot, tag, itemClass, packetClass, panilla);
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void checkPacketPlayOutWindowItems(Object _packet) throws NbtNotPermittedException {
+        if (_packet instanceof PacketPlayOutWindowItems) {
+            PacketPlayOutWindowItems packet = (PacketPlayOutWindowItems) _packet;
+
+            try {
+                Field itemStacksField = PacketPlayOutWindowItems.class.getDeclaredField("b");
+
+                itemStacksField.setAccessible(true);
+
+                List<ItemStack> itemStacks = (List<ItemStack>) itemStacksField.get(packet);
+
+                for (ItemStack itemStack : itemStacks) {
+                    if (itemStack == null || !itemStack.hasTag()) {
+                        continue;
+                    }
+
+                    NbtTagCompound tag = new NbtTagCompound(itemStack.getTag());
+                    String itemClass = itemStack.getClass().getSimpleName();
+                    String packetClass = packet.getClass().getSimpleName();
+
+                    NbtChecks.checkPacketPlayOut(0, tag, itemClass, packetClass, panilla); // TODO: set slot?
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
