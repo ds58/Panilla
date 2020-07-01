@@ -13,8 +13,20 @@ public interface IPacketInspector {
 
     void checkPacketPlayInSetCreativeSlot(Object packetHandle) throws NbtNotPermittedException;
 
+    /**
+     * Checks PacketPlayOutSetSlot
+     * Should optionally return (depending on config) if the window id is not 0
+     * @param packetHandle
+     * @throws NbtNotPermittedException
+     */
     void checkPacketPlayOutSetSlot(Object packetHandle) throws NbtNotPermittedException;
 
+    /**
+     * Checks PacketPlayOutWindowItems
+     * Should return if the window id is not 0 (the player's inventory)
+     * @param packetHandle
+     * @throws NbtNotPermittedException
+     */
     void checkPacketPlayOutWindowItems(Object packetHandle) throws NbtNotPermittedException;
 
     void checkPacketPlayOutSpawnEntity(Object packetHandle) throws EntityNbtNotPermittedException, LegacyEntityNbtNotPermittedException;
