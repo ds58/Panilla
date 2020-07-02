@@ -1,5 +1,9 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
@@ -7,6 +11,8 @@ import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_display extends NbtCheck {
+
+    private static final JsonParser PARSER = new JsonParser();
 
     public NbtCheck_display() {
         super("display", PStrictness.LENIENT);
@@ -17,6 +23,23 @@ public class NbtCheck_display extends NbtCheck {
         INbtTagCompound display = tag.getCompound(getName());
 
         String name = display.getString("Name");
+
+        // check for Json array
+        if (name.startsWith("[{")) {
+            JsonElement jsonElement = PARSER.parse(name);
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+
+            name = createTextFromJsonArray(jsonArray);
+        }
+
+        // check for Json object
+        else if (name.startsWith("{")) {
+            JsonElement jsonElement = PARSER.parse(name);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonArray jsonArray = jsonObject.getAsJsonArray("extra");
+
+            name = createTextFromJsonArray(jsonArray);
+        }
 
         final int maxNameLength;
 
@@ -46,6 +69,16 @@ public class NbtCheck_display extends NbtCheck {
         }
 
         return NbtCheckResult.PASS;
+    }
+
+    private static String createTextFromJsonArray(JsonArray jsonArray) {
+        StringBuilder text = new StringBuilder();
+
+        for (JsonElement jsonElement : jsonArray) {
+            text.append(jsonElement.getAsJsonObject().get("text").getAsString());
+        }
+
+        return text.toString();
     }
 
 }
