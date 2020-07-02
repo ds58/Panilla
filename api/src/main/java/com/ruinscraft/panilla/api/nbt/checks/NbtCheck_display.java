@@ -26,19 +26,27 @@ public class NbtCheck_display extends NbtCheck {
 
         // check for Json array
         if (name.startsWith("[{")) {
-            JsonElement jsonElement = PARSER.parse(name);
-            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            try {
+                JsonElement jsonElement = PARSER.parse(name);
+                JsonArray jsonArray = jsonElement.getAsJsonArray();
 
-            name = createTextFromJsonArray(jsonArray);
+                name = createTextFromJsonArray(jsonArray);
+            } catch (Exception e) {
+                // could not parse Json
+            }
         }
 
         // check for Json object
         else if (name.startsWith("{")) {
-            JsonElement jsonElement = PARSER.parse(name);
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            JsonArray jsonArray = jsonObject.getAsJsonArray("extra");
+            try {
+                JsonElement jsonElement = PARSER.parse(name);
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                JsonArray jsonArray = jsonObject.getAsJsonArray("extra");
 
-            name = createTextFromJsonArray(jsonArray);
+                name = createTextFromJsonArray(jsonArray);
+            } catch (Exception e) {
+                // could not parse Json
+            }
         }
 
         final int maxNameLength;
