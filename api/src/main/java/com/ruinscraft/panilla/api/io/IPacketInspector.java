@@ -36,13 +36,16 @@ public interface IPacketInspector {
 
     void validateBaseComponentParse(String string) throws Exception;
 
-    default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException {
+    default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException, RateLimitException {
         for (PacketRateLimiter limiter : player.getRateLimiters()) {
+            if (!limiter.getPacketClassName().equals(packetHandle.getClass().getSimpleName())) {
+                continue;
+            }
+
             try {
-                limiter.checkRateLimit(packetHandle);
+                limiter.checkRateLimit();
             } catch (RateLimitException e) {
-                player.kick("You have been kicked for spamming packets.");
-                return;
+                throw e;
             }
         }
 

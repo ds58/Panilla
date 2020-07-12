@@ -56,8 +56,8 @@ public class SpongePanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public void kick(String message) {
-        handle.kick(Text.of(message));
+    public void sendMessage(String message) {
+        // TODO:
     }
 
 }

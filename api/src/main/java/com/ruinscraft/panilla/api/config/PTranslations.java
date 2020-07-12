@@ -36,7 +36,7 @@ public class PTranslations {
         return languageKey;
     }
 
-    public String getTranslation(String key, String... replacements) {
+    public String getTranslation(String key, Object... replacements) {
         String unformatted = translations.get(key);
         if (unformatted == null) {
             return "unknown translation: " + key;

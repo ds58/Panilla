@@ -1,6 +1,5 @@
 package com.ruinscraft.panilla.api.io;
 
-import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.exception.RateLimitException;
 
 import java.util.LinkedList;
@@ -8,36 +7,56 @@ import java.util.Queue;
 
 public class PacketRateLimiter {
 
-    private final IPanilla panilla;
+    private static final int MAX_LOG_SIZE = 10;
+
     private final String packetClassName;
     private final int ppsLimit;
 
-    private Queue<Long> pLog;
+    private Queue<Long> ppsLog;
 
-    public PacketRateLimiter(IPanilla panilla, String packetClassName, int ppsLimit) {
-        this.panilla = panilla;
+    private long lastPacketTime;
+    private long ppsAverage;
+
+    public PacketRateLimiter(String packetClassName, int ppsLimit) {
         this.packetClassName = packetClassName;
         this.ppsLimit = ppsLimit;
 
-        pLog = new LinkedList<>();
+        ppsLog = new LinkedList<>();
     }
 
-    public void checkRateLimit(Object packetHandle) throws RateLimitException {
-        if (!packetHandle.getClass().getName().equals(packetClassName)) {
-            return;
-        }
-
-        int currentPPS = calculatePPS();
-
-        if (currentPPS > ppsLimit) {
-            throw new RateLimitException();
-        }
+    public String getPacketClassName() {
+        return packetClassName;
     }
 
-    private int calculatePPS() {
+    public long getAveragePPS() {
+        return ppsAverage;
+    }
 
+    public void checkRateLimit() throws RateLimitException {
+        final long now = System.currentTimeMillis();
+        final long lastPacketTime = this.lastPacketTime;
 
-        return 0;
+        if (lastPacketTime != 0 && ppsLog.size() > 2) {
+            final long oldest;
+
+            if (ppsLog.size() >= MAX_LOG_SIZE) {
+                oldest = ppsLog.remove();
+            } else {
+                oldest = ppsLog.peek();
+            }
+
+            long pps = 1000 / ((now - oldest) / ppsLog.size());
+
+            ppsAverage = pps;
+        }
+
+        this.lastPacketTime = now;
+
+        ppsLog.add(now);
+
+        if (ppsAverage > ppsLimit) {
+            throw new RateLimitException(packetClassName, ppsAverage);
+        }
     }
 
 }

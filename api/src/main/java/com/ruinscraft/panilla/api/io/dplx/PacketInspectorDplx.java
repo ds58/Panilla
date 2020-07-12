@@ -6,6 +6,7 @@ import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.exception.PacketException;
+import com.ruinscraft.panilla.api.exception.RateLimitException;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
@@ -29,6 +30,9 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
             if (handlePacketException(player, e)) {
                 return;
             }
+        } catch (RateLimitException e) {
+            handleRateLimitException(player, e);
+            return;
         }
 
         super.channelRead(ctx, msg);
@@ -79,6 +83,14 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
         }
 
         return false;
+    }
+
+    private void handleRateLimitException(IPanillaPlayer player, RateLimitException e) {
+        IPanillaLogger panillaLogger = panilla.getPanillaLogger();
+        PTranslations pTranslations = panilla.getPTranslations();
+        String message = pTranslations.getTranslation("packetRateLimitExceeded", e.getPacketClassName(), e.getPPS(), player.getName());
+
+        panillaLogger.log(message, true);
     }
 
 }

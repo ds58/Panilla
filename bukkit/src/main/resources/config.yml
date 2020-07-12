@@ -36,6 +36,9 @@ prevent-fawe-brush-nbt: false
 # This may also marginally improve performance
 ignore-non-player-inventories: false
 
+# This will prevent clients spamming Creative Set Slot packets
+enable-creative-set-slot-packet-rate-limiter: true
+
 # Whitelist NBT tags from being checked
 # Keep in mind some NBT tags vary between Minecraft versions
 #     (eg: ench on 1.12 vs Enchantments on 1.13)

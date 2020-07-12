@@ -19,7 +19,10 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
 
     public BukkitPanillaPlayer(Player handle) {
         this.handle = handle;
+
         packetRateLimiters = new HashSet<>();
+
+        packetRateLimiters.add(new PacketRateLimiter("PacketPlayInSetCreativeSlot", 15));
     }
 
     @Override
@@ -59,8 +62,8 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public void kick(String message) {
-        handle.kickPlayer(message);
+    public void sendMessage(String message) {
+        handle.sendMessage(message);
     }
 
 }

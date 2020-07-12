@@ -19,6 +19,6 @@ public interface IPanillaPlayer {
 
     Set<PacketRateLimiter> getRateLimiters();
 
-    void kick(String message);
+    void sendMessage(String message);
 
 }
