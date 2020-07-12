@@ -2,10 +2,7 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
-import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.LegacyEntityNbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.PacketException;
+import com.ruinscraft.panilla.api.exception.*;
 
 import java.util.UUID;
 
@@ -40,6 +37,15 @@ public interface IPacketInspector {
     void validateBaseComponentParse(String string) throws Exception;
 
     default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException {
+        for (PacketRateLimiter limiter : player.getRateLimiters()) {
+            try {
+                limiter.checkRateLimit(packetHandle);
+            } catch (RateLimitException e) {
+                player.kick("You have been kicked for spamming packets.");
+                return;
+            }
+        }
+
         try {
             checkPacketPlayInSetCreativeSlot(packetHandle);
         } catch (NbtNotPermittedException e) {
