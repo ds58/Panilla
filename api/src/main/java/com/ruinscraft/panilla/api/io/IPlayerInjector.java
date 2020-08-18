@@ -55,14 +55,14 @@ public interface IPlayerInjector {
     default void unregister(final IPanillaPlayer player) {
         Channel pChannel = getPlayerChannel(player);
 
-        if (pChannel == null) {
+        if (pChannel == null || !pChannel.isRegistered()) {
             return;
         }
 
         /* Replace Panilla packet decompressor with the default */
         ChannelHandler panillaDecompressor = pChannel.pipeline().get(getDecompressorHandlerName());
 
-        if (panillaDecompressor != null && panillaDecompressor instanceof PacketDecompressorDplx) {
+        if (panillaDecompressor instanceof PacketDecompressorDplx) {
             ByteToMessageDecoder minecraftDecompressor = getDecompressor();
 
             try {
@@ -75,7 +75,7 @@ public interface IPlayerInjector {
         /* Remove packet inspector */
         ChannelHandler panillaHandler = pChannel.pipeline().get(HANDLER_PANILLA_INSPECTOR);
 
-        if (panillaHandler != null && panillaHandler instanceof PacketInspectorDplx) {
+        if (panillaHandler instanceof PacketInspectorDplx) {
             try {
                 pChannel.pipeline().remove(panillaHandler);
             } catch (NoSuchElementException e) {
