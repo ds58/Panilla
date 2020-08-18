@@ -19,6 +19,10 @@ public class NbtCheck_pages extends NbtCheck {
     private static final int MINECRAFT_UNICODE_MAX = 65535;
     private static final short[] EMPTY_CHAR_MAP = new short[MINECRAFT_UNICODE_MAX];
 
+    public NbtCheck_pages() {
+        super("pages", PStrictness.LENIENT);
+    }
+
     private static short[] createCharMap(String string) {
         short[] charMap = Arrays.copyOf(EMPTY_CHAR_MAP, EMPTY_CHAR_MAP.length);
 
@@ -27,10 +31,6 @@ public class NbtCheck_pages extends NbtCheck {
         }
 
         return charMap;
-    }
-
-    public NbtCheck_pages() {
-        super("pages", PStrictness.LENIENT);
     }
 
     @Override

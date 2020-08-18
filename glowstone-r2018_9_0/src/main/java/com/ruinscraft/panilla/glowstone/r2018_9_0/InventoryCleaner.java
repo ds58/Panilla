@@ -44,9 +44,7 @@ public class InventoryCleaner implements IInventoryCleaner {
 
             if (FailedNbt.failsThreshold(failedNbt)) {
                 // TODO:
-            }
-
-            else if (FailedNbt.fails(failedNbt)) {
+            } else if (FailedNbt.fails(failedNbt)) {
                 ngTag.remove(failedNbt.key);
                 GlowNbtHelper.applyNbt(meta, ngTag);
                 itemStack.setItemMeta(meta);

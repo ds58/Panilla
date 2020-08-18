@@ -37,9 +37,7 @@ public class InventoryCleaner implements IInventoryCleaner {
 
             if (FailedNbt.failsThreshold(failedNbt)) {
                 container.getSlot(slot).getStack().setTagCompound(null);
-            }
-
-            else if (FailedNbt.fails(failedNbt)) {
+            } else if (FailedNbt.fails(failedNbt)) {
                 nmsTag.removeTag(failedNbt.key);
                 container.getSlot(slot).getStack().setTagCompound(nmsTag);
             }

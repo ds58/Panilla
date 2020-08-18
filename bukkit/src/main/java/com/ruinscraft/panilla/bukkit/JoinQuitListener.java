@@ -10,8 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class JoinQuitListener implements Listener {
 
-    private JavaPlugin panillaPlugin;
     private final IPanilla panilla;
+    private JavaPlugin panillaPlugin;
 
     public JoinQuitListener(JavaPlugin panillaPlugin, IPanilla panilla) {
         this.panillaPlugin = panillaPlugin;
@@ -21,7 +21,6 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         IPanillaPlayer pplayer = new BukkitPanillaPlayer(event.getPlayer());
-
         panillaPlugin.getServer().getScheduler().runTaskLater(panillaPlugin, () -> {
             panilla.getPlayerInjector().register(panilla, pplayer);
         }, 20L);
