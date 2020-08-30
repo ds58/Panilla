@@ -43,7 +43,7 @@ public enum EnchantmentCompat {
     QUICK_CHARGE("minecraft:quick_charge", "", -1),
 
     // 1.16
-    SOUL_SPEED("minecraft.soul_speed", "", -1);
+    SOUL_SPEED("minecraft:soul_speed", "", -1);
 
     public final String namedKey;
     public final String legacyName;
