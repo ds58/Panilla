@@ -205,8 +205,9 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                 return;
         }
 
-        /* Register listener */
+        /* Register listeners */
         getServer().getPluginManager().registerEvents(new JoinQuitListener(this, this), this);
+        getServer().getPluginManager().registerEvents(new TileLootTableListener(), this);
 
         /* Register command */
         getCommand("panilla").setExecutor(new PanillaCommand(this));

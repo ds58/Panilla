@@ -49,6 +49,25 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             return NbtCheckResult.CRITICAL;
         }
 
+        if (blockEntityTag.hasKey("LootTable")) {
+            String lootTable = blockEntityTag.getString("LootTable");
+
+            if (lootTable.contains(":")) {
+                String[] keySplit = lootTable.split(":");
+
+                if (keySplit.length < 2) {
+                    return NbtCheckResult.CRITICAL;
+                }
+
+                String namespace = keySplit[0];
+                String key = keySplit[1];
+
+                if (namespace.isEmpty() || key.isEmpty()) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
+        }
+
         if (panilla.getPConfig().strictness == PStrictness.STRICT) {
             // locked chests
             if (blockEntityTag.hasKey("Lock")) {
