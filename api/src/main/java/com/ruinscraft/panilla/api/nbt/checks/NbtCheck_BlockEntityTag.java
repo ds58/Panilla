@@ -13,7 +13,13 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
 
-    private static FailedNbt checkItems(INbtTagList items, String itemName, IPanilla panilla) {
+    private FailedNbt checkItems(INbtTagList items, String itemName, IPanilla panilla) {
+        int charCount = NbtCheck_pages.getCharCountForItems(items);
+
+        if (charCount > 100_000) {
+            return new FailedNbt(getName(), NbtCheck.NbtCheckResult.CRITICAL);
+        }
+
         for (int i = 0; i < items.size(); i++) {
             FailedNbt failedNbt = checkItem(items.getCompound(i), itemName, panilla);
 
@@ -25,7 +31,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         return FailedNbt.NO_FAIL;
     }
 
-    private static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
+    private FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
         if (item.hasKey("tag")) {
             FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
 
@@ -86,12 +92,17 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         // tiles with items/containers (chests, hoppers, shulkerboxes, etc)
         if (blockEntityTag.hasKey("Items")) {
             // only ItemShulkerBoxes should have "Items" NBT tag in survival
-            if (panilla.getPConfig().strictness == PStrictness.STRICT) {
-                itemName = itemName.toLowerCase();
+            itemName = itemName.toLowerCase();
 
+            if (panilla.getPConfig().strictness == PStrictness.STRICT) {
                 if (!(itemName.contains("shulker") || itemName.contains("itemstack") || itemName.contains("itemblock"))) {
                     return NbtCheckResult.FAIL;
                 }
+            }
+
+            // Campfires should not have BlockEntityTag
+            if (itemName.contains("campfire")) {
+                return NbtCheckResult.FAIL;
             }
 
             INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
