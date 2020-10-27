@@ -20,12 +20,18 @@ public interface IPlayerInjector {
 
     ByteToMessageDecoder getDecompressor();
 
+    ByteToMessageDecoder getDecoder();
+
     default String getDecompressorHandlerName() {
         return "decompress";
     }
 
     default String getPacketHandlerName() {
         return "packet_handler";
+    }
+
+    default String getDecoderName() {
+        return "decoder";
     }
 
     default void register(IPanilla panilla, IPanillaPlayer player) {
@@ -43,6 +49,14 @@ public interface IPlayerInjector {
             pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
         }
 
+        /* Replace Minecraft decoder */
+        ChannelHandler minecraftDecoder = pChannel.pipeline().get(getDecoderName());
+
+        if (minecraftDecoder != null) {
+            ByteToMessageDecoder decoder = getDecoder();
+            pChannel.pipeline().replace(getDecoderName(), getDecoderName(), decoder);
+        }
+
         /* Inject packet inspector */
         ChannelHandler minecraftHandler = pChannel.pipeline().get(getPacketHandlerName());
 
@@ -50,6 +64,8 @@ public interface IPlayerInjector {
             PacketInspectorDplx packetInspector = new PacketInspectorDplx(panilla, player);
             pChannel.pipeline().addBefore(getPacketHandlerName(), HANDLER_PANILLA_INSPECTOR, packetInspector);
         }
+
+        System.out.println(pChannel.pipeline().names());
     }
 
     default void unregister(final IPanillaPlayer player) {

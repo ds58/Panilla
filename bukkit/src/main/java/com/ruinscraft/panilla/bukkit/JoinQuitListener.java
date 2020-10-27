@@ -4,6 +4,7 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,11 +20,13 @@ public class JoinQuitListener implements Listener {
     }
 
     @EventHandler
+    public void onPreJoin(AsyncPlayerPreLoginEvent event) {
+    }
+
+    @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         IPanillaPlayer pplayer = new BukkitPanillaPlayer(event.getPlayer());
-        panillaPlugin.getServer().getScheduler().runTaskLater(panillaPlugin, () -> {
-            panilla.getPlayerInjector().register(panilla, pplayer);
-        }, 20L);
+        panilla.getPlayerInjector().register(panilla, pplayer);
     }
 
     @EventHandler

@@ -2,12 +2,14 @@ package com.ruinscraft.panilla.craftbukkit.v1_12_R1.io;
 
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.MinecraftServer;
-import net.minecraft.server.v1_12_R1.PacketDecompressor;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+
+import java.util.List;
 
 public class PlayerInjector implements IPlayerInjector {
 
@@ -26,6 +28,26 @@ public class PlayerInjector implements IPlayerInjector {
     @Override
     public ByteToMessageDecoder getDecompressor() {
         return new PacketDecompressor(getCompressionLevel());
+    }
+
+    @Override
+    public ByteToMessageDecoder getDecoder() {
+        return new PanillaPacketDecoder(EnumProtocolDirection.SERVERBOUND);
+    }
+
+    private class PanillaPacketDecoder extends PacketDecoder {
+        public PanillaPacketDecoder(EnumProtocolDirection enumProtocolDirection) {
+            super(enumProtocolDirection);
+        }
+
+        @Override
+        protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
+            try {
+                super.decode(channelHandlerContext, byteBuf, list);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
