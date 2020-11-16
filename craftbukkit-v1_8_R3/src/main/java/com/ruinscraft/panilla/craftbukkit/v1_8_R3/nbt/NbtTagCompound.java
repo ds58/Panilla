@@ -63,7 +63,7 @@ public class NbtTagCompound implements INbtTagCompound {
 
         if (base instanceof NBTTagList) {
             NBTTagList list = (NBTTagList) base;
-            return getList(key, NbtDataType.fromId(list.getTypeId()));
+            return new NbtTagList(list);
         }
 
         return null;
