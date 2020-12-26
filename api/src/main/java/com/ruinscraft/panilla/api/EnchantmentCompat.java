@@ -27,7 +27,7 @@ public enum EnchantmentCompat {
     PROJECTILE_PROTECTION("minecraft:projectile_protection", "PROTECTION_PROJECTILE", 4),
     PROTECTION("minecraft:protection", "PROTECTION_ENVIRONMENTAL", 0),
     PUNCH("minecraft:punch", "ARROW_KNOCKBACK", 49),
-    RESPIRATION("minecraft_respiration", "OXYGEN", 5),
+    RESPIRATION("minecraft:respiration", "OXYGEN", 5),
     RIPTIDE("minecraft:riptide", "", 67), // 1.13
     SHARPNESS("minecraft:sharpness", "DAMAGE_ALL", 16),
     SILK_TOUCH("minecraft:silk_touch", "SILK_TOUCH", 33),
