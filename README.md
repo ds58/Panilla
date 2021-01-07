@@ -40,6 +40,16 @@ Currently Panilla supports:
 If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
 
 ## Compiling
-In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla.
+In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla. For Pavilla v1.16.2:
+- 1.8.8
+- 1.12.2
+- 1.13.2
+- 1.14.4
+- 1.15
+- 1.16.1
+- 1.16.2
+- 1.16.4
+
 When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
+
 From there, you can compile the project with `./gradlew build`. The output plugin jars file will located in the `target/` directory.
