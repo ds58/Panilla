@@ -58,6 +58,12 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         if (blockEntityTag.hasKey("LootTable")) {
             String lootTable = blockEntityTag.getString("LootTable");
 
+            lootTable = lootTable.trim();
+
+            if (lootTable.isEmpty()) {
+                return NbtCheckResult.CRITICAL;
+            }
+
             if (lootTable.contains(":")) {
                 String[] keySplit = lootTable.split(":");
 

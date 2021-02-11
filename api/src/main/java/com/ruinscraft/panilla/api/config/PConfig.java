@@ -1,7 +1,9 @@
 package com.ruinscraft.panilla.api.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class PConfig {
 
@@ -19,5 +21,7 @@ public abstract class PConfig {
     public List<String> nbtWhitelist = new ArrayList<>();
     public List<String> disabledWorlds = new ArrayList<>();
     public int maxNonMinecraftNbtKeys = 16;
+    public boolean overrideMinecraftMaxEnchantmentLevels = false;
+    public Map<String, Integer> minecraftMaxEnchantmentLevelOverrides = new HashMap<>();
 
 }

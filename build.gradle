@@ -1,6 +1,6 @@
 allprojects {
     group = 'com.ruinscraft'
-    version = '1.6.1-noblockentitytag'
+    version = '1.6.3-noblockentitytag'
 }
 
 subprojects {
