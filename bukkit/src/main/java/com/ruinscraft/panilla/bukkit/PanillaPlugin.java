@@ -85,6 +85,11 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         return null;
     }
 
+    @Override
+    public void exec(Runnable runnable) {
+        getServer().getScheduler().runTask(this, runnable);
+    }
+
     private synchronized void loadConfig() {
         saveDefaultConfig();
 
