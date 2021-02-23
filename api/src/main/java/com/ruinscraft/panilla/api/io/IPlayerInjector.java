@@ -8,6 +8,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 public interface IPlayerInjector {
@@ -34,7 +35,7 @@ public interface IPlayerInjector {
         return "decoder";
     }
 
-    default void register(IPanilla panilla, IPanillaPlayer player) {
+    default void register(IPanilla panilla, IPanillaPlayer player) throws IOException {
         Channel pChannel = getPlayerChannel(player);
 
         if (pChannel == null || !pChannel.isRegistered()) {
@@ -66,7 +67,7 @@ public interface IPlayerInjector {
         }
     }
 
-    default void unregister(final IPanillaPlayer player) {
+    default void unregister(final IPanillaPlayer player) throws IOException {
         Channel pChannel = getPlayerChannel(player);
 
         if (pChannel == null || !pChannel.isRegistered()) {
