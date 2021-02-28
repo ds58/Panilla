@@ -50,13 +50,13 @@ public interface IPlayerInjector {
             pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
         }
 
-        /* Replace Minecraft decoder */
-        ChannelHandler minecraftDecoder = pChannel.pipeline().get(getDecoderName());
-
-        if (minecraftDecoder != null) {
-            ByteToMessageDecoder decoder = getDecoder();
-            pChannel.pipeline().replace(getDecoderName(), getDecoderName(), decoder);
-        }
+//        /* Replace Minecraft decoder */
+//        ChannelHandler minecraftDecoder = pChannel.pipeline().get(getDecoderName());
+//
+//        if (minecraftDecoder != null) {
+//            ByteToMessageDecoder decoder = getDecoder();
+//            pChannel.pipeline().replace(getDecoderName(), getDecoderName(), decoder);
+//        }
 
         /* Inject packet inspector */
         ChannelHandler minecraftHandler = pChannel.pipeline().get(getPacketHandlerName());
