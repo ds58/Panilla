@@ -9,6 +9,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+
 public class JoinQuitListener implements Listener {
 
     private final IPanilla panilla;
@@ -26,13 +28,21 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         IPanillaPlayer pplayer = new BukkitPanillaPlayer(event.getPlayer());
-        panilla.getPlayerInjector().register(panilla, pplayer);
+        try {
+            panilla.getPlayerInjector().register(panilla, pplayer);
+        } catch (IOException e) {
+            // Ignore
+        }
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         IPanillaPlayer pplayer = new BukkitPanillaPlayer(event.getPlayer());
-        panilla.getPlayerInjector().unregister(pplayer);
+        try {
+            panilla.getPlayerInjector().unregister(pplayer);
+        } catch (IOException e) {
+            // Ignore
+        }
     }
 
 }

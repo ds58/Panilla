@@ -83,6 +83,11 @@ public class PanillaPlugin implements IPanilla {
         return null;    // TODO: implement
     }
 
+    @Override
+    public void exec(Runnable runnable) {
+        // TODO:
+    }
+
     private synchronized void loadConfig() {
         // TODO: how do config files work on Sponge?
     }
@@ -135,20 +140,32 @@ public class PanillaPlugin implements IPanilla {
     @Listener
     public void onServerStopping(GameStoppingServerEvent event) {
         for (Player player : Sponge.getGame().getServer().getOnlinePlayers()) {
-            playerInjector.unregister(new SpongePanillaPlayer(player));
+            try {
+                playerInjector.unregister(new SpongePanillaPlayer(player));
+            } catch (IOException e) {
+                // Ignore
+            }
         }
     }
 
     @Listener
     public void onClientConnectionJoin(ClientConnectionEvent.Join event) {
         Player player = event.getTargetEntity();
-        playerInjector.register(this, new SpongePanillaPlayer(player));
+        try {
+            playerInjector.register(this, new SpongePanillaPlayer(player));
+        } catch (IOException e) {
+            // Ignore
+        }
     }
 
     @Listener
     public void onClientConnectionDisconnect(ClientConnectionEvent.Disconnect event) {
         Player player = event.getTargetEntity();
-        playerInjector.unregister(new SpongePanillaPlayer(player));
+        try {
+            playerInjector.unregister(new SpongePanillaPlayer(player));
+        } catch (IOException e) {
+            // Ignore
+        }
     }
 
 }

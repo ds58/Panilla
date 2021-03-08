@@ -43,6 +43,10 @@ public class TileLootTableListener implements Listener {
 
     @EventHandler
     public void onDispense(BlockDispenseEvent event) {
+        if (!checkForLootable) {
+            return;
+        }
+
         ItemStack itemStack = event.getItem();
 
         if (itemStack.getItemMeta() instanceof BlockStateMeta) {

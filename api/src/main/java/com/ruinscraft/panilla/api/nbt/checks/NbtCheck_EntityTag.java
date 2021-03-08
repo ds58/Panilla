@@ -64,6 +64,10 @@ public class NbtCheck_EntityTag extends NbtCheck {
             return NbtCheckResult.FAIL;
         }
 
+        if (entityTag.hasKey("power")) {
+            return NbtCheckResult.FAIL;
+        }
+
         if (entityTag.hasKey("ArmorItems")) {
             INbtTagList items = entityTag.getList("ArmorItems", NbtDataType.COMPOUND);
 
