@@ -9,7 +9,7 @@ public enum EnchantmentCompat {
     CHANNELING("minecraft:channeling", "", 68), // 1.13
     DEPTH_STRIDER("minecraft:depth_strider", "DEPTH_STRIDER", 8),
     EFFICIENCY("minecraft:efficiency", "DIG_SPEED", 32),
-    FEATHER_FALLING("minecraft:falling", "PROTECTION_FALL", 2),
+    FEATHER_FALLING("minecraft:feather_falling", "PROTECTION_FALL", 2),
     FIRE_ASPECT("minecraft:fire_aspect", "FIRE_ASPECT", 20),
     FIRE_PROTECTION("minecraft:fire_protection", "PROTECTION_FIRE", 1),
     FLAME("minecraft:flame", "ARROW_FIRE", 50),
