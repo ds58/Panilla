@@ -31,11 +31,8 @@ Currently Panilla supports:
   - CraftBukkit* 1.14.x
   - CraftBukkit* 1.15.x
   - CraftBukkit* 1.16.x
-  - Glowstone 1.12.2 / 2018_9_0 (work in progress)
   
   **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
-- Sponge
-  - Forge 1.12.2 (work in progress)
 
 If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
 

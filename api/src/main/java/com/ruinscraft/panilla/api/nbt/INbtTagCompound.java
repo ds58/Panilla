@@ -35,6 +35,8 @@ public interface INbtTagCompound {
 
     String getString(String key);
 
+    int[] getIntArray(String key);
+
     INbtTagList getList(String key, NbtDataType nbtDataType);
 
     INbtTagList getList(String key);
