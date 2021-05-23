@@ -15,37 +15,57 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
     private static final Pattern URL_MATCHER = Pattern.compile("url");
 
+    private static UUID minecraftSerializableUuid(final int[] ints) {
+        return new UUID((long) ints[0] << 32 | ((long) ints[1] & 0xFFFFFFFFL), (long) ints[2] << 32 | ((long) ints[3] & 0xFFFFFFFFL));
+    }
+
     public NbtCheck_SkullOwner() {
         super("SkullOwner", PStrictness.LENIENT);
     }
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
+        INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
+
+        if (skullOwner.hasKey("Name")) {
+            String name = skullOwner.getString("Name");
+
+            if (name.length() > 16) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
+        if (skullOwner.hasKey("UUID")) {
+            String uuidString = skullOwner.getString("UUID");
+
+            try {
+                // Ensure valid UUID
+                UUID.fromString(uuidString);
+            } catch (Exception e) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
+        if (skullOwner.hasKeyOfType("Id", NbtDataType.STRING)) {
+            String uuidString = skullOwner.getString("Id");
+
+            try {
+                // Ensure valid UUID
+                UUID.fromString(uuidString);
+            } catch (Exception e) {
+                return NbtCheckResult.CRITICAL;
+            }
+        } else if (skullOwner.hasKeyOfType("Id", NbtDataType.INT_ARRAY)) {
+            int[] ints = skullOwner.getIntArray("Id");
+
+            try {
+                UUID check = minecraftSerializableUuid(ints);
+            } catch (Exception e) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
         if (panilla.getPConfig().preventMinecraftEducationSkulls) {
-            INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
-
-            if (skullOwner.hasKey("Id")) {
-                String idString = skullOwner.getString("Id");
-
-                try {
-                    // Ensure valid UUID
-                    UUID.fromString(idString);
-                } catch (Exception e) {
-                    return NbtCheckResult.CRITICAL;
-                }
-            }
-
-            if (skullOwner.hasKey("UUID")) {
-                String uuidString = skullOwner.getString("UUID");
-
-                try {
-                    // Ensure valid UUID
-                    UUID.fromString(uuidString);
-                } catch (Exception e) {
-                    return NbtCheckResult.CRITICAL;
-                }
-            }
-
             if (skullOwner.hasKey("Properties")) {
                 INbtTagCompound properties = skullOwner.getCompound("Properties");
 

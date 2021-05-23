@@ -220,15 +220,6 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_16_R3.InventoryCleaner(this);
                         break imp;
                 }
-            case "GlowServer":
-                if (Bukkit.getVersion().contains("1.12")) {
-                    packetSerializerClass = com.ruinscraft.panilla.glowstone.r2018_9_0.io.dplx.PacketSerializer.class;
-                    protocolConstants = new DefaultProtocolConstants();
-                    playerInjector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PlayerInjector();
-                    packetInspector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PacketInspector(this);
-                    containerCleaner = new com.ruinscraft.panilla.glowstone.r2018_9_0.InventoryCleaner(this);
-                    break imp;
-                }
             default:
                 getLogger().warning("Unknown server implementation. " + Bukkit.getVersion() + " may not be supported by Panilla.");
                 return;
