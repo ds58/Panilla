@@ -30,7 +30,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
         if (skullOwner.hasKey("Name")) {
             String name = skullOwner.getString("Name");
 
-            if (name.length() > 16) {
+            if (name.length() > 64) {
                 return NbtCheckResult.CRITICAL;
             }
         }
