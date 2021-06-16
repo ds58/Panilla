@@ -14,17 +14,18 @@ dependencies {
 
 buildscript {
     repositories {
-        jcenter()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+        classpath 'gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0'
     }
 }
 
 processResources {
-    from('src/main/resources') {
-        include 'plugin.yml'
-        expand(version: project.parent.version)
+    filesMatching('**plugin.yml') {
+        expand(
+            'version': project.parent.version
+        )
     }
 }
 
