@@ -49,6 +49,9 @@ public interface IProtocolConstants {
     }
 
     /* Not protocol -- Reasonable values/assumptions */
+    default int NOT_PROTOCOL_maxEntityTagCustomNameLength() {
+        return 64;
+    }
 
     default int NOT_PROTOCOL_maxItemNameLength() {
         return 128;
