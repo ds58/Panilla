@@ -27,3 +27,6 @@ project(':panilla-craftbukkit-v1_16_R1').projectDir = file('craftbukkit-v1_16_R1
 project(':panilla-craftbukkit-v1_16_R2').projectDir = file('craftbukkit-v1_16_R2')
 project(':panilla-craftbukkit-v1_16_R3').projectDir = file('craftbukkit-v1_16_R3')
 project(':panilla-bukkit').projectDir = file('bukkit')
+include 'craftbukkit-v1_17_R1'
+findProject(':craftbukkit-v1_17_R1')?.name = 'panilla-craftbukkit-v1_17_R1'
+
