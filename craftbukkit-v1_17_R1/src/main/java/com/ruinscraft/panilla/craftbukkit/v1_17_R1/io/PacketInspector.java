@@ -70,8 +70,8 @@ public class PacketInspector implements IPacketInspector {
                     return;
                 }
 
-                Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("d");
-                Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("e");
+                Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("e");
+                Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("f");
 
                 slotField.setAccessible(true);
                 itemStackField.setAccessible(true);
@@ -109,7 +109,7 @@ public class PacketInspector implements IPacketInspector {
                     return;
                 }
 
-                Field itemStacksField = PacketPlayOutWindowItems.class.getDeclaredField("b");
+                Field itemStacksField = PacketPlayOutWindowItems.class.getDeclaredField("c");
 
                 itemStacksField.setAccessible(true);
 
