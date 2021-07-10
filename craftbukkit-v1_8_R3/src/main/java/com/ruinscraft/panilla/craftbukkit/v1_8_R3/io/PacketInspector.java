@@ -24,9 +24,9 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayInSetCreativeSlot(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInSetCreativeSlot(Object rawPacket) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInSetCreativeSlot) {
-            PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
+            PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) rawPacket;
 
             int slot = packet.a();
             ItemStack itemStack = packet.getItemStack();
@@ -42,9 +42,9 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayOutSetSlot(Object rawPacket) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayOutSetSlot) {
-            PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
+            PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) rawPacket;
 
             try {
                 Field windowIdField = PacketPlayOutSetSlot.class.getDeclaredField("a");
@@ -81,9 +81,9 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayOutWindowItems(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayOutWindowItems(Object rawPacket) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayOutWindowItems) {
-            PacketPlayOutWindowItems packet = (PacketPlayOutWindowItems) _packet;
+            PacketPlayOutWindowItems packet = (PacketPlayOutWindowItems) rawPacket;
 
             try {
                 Field windowIdField = PacketPlayOutWindowItems.class.getDeclaredField("a");
@@ -121,9 +121,9 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayOutSpawnEntity(Object _packet) throws LegacyEntityNbtNotPermittedException {
+    public void checkPacketPlayOutSpawnEntity(Object rawPacket) throws LegacyEntityNbtNotPermittedException {
         if (_packet instanceof PacketPlayOutSpawnEntity) {
-            PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
+            PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) rawPacket;
 
             try {
                 Field idField = PacketPlayOutSpawnEntity.class.getDeclaredField("a");
