@@ -43,12 +43,12 @@ public interface IPlayerInjector {
         }
 
         /* Replace Minecraft packet decompressor */
-        ChannelHandler minecraftDecompressor = pChannel.pipeline().get(getDecompressorHandlerName());
-
-        if (minecraftDecompressor != null && !(minecraftDecompressor instanceof PacketDecompressorDplx)) {
-            PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
-            pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
-        }
+//        ChannelHandler minecraftDecompressor = pChannel.pipeline().get(getDecompressorHandlerName());
+//
+//        if (minecraftDecompressor != null && !(minecraftDecompressor instanceof PacketDecompressorDplx)) {
+//            PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
+//            pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
+//        }
 
 //        /* Replace Minecraft decoder */
 //        ChannelHandler minecraftDecoder = pChannel.pipeline().get(getDecoderName());
@@ -72,19 +72,6 @@ public interface IPlayerInjector {
 
         if (pChannel == null || !pChannel.isRegistered()) {
             return;
-        }
-
-        /* Replace Panilla packet decompressor with the default */
-        ChannelHandler panillaDecompressor = pChannel.pipeline().get(getDecompressorHandlerName());
-
-        if (panillaDecompressor instanceof PacketDecompressorDplx) {
-            ByteToMessageDecoder minecraftDecompressor = getDecompressor();
-
-            try {
-                pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), minecraftDecompressor);
-            } catch (NoSuchElementException e) {
-                // We can safely ignore this. Even with the instanceof check, depending on circumstance, this can still happen
-            }
         }
 
         /* Remove packet inspector */
