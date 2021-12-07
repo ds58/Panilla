@@ -7,6 +7,10 @@ import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.craftbukkit.v1_18_R1.InventoryCleaner;
+import com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.PacketInspector;
+import com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.PlayerInjector;
+import com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.dplx.PacketSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -230,6 +234,18 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_17_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_17_R1.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_17_R1.InventoryCleaner(this);
+                        break imp;
+                    case "v1_18_R1":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.dplx.PacketSerializer.class;
+                        protocolConstants = new IProtocolConstants() {
+                            @Override
+                            public int maxBookPages() {
+                                return 100;
+                            }
+                        };
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_18_R1.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_18_R1.InventoryCleaner(this);
                         break imp;
                 }
             default:
