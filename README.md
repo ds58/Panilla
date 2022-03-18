@@ -31,7 +31,8 @@ Currently Panilla supports:
   - CraftBukkit* 1.14.x
   - CraftBukkit* 1.15.x
   - CraftBukkit* 1.16.x
-  - CraftBukkit* 1.17
+  - CraftBukkit* 1.17.x
+  - CraftBukkit* 1.18.x
   
   **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
 
