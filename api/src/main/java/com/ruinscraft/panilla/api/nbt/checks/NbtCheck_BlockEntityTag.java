@@ -100,7 +100,11 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             // only ItemShulkerBoxes should have "Items" NBT tag in survival
             itemName = itemName.toLowerCase();
 
-            if (panilla.getPConfig().strictness == PStrictness.STRICT && !panilla.getPConfig().noBlockEntityTag) {
+            if (panilla.getPConfig().noBlockEntityTag) {
+                return NbtCheckResult.FAIL;
+            }
+
+            if (panilla.getPConfig().strictness == PStrictness.STRICT) {
                 if (!(itemName.contains("shulker") || itemName.contains("itemstack") || itemName.contains("itemblock"))) {
                     return NbtCheckResult.FAIL;
                 }
