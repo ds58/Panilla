@@ -37,6 +37,11 @@ prevent-fawe-brush-nbt: false
 # This may also marginally improve performance
 ignore-non-player-inventories: false
 
+# When true, this will prevent any BlockEntityTag NBT regardless of strictness
+# This will break things like ShulkerBoxes
+# Generally not recommended
+no-block-entity-tag: false
+
 # Whitelist NBT tags from being checked
 # Keep in mind some NBT tags vary between Minecraft versions
 #     (eg: ench on 1.12 vs Enchantments on 1.13)

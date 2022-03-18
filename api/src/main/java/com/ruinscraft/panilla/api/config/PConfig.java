@@ -18,6 +18,7 @@ public abstract class PConfig {
     public boolean preventMinecraftEducationSkulls = false;
     public boolean preventFaweBrushNbt = false;
     public boolean ignoreNonPlayerInventories = false;
+    public boolean noBlockEntityTag = false;
     public List<String> nbtWhitelist = new ArrayList<>();
     public List<String> disabledWorlds = new ArrayList<>();
     public int maxNonMinecraftNbtKeys = 16;
