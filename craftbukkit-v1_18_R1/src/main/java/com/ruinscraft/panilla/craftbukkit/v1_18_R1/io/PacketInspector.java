@@ -11,6 +11,7 @@ import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_18_R1.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInSetCreativeSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutSetSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutSpawnEntity;
@@ -24,7 +25,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 
@@ -183,9 +186,25 @@ public class PacketInspector implements IPacketInspector {
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
-        // window id, state id, slot, slot data
-        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, 0, slot, new ItemStack(Blocks.a));
-        entityPlayer.b.a(packet);
+
+        try {
+            Class<?> packetPlayOutSetSlotClass = Class.forName("net.minecraft.network.protocol.game.PacketPlayOutSetSlot");
+            Class<?>[] type = { int.class, int.class, int.class, ItemStack.class };
+            Constructor<?> constructor = packetPlayOutSetSlotClass.getConstructor(type);
+            Object[] params = { 0, 0, slot, new ItemStack(Blocks.a) };
+            Object packetPlayOutSetSlotInstance = constructor.newInstance(params);
+            entityPlayer.b.a((Packet<?>) packetPlayOutSetSlotInstance);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
