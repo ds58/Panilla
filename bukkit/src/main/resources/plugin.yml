@@ -2,7 +2,7 @@ name: Panilla
 version: ${version}
 main: com.ruinscraft.panilla.bukkit.PanillaPlugin
 api-version: 1.13
-author: royalkingkb
+author: ds58
 description: Prevent abusive NBT and harmful packets
 website: https://github.com/Ruinscraft/Panilla
 permissions:
