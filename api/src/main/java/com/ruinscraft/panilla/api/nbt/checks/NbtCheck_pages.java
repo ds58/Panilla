@@ -43,8 +43,28 @@ public class NbtCheck_pages extends NbtCheck {
 
         // iterate through book pages
         for (int i = 0; i < pages.size(); i++) {
-            final String page = pages.getString(i);
-            final String pageNoSpaces = page.replace(" ", "");
+            final String pageContent;
+
+            if (pages.isCompound(i)) {
+                INbtTagCompound page = pages.getCompound(i);
+                if (page.hasKey("text")) {
+                    pageContent = page.getString("text");
+                } else {
+                    pageContent = "";
+                }
+
+                if (page.hasKey("hoverEvent")) {
+                    INbtTagCompound hoverEvent = page.getCompound("hoverEvent");
+
+                    if (hoverEvent.getStringSizeBytes() > 32000) {
+                        return NbtCheckResult.CRITICAL;
+                    }
+                }
+            } else {
+                pageContent = pages.getString(i);
+            }
+
+            final String pageNoSpaces = pageContent.replace(" ", "");
 
             // check char map
             short[] charMap = createCharMap(pageNoSpaces);
@@ -65,7 +85,7 @@ public class NbtCheck_pages extends NbtCheck {
                 for (String crashTranslation : MOJANG_CRASH_TRANSLATIONS) {
                     String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
 
-                    if (page.equals(translationJson)) {
+                    if (pageContent.equals(translationJson)) {
                         return NbtCheckResult.CRITICAL;
                     }
                 }
