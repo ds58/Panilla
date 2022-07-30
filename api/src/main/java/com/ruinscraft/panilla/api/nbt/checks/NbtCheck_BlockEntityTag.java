@@ -134,6 +134,10 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
+        if (blockEntityTag.hasKey("cursors")) {
+            return NbtCheckResult.FAIL;
+        }
+
         return NbtCheckResult.PASS;
     }
 
