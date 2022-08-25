@@ -36,3 +36,5 @@ If you would like support for a server platform or Minecraft version that is not
 In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla.
 When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
 From there, you can compile the project with `./gradlew build`. The output plugin jars file will located in the `target/` directory.
+
+Java 17 is required to build Panilla.
