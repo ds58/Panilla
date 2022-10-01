@@ -8,6 +8,7 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
+import com.ruinscraft.panilla.craftbukkit.v1_19_R1.TempHacks;
 import com.ruinscraft.panilla.craftbukkit.v1_19_R1.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
@@ -114,6 +115,8 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException {
+        if (TempHacks.isPaperChunkRewrite()) return;
+
         if (_packet instanceof PacketPlayOutSpawnEntity) {
             PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
 
@@ -168,6 +171,8 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void stripNbtFromItemEntity(UUID entityId) {
+        if (TempHacks.isPaperChunkRewrite()) return;
+
         Entity entity = null;
 
         for (WorldServer worldServer : MinecraftServer.getServer().E()) {
