@@ -56,7 +56,9 @@ public class TileLootTableListener implements Listener {
                 ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
 
                 try {
-                    shulker.getLootTable().getKey();
+                    if (shulker.getLootTable() != null) {
+                        shulker.getLootTable().getKey();
+                    }
                 } catch (Exception e) {
                     shulker.setLootTable(null);
                     blockStateMeta.setBlockState(shulker);
