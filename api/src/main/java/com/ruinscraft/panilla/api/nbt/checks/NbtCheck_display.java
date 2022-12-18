@@ -43,7 +43,7 @@ public class NbtCheck_display extends NbtCheck {
 
                     name = createTextFromJsonArray(jsonArray);
                 } catch (Exception e) {
-                    return NbtCheckResult.CRITICAL; // could not parse Json
+                    // could not parse Json
                 }
             }
 
@@ -56,7 +56,7 @@ public class NbtCheck_display extends NbtCheck {
 
                     name = createTextFromJsonArray(jsonArray);
                 } catch (Exception e) {
-                    return NbtCheckResult.CRITICAL; // could not parse Json
+                    // could not parse Json
                 }
             }
 
