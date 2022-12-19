@@ -13,7 +13,13 @@ public class NbtCheck_CustomModelData extends NbtCheck {
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
-        return NbtCheckResult.FAIL;
+        try {
+            tag.getInt("CustomModelData");
+        } catch (Exception e) {
+            return NbtCheckResult.FAIL;
+        }
+
+        return NbtCheckResult.PASS;
     }
 
 }
