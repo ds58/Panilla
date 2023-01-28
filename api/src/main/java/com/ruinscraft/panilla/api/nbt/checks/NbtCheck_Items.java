@@ -20,7 +20,7 @@ public class NbtCheck_Items extends NbtCheck {
 
         // Bundles should only have 64 items
         if (itemsTagList.size() > 64) {
-            return NbtCheckResult.FAIL;
+            return NbtCheckResult.CRITICAL;
         }
 
         // Check for air
@@ -42,7 +42,7 @@ public class NbtCheck_Items extends NbtCheck {
         for (int i = 0; i < itemsTagList.size(); i++) {
             if (itemsTagList.getCompound(i).hasKey("id")) {
                 if (itemsTagList.getCompound(i).getString("id").equals("minecraft:air")) {
-                    return NbtCheckResult.FAIL;
+                    return NbtCheckResult.CRITICAL;
                 }
             }
         }
