@@ -28,7 +28,7 @@ Currently Panilla supports:
   - CraftBukkit* 1.8.8
   - CraftBukkit* 1.12.x-1.19.x
   
-  **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
+  **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, Folia, etc)*
 
 If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
 
