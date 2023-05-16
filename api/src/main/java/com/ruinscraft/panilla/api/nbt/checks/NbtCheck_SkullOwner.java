@@ -27,16 +27,12 @@ public class NbtCheck_SkullOwner extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
 
-        boolean hasName = false;
-
         if (skullOwner.hasKey("Name")) {
             String name = skullOwner.getString("Name");
 
             if (name.length() > 64) {
                 return NbtCheckResult.CRITICAL;
             }
-
-            hasName = true;
         }
 
         if (skullOwner.hasKey("UUID")) {
@@ -50,8 +46,6 @@ public class NbtCheck_SkullOwner extends NbtCheck {
             }
         }
 
-        boolean hasId = false;
-
         if (skullOwner.hasKeyOfType("Id", NbtDataType.STRING)) {
             String uuidString = skullOwner.getString("Id");
 
@@ -61,8 +55,6 @@ public class NbtCheck_SkullOwner extends NbtCheck {
             } catch (Exception e) {
                 return NbtCheckResult.CRITICAL;
             }
-
-            hasId = true;
         } else if (skullOwner.hasKeyOfType("Id", NbtDataType.INT_ARRAY)) {
             int[] ints = skullOwner.getIntArray("Id");
 
@@ -71,14 +63,6 @@ public class NbtCheck_SkullOwner extends NbtCheck {
             } catch (Exception e) {
                 return NbtCheckResult.CRITICAL;
             }
-
-            hasId = true;
-        }
-
-        // GameProfile requires both "Id" and "Name" otherwise throws an IllegalArgumentException which will crash the server
-        boolean hasIdAndName = hasName && hasId;
-        if (!hasIdAndName) {
-            return NbtCheckResult.CRITICAL;
         }
 
         if (panilla.getPConfig().preventMinecraftEducationSkulls) {
