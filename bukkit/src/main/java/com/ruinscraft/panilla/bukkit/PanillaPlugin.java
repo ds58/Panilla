@@ -2,60 +2,40 @@ package com.ruinscraft.panilla.bukkit;
 
 import com.ruinscraft.panilla.api.*;
 import com.ruinscraft.panilla.api.config.PConfig;
-import com.ruinscraft.panilla.api.config.PFiles;
-import com.ruinscraft.panilla.api.config.PLocale;
 import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
-public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatform {
+public class PanillaPlugin extends JavaPlugin implements IPanilla {
 
-    private static PanillaPlugin singleton;
-    private PanillaLogger panillaLogger;
     private PConfig pConfig;
-    private PLocale pLocale;
+    private PTranslations pTranslations;
+    private IPanillaLogger panillaLogger;
     private IProtocolConstants protocolConstants;
     private IPlayerInjector playerInjector;
     private IPacketInspector packetInspector;
     private IContainerCleaner containerCleaner;
     private IEnchantments enchantments;
 
-    public static PanillaPlugin get() {
-        return singleton;
-    }
-
     @Override
-    public PanillaLogger getPanillaLogger() {
-        return panillaLogger;
-    }
-
-    @Override
-    public PConfig getPanillaConfig() {
+    public PConfig getPConfig() {
         return pConfig;
     }
 
     @Override
-    public PLocale getPanillaLocale() {
-        return pLocale;
+    public PTranslations getPTranslations() {
+        return pTranslations;
     }
 
     @Override
-    public IPanillaPlatform getPlatform() {
-        return this;
+    public IPanillaLogger getPanillaLogger() {
+        return panillaLogger;
     }
 
     @Override
@@ -83,98 +63,42 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         return enchantments;
     }
 
-    @Override
-    public String translateColorCodes(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
-    }
+    private synchronized void loadConfig() {
+        saveDefaultConfig();
 
-    @Override
-    public boolean isValidPotionColor(int bgr) {
-        try {
-            Color.fromBGR(bgr);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
+        pConfig = new BukkitPConfig();
 
-    @Override
-    public Collection<IPanillaPlayer> getOnlinePlayers() {
-        Collection<IPanillaPlayer> panillaPlayers = new HashSet<>();
-        Bukkit.getOnlinePlayers().forEach(p -> panillaPlayers.add(new BukkitPanillaPlayer(p)));
-        return panillaPlayers;
-    }
-
-    @Override
-    public void runTaskLater(long delay, Runnable task) {
-        getServer().getScheduler().runTaskLater(this, task, delay);
-    }
-
-    private synchronized void loadConfig() throws IOException {
-        PFiles.saveResource("config.yml", getDataFolder());
-
-        pConfig = new PConfig();
-
-        pConfig.localeFile = getConfig().getString("locale-file", pConfig.localeFile);
-        pConfig.consoleLogging = getConfig().getBoolean("logging.console");
-        pConfig.chatLogging = getConfig().getBoolean("logging.chat");
+        pConfig.language = getConfig().getString("language", pConfig.language);
+        pConfig.consoleLogging = getConfig().getBoolean("logging.console", pConfig.consoleLogging);
+        pConfig.chatLogging = getConfig().getBoolean("logging.chat", pConfig.chatLogging);
         pConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness", pConfig.strictness.name()).toUpperCase());
-        pConfig.preventMinecraftEducationSkulls = getConfig().getBoolean("prevent-minecraft-education-skulls", false);
-        pConfig.preventFaweBrushNbt = getConfig().getBoolean("prevent-fawe-brush-nbt", false);
+        pConfig.preventMinecraftEducationSkulls = getConfig().getBoolean("prevent-minecraft-education-skulls", pConfig.preventMinecraftEducationSkulls);
+        pConfig.preventFaweBrushNbt = getConfig().getBoolean("prevent-fawe-brush-nbt", pConfig.preventFaweBrushNbt);
         pConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
         pConfig.disabledWorlds = getConfig().getStringList("disabled-worlds");
         pConfig.maxNonMinecraftNbtKeys = getConfig().getInt("max-non-minecraft-nbt-keys", pConfig.maxNonMinecraftNbtKeys);
     }
 
-    private synchronized void loadLocale(String localeFileName) throws IOException {
-        PFiles.saveResource(localeFileName, getDataFolder());
-
-        YamlConfiguration yaml =
-                YamlConfiguration.loadConfiguration(new File(getDataFolder(), localeFileName));
-        Map<String, String> translations = new HashMap<>();
-
-        for (String key : yaml.getKeys(false)) {
-            translations.put(key, yaml.getString(key));
+    private synchronized void loadTranslations(String languageKey) {
+        try {
+            pTranslations = PTranslations.get(languageKey);
+        } catch (IOException e) {
+            getPanillaLogger().warning("Could not load language translations for " + languageKey, false);
         }
-
-        // load default english translations
-        YamlConfiguration defaultEnglishYaml =
-                YamlConfiguration.loadConfiguration(new InputStreamReader(getResource("en_US.yml")));
-        Map<String, String> defaultTranslations = new HashMap<>();
-
-        for (String key : defaultEnglishYaml.getKeys(false)) {
-            defaultTranslations.put(key, defaultEnglishYaml.getString(key));
-        }
-
-        pLocale = new PLocale(translations, defaultTranslations);
     }
 
     @Override
     public void onEnable() {
-        singleton = this;
+        loadConfig();
+        loadTranslations(pConfig.language);
 
-        getDataFolder().mkdirs();
-
-        try {
-            loadConfig();
-        } catch (IOException e) {
-            getLogger().warning("Could not load config file");
-            e.printStackTrace();
-        }
-
-        try {
-            loadLocale(pConfig.localeFile);
-        } catch (IOException e) {
-            getLogger().warning("Could not load Locale file: " + pConfig.localeFile);
-            e.printStackTrace();
-        }
-
-        panillaLogger = new PanillaLogger(this);
+        panillaLogger = new BukkitPanillaLogger(this, getLogger());
         enchantments = new BukkitEnchantments();
 
         final String serverImp = Bukkit.getServer().getClass().getName();
 
-        imp: switch (serverImp) {
+        imp:
+        switch (serverImp) {
             case "org.bukkit.craftbukkit.CraftServer":
                 final String craftVersion = getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
                 switch (craftVersion) {
@@ -216,12 +140,13 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
                 return;
         }
 
-        /* Register listeners */
-        getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
+        /* Register listener */
+        getServer().getPluginManager().registerEvents(new JoinQuitListener(this), this);
 
-        /* Register commands */
-        getCommand("panilla").setExecutor(new PanillaCommand());
+        /* Register command */
+        getCommand("panilla").setExecutor(new PanillaCommand(this));
 
+        /* Inject already online players in case of reload */
         for (Player player : Bukkit.getOnlinePlayers()) {
             playerInjector.register(this, new BukkitPanillaPlayer(player));
         }
@@ -229,11 +154,10 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
 
     @Override
     public void onDisable() {
+        /* Uninject any online players */
         for (Player player : Bukkit.getOnlinePlayers()) {
             playerInjector.unregister(new BukkitPanillaPlayer(player));
         }
-
-        singleton = null;
     }
 
 }

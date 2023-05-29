@@ -48,7 +48,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             return NbtCheckResult.CRITICAL;
         }
 
-        if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
+        if (panilla.getPConfig().strictness == PStrictness.STRICT) {
             // locked chests
             if (blockEntityTag.hasKey("Lock")) {
                 return NbtCheckResult.FAIL;
@@ -66,7 +66,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         // tiles with items/containers (chests, hoppers, shulkerboxes, etc)
         if (blockEntityTag.hasKey("Items")) {
             // only ItemShulkerBoxes should have "Items" NBT tag in survival
-            if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
+            if (panilla.getPConfig().strictness == PStrictness.STRICT) {
                 switch (nmsItemClassName) {
                     case "ItemShulkerBox":
                         break;

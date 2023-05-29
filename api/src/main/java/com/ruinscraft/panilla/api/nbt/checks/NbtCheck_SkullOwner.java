@@ -15,12 +15,12 @@ public class NbtCheck_SkullOwner extends NbtCheck {
     private static final Pattern URL_MATCHER = Pattern.compile("url");
 
     public NbtCheck_SkullOwner() {
-        super("SkullOwner", PStrictness.AVERAGE);
+        super("SkullOwner", PStrictness.LENIENT);
     }
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        if (panilla.getPanillaConfig().preventMinecraftEducationSkulls) {
+        if (panilla.getPConfig().preventMinecraftEducationSkulls) {
             INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
 
             if (skullOwner.hasKey("Properties")) {
@@ -39,7 +39,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
                             try {
                                 decoded = new String(Base64.getDecoder().decode(b64));
                             } catch (IllegalArgumentException e) {
-                                panilla.getPlatform().getLogger().info("Invalid head texture");
+                                panilla.getPanillaLogger().warning("Invalid head texture", false);
                                 return NbtCheckResult.CRITICAL;
                             }
 

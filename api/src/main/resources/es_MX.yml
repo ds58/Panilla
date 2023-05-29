@@ -1,4 +1,0 @@
-prefix: "&c"
-packet-from-dropped: Packet de %s (%s) estaba ignorado
-packet-to-dropped: Packet a %s (%s) estaba ignorado
-packet-dropped-reason-invalid-nbt: porque NBT etiqueta %s cheques fallidos

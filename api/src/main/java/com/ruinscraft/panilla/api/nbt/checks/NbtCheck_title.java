@@ -14,7 +14,7 @@ public class NbtCheck_title extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         final int titleLength = tag.getString("title").length();
 
-        if (panilla.getPanillaConfig().strictness == PStrictness.STRICT) {
+        if (panilla.getPConfig().strictness == PStrictness.STRICT) {
             if (titleLength > panilla.getProtocolConstants().maxBookTitleLength()) {
                 return NbtCheckResult.CRITICAL;
             }

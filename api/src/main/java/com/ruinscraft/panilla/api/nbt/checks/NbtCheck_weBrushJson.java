@@ -7,16 +7,16 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_weBrushJson extends NbtCheck {
 
     public NbtCheck_weBrushJson() {
-        super("weBrushJson", PStrictness.AVERAGE);
+        super("weBrushJson", PStrictness.LENIENT);
     }
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        if (panilla.getPanillaConfig().preventFaweBrushNbt) {
+        if (panilla.getPConfig().preventFaweBrushNbt) {
             return NbtCheckResult.FAIL;
-        } else {
-            return NbtCheckResult.PASS;
         }
+
+        return NbtCheckResult.PASS;
     }
 
 }

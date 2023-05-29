@@ -1,4 +1,0 @@
-prefix: "&c"
-packet-from-dropped: Пакет от %s (%s) был удален
-packet-to-dropped: Пакет до %s (%s) был удален
-packet-dropped-reason-invalid-nbt: потому что NBT тег %s не прошел проверку

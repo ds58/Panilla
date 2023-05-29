@@ -79,7 +79,7 @@ public final class NbtChecks {
         int nonMinecraftKeys = 0;
 
         for (String key : tag.getKeys()) {
-            if (panilla.getPanillaConfig().nbtWhitelist.contains(key)) {
+            if (panilla.getPConfig().nbtWhitelist.contains(key)) {
                 continue;
             }
 
@@ -90,7 +90,7 @@ public final class NbtChecks {
                 continue;
             }
 
-            if (check.getTolerance().lvl > panilla.getPanillaConfig().strictness.lvl) {
+            if (check.getTolerance().lvl > panilla.getPConfig().strictness.lvl) {
                 continue;
             }
 
@@ -101,7 +101,7 @@ public final class NbtChecks {
             }
         }
 
-        if (nonMinecraftKeys > panilla.getPanillaConfig().maxNonMinecraftNbtKeys) {
+        if (nonMinecraftKeys > panilla.getPConfig().maxNonMinecraftNbtKeys) {
             for (String key : tag.getKeys()) {
                 if (checks.get(key) == null) {
                     return new FailedNbt(key, NbtCheck.NbtCheckResult.FAIL);
