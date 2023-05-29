@@ -1,7 +1,9 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
+import com.ruinscraft.panilla.api.EnchantmentCompat;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
@@ -31,27 +33,74 @@ public class NbtCheck_ench extends NbtCheck {
 		INbtTagList enchantments = tag.getList(using, NbtDataType.COMPOUND);
 
 		for (int i = 0; i < enchantments.size(); i++) {
-			Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));	// TODO: does not exist in 1.13
-			int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
+			INbtTagCompound enchantment = enchantments.get(i);
+			Enchantment bukkitEnchantment = getEnchantment(enchantment);
 
-			if (lvl > current.getMaxLevel()) {
+			if (bukkitEnchantment == null) {
 				return false;
 			}
 
-			if (lvl < current.getStartLevel()) {
+			int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
+
+			if (lvl > bukkitEnchantment.getMaxLevel()) {
+				return false;
+			}
+
+			if (lvl < bukkitEnchantment.getStartLevel()) {
 				return false;
 			}
 
 			for (int j = 0; j < enchantments.size(); j++) {
-				Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id")); // TODO: does not exist in 1.13
+				INbtTagCompound otherEnchantment = enchantments.get(j);
+				Enchantment otherBukkitEnchantment = getEnchantment(otherEnchantment);
 
-				if (current != other && current.conflictsWith(other)) {
+				if (bukkitEnchantment != otherBukkitEnchantment
+						&& bukkitEnchantment.conflictsWith(otherBukkitEnchantment)) {
 					return false;
 				}
 			}
 		}
 
 		return true;
+	}
+
+	private static Enchantment getEnchantment(INbtTagCompound enchantment) {
+		if (enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
+			final short id = enchantment.getShort("id");
+
+			try {
+				// 1.12
+				return (Enchantment) Enchantment.class.getMethod("getById", int.class).invoke(id);
+			} catch (Exception e1) {
+				// 1.13
+				try {
+					return (Enchantment) Enchantment.class.getMethod("getByName", String.class).invoke(
+							EnchantmentCompat.getById(id).legacyName);
+				} catch (Exception e2) {
+					return null;
+				}
+			}
+		}
+
+		else if (enchantment.hasKeyOfType("id", NbtDataType.STRING)) {
+			final String namedKey = enchantment.getString("id");
+
+			try {
+				// 1.13
+				return (Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class).invoke(
+						NamespacedKey.minecraft(namedKey));
+			} catch (Exception e1) {
+				// 1.12
+				try {
+					Enchantment.class.getMethod("getByName", String.class).invoke(
+							EnchantmentCompat.getByNamedKey(namedKey).legacyName);
+				} catch (Exception e2) {
+					return null;
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

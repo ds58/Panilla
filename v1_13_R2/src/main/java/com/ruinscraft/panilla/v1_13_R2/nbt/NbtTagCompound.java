@@ -22,6 +22,11 @@ public class NbtTagCompound implements INbtTagCompound {
 	}
 
 	@Override
+	public boolean hasKeyOfType(String key, NbtDataType nbtDataType) {
+		return handle.hasKeyOfType(key, nbtDataType.id);
+	}
+
+	@Override
 	public Set<String> getKeys() {
 		return handle.getKeys();
 	}
