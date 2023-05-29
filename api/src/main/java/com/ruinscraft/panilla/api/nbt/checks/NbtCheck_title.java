@@ -13,10 +13,18 @@ public class NbtCheck_title extends NbtCheck {
 
     @Override
     public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-        int titleLength = tag.getString("title").length();
+        final int titleLength = tag.getString("title").length();
 
-        if (titleLength > protocolConstants.maxBookTitleLength()) {
-            return false;
+        if (config.strictness == PStrictness.STRICT) {
+            if (titleLength > protocolConstants.maxBookTitleLength()) {
+                return false;
+            }
+        }
+
+        else {
+            if (titleLength > protocolConstants.NOT_PROTOCOL_maxItemNameLength()) {
+                return false;
+            }
         }
 
         return true;

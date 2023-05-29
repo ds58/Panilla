@@ -10,8 +10,6 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import org.bukkit.entity.Player;
 
-import static com.ruinscraft.panilla.api.io.IPlayerInjector.BYPASS_PERMISSION;
-
 public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
     private final Player player;
@@ -23,7 +21,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
     // a cache for permission checking
     private short packetsSinceBypassCheck = 0;
-    private boolean bypass = false;
+    private boolean bypass;
 
     public PlayerOutbound(Player player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
                           IProtocolConstants protocolConstants, PConfig config, PanillaLogger panillaLogger) {

@@ -4,7 +4,6 @@ import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
-import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.v1_13_R2.nbt.NbtTagCompound;
@@ -65,19 +64,6 @@ public class PacketInspector implements IPacketInspector {
             NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
                     itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
                     protocolConstants, config);
-        }
-    }
-
-    @Override
-    public void checkPacketPlayInUpdateSign(Object _packet) throws SignLineLengthTooLongException {
-        if (_packet instanceof PacketPlayInUpdateSign) {
-            PacketPlayInUpdateSign packet = (PacketPlayInUpdateSign) _packet;
-
-            for (String line : packet.c()) {
-                if (line.length() > protocolConstants.maxSignLineLength()) {
-                    throw new SignLineLengthTooLongException(packet.getClass().getSimpleName(), true);
-                }
-            }
         }
     }
 
