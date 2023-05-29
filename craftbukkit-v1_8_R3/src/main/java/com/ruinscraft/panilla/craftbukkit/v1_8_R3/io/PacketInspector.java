@@ -118,16 +118,26 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void removeEntity(UUID entityId) {
-        throw new IllegalStateException("Cannot use #removeEntity on 1.8");
+    public void stripNbtFromItemEntity(UUID entityId) {
+        throw new RuntimeException("cannot use #stripNbtFromItemEntity on 1.8");
     }
 
     @Override
-    public void removeEntityLegacy(int entityId) {
+    public void stripNbtFromItemEntityLegacy(int entityId) {
         Entity entity = getEntityById(entityId);
 
-        if (entity != null) {
-            entity.dead = true;
+        if (entity instanceof EntityItem) {
+            EntityItem item = (EntityItem) entity;
+
+            if (item.getItemStack() == null) {
+                return;
+            }
+
+            if (!item.getItemStack().hasTag()) {
+                return;
+            }
+
+            item.getItemStack().setTag(null);
         }
     }
 

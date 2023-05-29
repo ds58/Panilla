@@ -127,13 +127,32 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void removeEntity(UUID entityId) {
-        Bukkit.getServer().getEntity(entityId).remove();
+    public void stripNbtFromItemEntity(UUID entityId) {
+        org.bukkit.entity.Entity bukkitEntity = Bukkit.getServer().getEntity(entityId);
+
+        if (bukkitEntity instanceof CraftEntity) {
+            CraftEntity craftEntity = (CraftEntity) bukkitEntity;
+            Entity entity = craftEntity.getHandle();
+
+            if (entity instanceof EntityItem) {
+                EntityItem item = (EntityItem) entity;
+
+                if (item.getItemStack() == null) {
+                    return;
+                }
+
+                if (!item.getItemStack().hasTag()) {
+                    return;
+                }
+
+                item.getItemStack().setTag(null);
+            }
+        }
     }
 
     @Override
-    public void removeEntityLegacy(int entityId) {
-        throw new IllegalStateException("Cannot use #removeEntityLegacy on 1.13");
+    public void stripNbtFromItemEntityLegacy(int entityId) {
+        throw new RuntimeException("cannot use #stripNbtFromItemEntityLegacy on 1.13");
     }
 
     @Override
