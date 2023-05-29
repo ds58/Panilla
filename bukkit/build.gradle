@@ -8,7 +8,7 @@ dependencies {
     implementation project(':panilla-craftbukkit-v1_16_R1')
     implementation project(':panilla-craftbukkit-v1_16_R2')
     implementation project(':panilla-glowstone-r2018_9_0')
-    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT' // use 1.12 Bukkit API
+    compileOnly 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT' // use 1.13 Bukkit API
 }
 
 buildscript {
