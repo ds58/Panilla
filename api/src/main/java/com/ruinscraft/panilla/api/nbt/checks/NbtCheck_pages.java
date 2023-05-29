@@ -32,9 +32,9 @@ public class NbtCheck_pages extends NbtCheck {
             }
 
             for (String crashTranslation : MOJANG_CRASH_TRANSLATIONS) {
-                String check = String.format("{\"translate\":\"%s\"}", crashTranslation);
+                String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
 
-                if (page.equalsIgnoreCase(check)) {
+                if (page.equalsIgnoreCase(translationJson)) {
                     return false;
                 }
             }
