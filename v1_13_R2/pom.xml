@@ -13,10 +13,23 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.25.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.ruinscraft</groupId>
 			<artifactId>panilla-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+
 </project>
