@@ -7,13 +7,13 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_Unbreakable extends NbtCheck {
 
-	public NbtCheck_Unbreakable() {
-		super("Unbreakable", PStrictness.LENIENT);
-	}
+    public NbtCheck_Unbreakable() {
+        super("Unbreakable", PStrictness.LENIENT);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return false;
-	}
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        return false;
+    }
 
 }

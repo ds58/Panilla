@@ -4,20 +4,20 @@ import java.util.Set;
 
 public interface INbtTagCompound {
 
-	boolean hasKey(String key);
+    boolean hasKey(String key);
 
-	boolean hasKeyOfType(String key, NbtDataType nbtDataType);
+    boolean hasKeyOfType(String key, NbtDataType nbtDataType);
 
-	Set<String> getKeys();
+    Set<String> getKeys();
 
-	int getInt(String key);
+    int getInt(String key);
 
-	short getShort(String key);
+    short getShort(String key);
 
-	String getString(String key);
+    String getString(String key);
 
-	INbtTagList getList(String key, NbtDataType nbtDataType);
+    INbtTagList getList(String key, NbtDataType nbtDataType);
 
-	INbtTagCompound getCompound(String key);
+    INbtTagCompound getCompound(String key);
 
 }

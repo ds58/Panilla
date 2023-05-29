@@ -7,13 +7,13 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_CustomPotionEffects extends NbtCheck {
 
-	public NbtCheck_CustomPotionEffects() {
-		super("CustomPotionEffects", PStrictness.AVERAGE);
-	}
+    public NbtCheck_CustomPotionEffects() {
+        super("CustomPotionEffects", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return false;
-	}
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        return false;
+    }
 
 }

@@ -7,13 +7,13 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_SkullOwner extends NbtCheck {
 
-	public NbtCheck_SkullOwner() {
-		super("SkullOwner", PStrictness.AVERAGE);
-	}
+    public NbtCheck_SkullOwner() {
+        super("SkullOwner", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return true;
-	}
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        return true;
+    }
 
 }
