@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.api.io;
 
-import org.bukkit.entity.Player;
+import com.ruinscraft.panilla.api.IPanillaPlayer;
 
 public interface IPlayerInjector {
 
@@ -9,12 +9,12 @@ public interface IPlayerInjector {
     String PANILLA_CHANNEL_OUT = "panilla_out";
     String BYPASS_PERMISSION = "panilla.bypass";
 
-    static boolean canBypass(Player player) {
+    static boolean canBypass(IPanillaPlayer player) {
         return player.isOp() || player.hasPermission(BYPASS_PERMISSION);
     }
 
-    void register(final Player player);
+    void register(final IPanillaPlayer player);
 
-    void unregister(final Player player);
+    void unregister(final IPanillaPlayer player);
 
 }

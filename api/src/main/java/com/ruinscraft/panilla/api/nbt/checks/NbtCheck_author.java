@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -12,10 +11,10 @@ public class NbtCheck_author extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         int authorLength = tag.getString("author").length();
 
-        if (authorLength > protocolConstants.maxUsernameLength()) {
+        if (authorLength > panilla.getProtocolConstants().maxUsernameLength()) {
             return false;
         }
 

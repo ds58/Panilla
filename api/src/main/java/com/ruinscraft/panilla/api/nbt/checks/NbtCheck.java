@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -29,6 +28,6 @@ public abstract class NbtCheck {
         return aliases;
     }
 
-    public abstract boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config);
+    public abstract boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla);
 
 }

@@ -1,9 +1,9 @@
 package com.ruinscraft.panilla.api.io;
 
+import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
-import org.bukkit.entity.Player;
 
 public interface IPacketInspector {
 
@@ -16,9 +16,9 @@ public interface IPacketInspector {
     /* outbound packets (server->client) */
     void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException;
 
-    void sendPacketPlayOutSetSlotAir(Player player, int slot);
+    void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot);
 
-    default void checkPlayIn(Player player, Object _packet) throws PacketException {
+    default void checkPlayIn(IPanillaPlayer player, Object _packet) throws PacketException {
         checkSize(_packet, true);
         try {
             checkPacketPlayInSetCreativeSlot(_packet);
@@ -28,7 +28,7 @@ public interface IPacketInspector {
         }
     }
 
-    default void checkPlayOut(Player player, Object _packet) throws PacketException {
+    default void checkPlayOut(IPanillaPlayer player, Object _packet) throws PacketException {
         checkSize(_packet, false);
         checkPacketPlayOutSetSlot(_packet);
     }

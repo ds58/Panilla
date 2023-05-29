@@ -12,14 +12,14 @@ public class JoinQuitListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        PanillaPlugin.get().getPlayerInjector().register(player);
+        PanillaPlugin.get().getPlayerInjector().register(new BukkitPanillaPlayer(player));
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        PanillaPlugin.get().getPlayerInjector().unregister(player);
+        PanillaPlugin.get().getPlayerInjector().unregister(new BukkitPanillaPlayer(player));
     }
 
 }

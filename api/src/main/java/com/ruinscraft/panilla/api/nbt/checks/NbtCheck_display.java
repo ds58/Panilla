@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
@@ -14,7 +13,7 @@ public class NbtCheck_display extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound display = tag.getCompound(getName());
 
         String name = display.getString("Name");
@@ -22,10 +21,10 @@ public class NbtCheck_display extends NbtCheck {
         final int maxNameLength;
 
         // if strict, use anvil length
-        if (config.strictness.lvl >= PStrictness.STRICT.lvl) {
-            maxNameLength = protocolConstants.maxAnvilRenameChars();
+        if (panilla.getPanillaConfig().strictness.lvl >= PStrictness.STRICT.lvl) {
+            maxNameLength = panilla.getProtocolConstants().maxAnvilRenameChars();
         } else {
-            maxNameLength = protocolConstants.NOT_PROTOCOL_maxItemNameLength();
+            maxNameLength = panilla.getProtocolConstants().NOT_PROTOCOL_maxItemNameLength();
         }
 
         if (name != null && name.length() > maxNameLength) {
@@ -34,7 +33,7 @@ public class NbtCheck_display extends NbtCheck {
 
         INbtTagList lore = display.getList("Lore", NbtDataType.LIST);
 
-        if (lore.size() > protocolConstants.NOT_PROTOCOL_maxLoreLines()) {
+        if (lore.size() > panilla.getProtocolConstants().NOT_PROTOCOL_maxLoreLines()) {
             return false;
         }
 

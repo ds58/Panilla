@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
@@ -10,7 +9,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 public class NbtCheck_pages extends NbtCheck {
 
     // translations in the game which (intentionally) crash the user
-    private static final String[] MOJANG_CRASH_TRANSLATIONS = new String[] {
+    private static final String[] MOJANG_CRASH_TRANSLATIONS = new String[]{
             "translation.test.invalid",
             "translation.test.invalid2"
     };
@@ -20,7 +19,7 @@ public class NbtCheck_pages extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
 
         for (int i = 0; i < pages.size(); i++) {

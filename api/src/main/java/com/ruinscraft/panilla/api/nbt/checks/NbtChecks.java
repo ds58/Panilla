@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
-import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PConfig;
+import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -58,9 +57,9 @@ public final class NbtChecks {
     }
 
     public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
-                                         IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
+                                         IPanilla panilla) throws NbtNotPermittedException {
 
-        String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
+        String failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {
             throw new NbtNotPermittedException(nmsPacketClassName, true, slot, failedNbt);
@@ -68,21 +67,20 @@ public final class NbtChecks {
     }
 
     public static void checkPacketPlayOut(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
-                                          IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
+                                          IPanilla panilla) throws NbtNotPermittedException {
 
-        String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
+        String failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {
             throw new NbtNotPermittedException(nmsPacketClassName, false, slot, failedNbt);
         }
     }
 
-    public static String checkAll(INbtTagCompound tag, String nmsItemClassName,
-                                  IProtocolConstants protocolConstants, PConfig config) {
+    public static String checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         int nonMinecraftKeys = 0;
 
         for (String key : tag.getKeys()) {
-            if (config.nbtWhitelist.contains(key)) {
+            if (panilla.getPanillaConfig().nbtWhitelist.contains(key)) {
                 continue;
             }
 
@@ -93,16 +91,16 @@ public final class NbtChecks {
                 continue;
             }
 
-            if (check.getTolerance().lvl > config.strictness.lvl) {
+            if (check.getTolerance().lvl > panilla.getPanillaConfig().strictness.lvl) {
                 continue;
             }
 
-            if (!check.check(tag, nmsItemClassName, protocolConstants, config)) {
+            if (!check.check(tag, nmsItemClassName, panilla)) {
                 return key;
             }
         }
 
-        if (nonMinecraftKeys > config.maxNonMinecraftNbtKeys) {
+        if (nonMinecraftKeys > panilla.getPanillaConfig().maxNonMinecraftNbtKeys) {
             for (String key : tag.getKeys()) {
                 if (checks.get(key) == null) {
                     return key;
