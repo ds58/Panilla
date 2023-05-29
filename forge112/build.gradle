@@ -1,0 +1,27 @@
+// https://docs.spongepowered.org/stable/en/plugin/internals/mcp-setup.html
+
+buildscript {
+    repositories {
+        maven {
+            name = 'forge'
+            url = 'https://files.minecraftforge.net/maven'
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'net.minecrell.vanillagradle.server' version '2.2-6'
+}
+
+dependencies {
+    compileOnly project(":panilla-api")
+}
+
+minecraft {
+    version = '1.12.2'
+    mappings = 'stable_39'
+}

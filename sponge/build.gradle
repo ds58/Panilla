@@ -1,0 +1,12 @@
+repositories {
+    maven {
+        name = 'sponge-repo'
+        url = 'https://repo.spongepowered.org/maven'
+    }
+}
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:7.1.0'
+    compile project(":panilla-api")
+    compile project(":panilla-forge112")
+}
