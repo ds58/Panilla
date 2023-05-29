@@ -39,6 +39,7 @@ public class ContainerCleaner implements IContainerCleaner {
             GlowMetaItem meta = (GlowMetaItem) glowInventory.getItem(i).getItemMeta();
             CompoundTag ngTag = GlowNbtHelper.getNbt(meta);
             INbtTagCompound tag = new NbtTagCompound(ngTag);
+            // TODO fix
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getClass().getSimpleName(), panilla);
 
             if (FailedNbt.fails(failedNbt)) {

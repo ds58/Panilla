@@ -28,7 +28,7 @@ public class NbtCheck_ench extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         String using = null;
 
         if (tag.hasKey(getName())) {

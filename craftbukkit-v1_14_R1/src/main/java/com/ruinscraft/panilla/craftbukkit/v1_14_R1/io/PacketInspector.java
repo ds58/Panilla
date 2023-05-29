@@ -104,7 +104,8 @@ public class PacketInspector implements IPacketInspector {
                         }
 
                         INbtTagCompound tag = new NbtTagCompound(item.getItemStack().getTag());
-                        FailedNbt failedNbt = NbtChecks.checkAll(tag, item.getItemStack().getClass().getSimpleName(), panilla);
+                        String itemName = item.getItemStack().getItem().getName();
+                        FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
                         if (FailedNbt.fails(failedNbt)) {
                             throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId);

@@ -11,7 +11,7 @@ public class NbtCheck_title extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         final int titleLength = tag.getString("title").length();
 
         if (panilla.getPConfig().strictness == PStrictness.STRICT) {

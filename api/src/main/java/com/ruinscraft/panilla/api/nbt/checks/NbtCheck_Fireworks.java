@@ -13,7 +13,7 @@ public class NbtCheck_Fireworks extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound fireworks = tag.getCompound("Fireworks");
 
         int flight = fireworks.getInt("Flight");

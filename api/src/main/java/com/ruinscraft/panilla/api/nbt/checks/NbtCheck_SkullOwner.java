@@ -19,7 +19,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         if (panilla.getPConfig().preventMinecraftEducationSkulls) {
             INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
 

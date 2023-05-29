@@ -28,7 +28,7 @@ public abstract class NbtCheck {
         return aliases;
     }
 
-    public abstract NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla);
+    public abstract NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla);
 
     public enum NbtCheckResult {
         PASS,

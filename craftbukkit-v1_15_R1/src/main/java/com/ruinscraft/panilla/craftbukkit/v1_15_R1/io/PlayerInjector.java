@@ -5,7 +5,6 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import net.minecraft.server.v1_15_R1.EntityPlayer;
-import net.minecraft.server.v1_15_R1.MinecraftServer;
 import net.minecraft.server.v1_15_R1.PacketDecompressor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 
@@ -20,7 +19,7 @@ public class PlayerInjector implements IPlayerInjector {
 
     @Override
     public int getCompressionLevel() {
-        return MinecraftServer.getServer().az();    // TODO: check this mapping
+        return 256;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class NbtCheck_display extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound display = tag.getCompound(getName());
 
         String name = display.getString("Name");

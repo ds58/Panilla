@@ -11,7 +11,7 @@ public class NbtCheck_CustomPotionColor extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         int bgr = tag.getInt(getName());
         boolean validColor = true;  // TODO:
         if (!validColor) {

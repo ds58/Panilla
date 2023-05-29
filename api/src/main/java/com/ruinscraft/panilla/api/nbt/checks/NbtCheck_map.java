@@ -11,7 +11,7 @@ public class NbtCheck_map extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         return NbtCheckResult.PASS;
     }
 

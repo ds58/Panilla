@@ -94,6 +94,7 @@ public class PacketInspector implements IPacketInspector {
                 GlowMetaItem meta = (GlowMetaItem) glowItem.getItemStack().getItemMeta();
                 CompoundTag ngTag = GlowNbtHelper.getNbt(meta);
                 INbtTagCompound tag = new NbtTagCompound(ngTag);
+                // TODO fix
                 FailedNbt failedNbt = NbtChecks.checkAll(tag, glowItem.getItemStack().getClass().getSimpleName(), panilla);
 
                 if (FailedNbt.fails(failedNbt)) {

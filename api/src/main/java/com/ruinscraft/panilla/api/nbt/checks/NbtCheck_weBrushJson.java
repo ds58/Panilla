@@ -11,7 +11,7 @@ public class NbtCheck_weBrushJson extends NbtCheck {
     }
 
     @Override
-    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         if (panilla.getPConfig().preventFaweBrushNbt) {
             return NbtCheckResult.FAIL;
         }
