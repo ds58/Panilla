@@ -23,8 +23,9 @@ public class NbtCheck_Items extends NbtCheck {
             return NbtCheckResult.CRITICAL;
         }
 
-        // Check for air
+        // Check for air or bundles
         // Can cause a server crash if bundles have air items
+        // Do not allow nested bundles
         /*
             net.minecraft.ReportedException: Ticking player
             at net.minecraft.server.level.ServerPlayer.doTick(ServerPlayer.java:754) ~[?:?]
@@ -42,6 +43,8 @@ public class NbtCheck_Items extends NbtCheck {
         for (int i = 0; i < itemsTagList.size(); i++) {
             if (itemsTagList.getCompound(i).hasKey("id")) {
                 if (itemsTagList.getCompound(i).getString("id").equals("minecraft:air")) {
+                    return NbtCheckResult.CRITICAL;
+                } else if (itemsTagList.getCompound(i).getString("id").equals("minecraft:bundle")) {
                     return NbtCheckResult.CRITICAL;
                 }
             }
