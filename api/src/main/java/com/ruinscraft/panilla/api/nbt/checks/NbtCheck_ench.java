@@ -1,7 +1,6 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.EnchantmentCompat;
-import com.ruinscraft.panilla.api.IEnchantments;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
@@ -20,7 +19,9 @@ public class NbtCheck_ench extends NbtCheck {
 
         if (tag.hasKey(getName())) {
             using = getName();
-        } else {
+        }
+
+        else {
             for (String alias : getAliases()) {
                 if (tag.hasKey(alias)) {
                     using = alias;
@@ -36,7 +37,7 @@ public class NbtCheck_ench extends NbtCheck {
 
         for (int i = 0; i < enchantments.size(); i++) {
             INbtTagCompound enchantment = enchantments.getCompound(i);
-            EnchantmentCompat enchCompat = getEnchCompat(enchantment, panilla.getEnchantments());
+            EnchantmentCompat enchCompat = getEnchCompat(enchantment);
 
             if (enchCompat == null) {
                 continue;
@@ -54,7 +55,7 @@ public class NbtCheck_ench extends NbtCheck {
 
             for (int j = 0; j < enchantments.size(); j++) {
                 INbtTagCompound otherEnchantment = enchantments.getCompound(j);
-                EnchantmentCompat _enchCompat = getEnchCompat(otherEnchantment, panilla.getEnchantments());
+                EnchantmentCompat _enchCompat = getEnchCompat(otherEnchantment);
 
                 if (enchCompat != _enchCompat) {
                     if (panilla.getEnchantments().conflicting(enchCompat, _enchCompat)) {
@@ -67,7 +68,7 @@ public class NbtCheck_ench extends NbtCheck {
         return true;
     }
 
-    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IEnchantments enchantments) {
+    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment) {
         if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
             final int id = enchantment.getInt("id");
             return EnchantmentCompat.getByLegacyId(id);

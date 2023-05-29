@@ -27,7 +27,7 @@ shadowJar {
         include(dependency(':panilla-craftbukkit-v1_14_R1'))
     }
     archiveName = "Panilla.jar"
-    destinationDir = file '../target/bukkit'
+    destinationDir = file '../target/craftbukkit'
 }
 
 build.dependsOn(shadowJar)
