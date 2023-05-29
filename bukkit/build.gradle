@@ -16,6 +16,15 @@ buildscript {
     }
 }
 
+processResources {
+    from('src/main/resources') {
+        include 'plugin.yml'
+        expand(
+            version: project.parent.version
+        )
+    }
+}
+
 apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {

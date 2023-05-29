@@ -1,6 +1,6 @@
 name: Panilla
 version: ${version}
-main: ${mainClass}
+main: com.ruinscraft.panilla.bukkit.PanillaPlugin
 api-version: 1.13
 description: Prevent abusive NBT and harmful packets
 authors: [royalkingkb]
