@@ -1,6 +1,5 @@
 package com.ruinscraft.panilla.api;
 
-import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
@@ -15,7 +14,7 @@ public class PanillaLogger {
         this.panilla = panilla;
     }
 
-    public void warn(IPanillaPlayer player, PacketException e, IProtocolConstants protocolConstants, PConfig config) {
+    public void warn(IPanillaPlayer player, PacketException e) {
         if (panilla.getPanillaLocale() == null) {
             panilla.getPlatform().getLogger().warning("Locale is not loaded");
             return;
@@ -41,7 +40,7 @@ public class PanillaLogger {
             message += " " + String.format(
                     panilla.getPanillaLocale().getTranslation("packet-dropped-reason-too-large"),
                     oversizedPacketException.getSizeBytes(),
-                    protocolConstants.maxPacketSizeBytes());
+                    panilla.getProtocolConstants().maxPacketSizeBytes());
         } else if (e instanceof NbtNotPermittedException) {
             NbtNotPermittedException nbtNotPermittedException = (NbtNotPermittedException) e;
 
@@ -52,7 +51,7 @@ public class PanillaLogger {
 
         message = panilla.getPlatform().translateColorCodes(message);
 
-        if (config.chatLogging) {
+        if (panilla.getPanillaConfig().chatLogging) {
             for (IPanillaPlayer onlinePlayer : panilla.getPlatform().getOnlinePlayers()) {
                 if (onlinePlayer.hasPermission(CHAT_PERMISSION)) {
                     onlinePlayer.sendMessage(message);
@@ -60,7 +59,7 @@ public class PanillaLogger {
             }
         }
 
-        if (config.consoleLogging) {
+        if (panilla.getPanillaConfig().consoleLogging) {
             panilla.getPlatform().getLogger().info(message);
         }
     }
