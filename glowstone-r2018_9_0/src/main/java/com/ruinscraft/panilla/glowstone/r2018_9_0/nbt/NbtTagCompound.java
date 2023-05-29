@@ -4,8 +4,11 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 import net.glowstone.util.nbt.CompoundTag;
+import net.glowstone.util.nbt.ListTag;
+import net.glowstone.util.nbt.Tag;
 import net.glowstone.util.nbt.TagType;
 
+import java.util.List;
 import java.util.Set;
 
 public class NbtTagCompound implements INbtTagCompound {
@@ -29,8 +32,6 @@ public class NbtTagCompound implements INbtTagCompound {
     @Override
     public boolean hasKeyOfType(String key, NbtDataType nbtDataType) {
         switch (nbtDataType) {
-            case END:
-                return handle.isEmpty();    // TODO: no
             case BYTE:
                 return handle.isByte(key);
             case SHORT:
@@ -53,6 +54,7 @@ public class NbtTagCompound implements INbtTagCompound {
                 return handle.isCompound(key);
             case INT_ARRAY:
                 return handle.isIntArray(key);
+            case END:   // Glowstone doesn't implement END tag?
             default:
                 return false;
         }
@@ -80,7 +82,10 @@ public class NbtTagCompound implements INbtTagCompound {
 
     @Override
     public INbtTagList getList(String key, NbtDataType nbtDataType) {
-        return new NbtTagList(handle.getList(key, TagType.byId(nbtDataType.id)));
+        TagType type = TagType.byId(nbtDataType.id);
+        List list = handle.getList(key, type);
+        ListTag listTag = new ListTag(type, list);
+        return new NbtTagList(listTag);
     }
 
     @Override
