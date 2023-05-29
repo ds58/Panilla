@@ -27,20 +27,35 @@ public final class NbtChecks {
 		register(new NbtCheck_Potion());
 		register(new NbtCheck_CustomPotionColor());
 		register(new NbtCheck_display());
+		register(new NbtCheck_HideFlags());
+		register(new NbtCheck_resolved());
+		register(new NbtCheck_generation());
+		register(new NbtCheck_author());
+		register(new NbtCheck_title());
+		register(new NbtCheck_pages());
+		register(new NbtCheck_SkullOwner());
+		register(new NbtCheck_Explosion());
+		register(new NbtCheck_Fireworks());
+		register(new NbtCheck_EntityTag());
+		register(new NbtCheck_BucketVariantTag());
+		register(new NbtCheck_map());
+		register(new NbtCheck_map_scale_direction());
+		register(new NbtCheck_Decorations());
+		register(new NbtCheck_Effects());
 	}
-	
+
 	public static void register(NbtCheck check) {
 		checks.put(check.getName(), check);
 	}
-	
+
 	public static NbtCheck get(String tag) {
 		return checks.get(tag);
 	}
-	
+
 	public static boolean exists(String tag) {
 		return checks.containsKey(tag);
 	}
-	
+
 	public static void checkPacketPlayIn(INbtTagCompound tag,
 			String nmsItemClassName,
 			String nmsPacketClassName,
@@ -48,12 +63,12 @@ public final class NbtChecks {
 			PStrictness strictness) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
-		
+
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, true, failedNbt);
 		}
 	}
-	
+
 	public static void checkPacketPlayOut(INbtTagCompound tag,
 			String nmsItemClassName,
 			String nmsPacketClassName,
@@ -61,31 +76,33 @@ public final class NbtChecks {
 			PStrictness strictness) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
-		
+
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt);
 		}
 	}
-	
+
 	public static String checkAll(INbtTagCompound tag,
 			String nmsItemClassName,
 			IProtocolConstants protocolConstants,
 			PStrictness strictness) {
-		for (String subTag : checks.keySet()) {
-			if (tag.hasKey(subTag)) {
-				NbtCheck check = get(subTag);
-				
-				if (check.getTolerance().lvl > strictness.lvl) {
-					continue;
-				}
-				
-				boolean pass = get(subTag).check(tag, nmsItemClassName, protocolConstants);
-				
-				if (!pass) return subTag;
+		for (String key : tag.getKeys()) {
+			NbtCheck check = checks.get(key);
+
+			if (check == null) {
+				return key;
+			}
+
+			if (check.getTolerance().lvl > strictness.lvl) {
+				continue;
+			}
+
+			if (!check.check(tag, nmsItemClassName, protocolConstants)) {
+				return key;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 }

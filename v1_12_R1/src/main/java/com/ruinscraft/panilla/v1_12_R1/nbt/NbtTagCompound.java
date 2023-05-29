@@ -1,5 +1,7 @@
 package com.ruinscraft.panilla.v1_12_R1.nbt;
 
+import java.util.Set;
+
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
@@ -17,6 +19,11 @@ public class NbtTagCompound implements INbtTagCompound {
 	@Override
 	public boolean hasKey(String key) {
 		return handle.hasKey(key);
+	}
+	
+	@Override
+	public Set<String> getKeys() {
+		return handle.c();
 	}
 
 	@Override
