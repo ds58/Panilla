@@ -13,17 +13,8 @@ logging:
 #   average    - Prevent most abusive things
 #   strict  - Prevent anything non-vanilla
 strictness: strict
- 
-# Advanced options  ---------------------------------------
 
 # Whitelist NBT tags from being checked
 nbt-whitelist:
- - display.Lore
+  - display.Lore
   - display.Name
-
-# Whitelist of packets from being checked
-# Packet IDs can be found here: https://wiki.vg/Protocol
-packet-whitelist:
- - 0x20
-
-# ---------------------------------------------------------

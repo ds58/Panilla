@@ -17,8 +17,8 @@ public interface IItemStackChecker {
 		switch (strictness) {
 		case STRICT:	// petty
 		case AVERAGE:	// somewhat abusive
-			checkTooFew(object);
 			checkTooMany(object);
+			checkTooFew(object);
 		case LENIENT:	// game breaking
 			checkRecursiveNbt(object, nbtChecker);
 		}
