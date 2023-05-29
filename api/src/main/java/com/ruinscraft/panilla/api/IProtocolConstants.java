@@ -48,6 +48,7 @@ public interface IProtocolConstants {
         return 50;
     }
 
+    // TODO: Drop 'NOT_PROTOCOL_' and add an annotation instead!
     /* Not protocol -- Reasonable values/assumptions */
     default int NOT_PROTOCOL_maxEntityTagCustomNameLength() {
         return 64;
@@ -66,7 +67,7 @@ public interface IProtocolConstants {
     }
 
     default int NOT_PROTOCOL_maxBlockEntityTagLengthBytes() {
-        return 65536 * 4;
+        return (Short.MAX_VALUE * 2 + 1) * 4; // max value of an unsigned short + 4
     }
 
 }
