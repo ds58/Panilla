@@ -35,6 +35,11 @@ public class InventoryCleaner implements IInventoryCleaner {
             NBTTagCompound nmsTag = itemStack.getTag();
             INbtTagCompound tag = new NbtTagCompound(nmsTag);
             String itemName = itemStack.getItem().getName();
+
+            if (nmsTag == null || itemName == null) {
+                continue;
+            }
+
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
             if (FailedNbt.failsThreshold(failedNbt)) {
