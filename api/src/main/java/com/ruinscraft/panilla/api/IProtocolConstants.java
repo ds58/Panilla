@@ -12,11 +12,15 @@ public interface IProtocolConstants {
 	
 	int packetMaxBytes();
 	
-	int maxAnvilRenameChars();
-
-	int maxSignLineLength();
-
 	/* Default values that I don't expect to change in future versions of Minecraft */
+	
+	default int maxAnvilRenameChars() {
+		return 35;
+	}
+
+	default int maxSignLineLength() {
+		return 48;
+	}
 	
 	default int fireworksMaxFlight() {
 		return 3;
