@@ -8,6 +8,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
+import java.util.NoSuchElementException;
+
 public interface IPlayerInjector {
 
     String HANDLER_PANILLA_INSPECTOR = "panilla_inspector";
@@ -63,14 +65,22 @@ public interface IPlayerInjector {
         if (panillaDecompressor != null && panillaDecompressor instanceof PacketDecompressorDplx) {
             ByteToMessageDecoder minecraftDecompressor = getDecompressor();
 
-            pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), minecraftDecompressor);
+            try {
+                pChannel.pipeline().replace(getDecompressorHandlerName(), getDecompressorHandlerName(), minecraftDecompressor);
+            } catch (NoSuchElementException e) {
+                // We can safely ignore this. Even with the instanceof check, depending on circumstance, this can still happen
+            }
         }
 
         /* Remove packet inspector */
         ChannelHandler panillaHandler = pChannel.pipeline().get(HANDLER_PANILLA_INSPECTOR);
 
         if (panillaHandler != null && panillaHandler instanceof PacketInspectorDplx) {
-            pChannel.pipeline().remove(panillaHandler);
+            try {
+                pChannel.pipeline().remove(panillaHandler);
+            } catch (NoSuchElementException e) {
+                // We can safely ignore this. Even with the instanceof check, depending on circumstance, this can still happen
+            }
         }
     }
 
