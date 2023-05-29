@@ -6,10 +6,7 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_13_R2.nbt.NbtTagCompound;
-import net.minecraft.server.v1_13_R2.EntityPlayer;
-import net.minecraft.server.v1_13_R2.ItemStack;
-import net.minecraft.server.v1_13_R2.PacketPlayInSetCreativeSlot;
-import net.minecraft.server.v1_13_R2.PacketPlayOutSetSlot;
+import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 
 import java.lang.reflect.Field;
@@ -66,13 +63,11 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
-        // int          windowId (0 for player)
-        // int          slotId
-        // ItemStack    item
-        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, ItemStack.a);
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
-        entityPlayer.playerConnection.sendPacket(packet);
+        entityPlayer.inventory.update();
+//        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, new ItemStack(Blocks.AIR));
+//        entityPlayer.playerConnection.sendPacket(packet);
     }
 
 }

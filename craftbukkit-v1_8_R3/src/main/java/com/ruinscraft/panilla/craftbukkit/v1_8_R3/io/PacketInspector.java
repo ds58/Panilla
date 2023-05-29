@@ -63,13 +63,11 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
-        // int          windowId (0 for player)
-        // int          slotId
-        // ItemStack    item
-        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, new ItemStack(Block.getById(0)));
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
-        entityPlayer.playerConnection.sendPacket(packet);
+        entityPlayer.inventory.update();
+//        PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(0, slot, new ItemStack(Blocks.AIR));
+//        entityPlayer.playerConnection.sendPacket(packet);
     }
 
 }
