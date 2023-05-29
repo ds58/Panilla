@@ -14,7 +14,7 @@ public class NbtCheck_ench extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         String using = null;
 
         if (tag.hasKey(getName())) {
@@ -44,11 +44,11 @@ public class NbtCheck_ench extends NbtCheck {
             int lvl = 0xFFFF & enchantments.getCompound(i).getShort("lvl");
 
             if (lvl > panilla.getEnchantments().getMaxLevel(enchCompat)) {
-                return false;
+                return NbtCheckResult.FAIL;
             }
 
             if (lvl < panilla.getEnchantments().getStartLevel(enchCompat)) {
-                return false;
+                return NbtCheckResult.FAIL;
             }
 
             for (int j = 0; j < enchantments.size(); j++) {
@@ -61,13 +61,13 @@ public class NbtCheck_ench extends NbtCheck {
 
                 if (enchCompat != _enchCompat) {
                     if (panilla.getEnchantments().conflicting(enchCompat, _enchCompat)) {
-                        return false;
+                        return NbtCheckResult.FAIL;
                     }
                 }
             }
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
     private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {

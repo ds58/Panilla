@@ -3,6 +3,9 @@ package com.ruinscraft.panilla.forge112;
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
+import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.forge112.nbt.NbtTagCompound;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -28,14 +31,13 @@ public class ContainerCleaner implements IContainerCleaner {
 
             if (itemStack == null || !itemStack.hasTagCompound()) continue;
 
-            NBTTagCompound tag = itemStack.getTagCompound();
+            NBTTagCompound nmsTag = itemStack.getTagCompound();
+            INbtTagCompound tag = new NbtTagCompound(nmsTag);
+            FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getItem().getClass().getSimpleName(), panilla);
 
-            String failedNbt = NbtChecks.checkAll(
-                    new NbtTagCompound(tag), itemStack.getItem().getClass().getSimpleName(), panilla);
-
-            if (failedNbt != null) {
-                tag.removeTag(failedNbt);
-                container.getSlot(slot).getStack().setTagCompound(tag);
+            if (failedNbt != null && failedNbt.result != NbtCheck.NbtCheckResult.PASS) {
+                nmsTag.removeTag(failedNbt.key);
+                container.getSlot(slot).getStack().setTagCompound(nmsTag);
             }
         }
     }

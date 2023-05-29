@@ -13,24 +13,24 @@ public class NbtCheck_Fireworks extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound fireworks = tag.getCompound("Fireworks");
 
         int flight = fireworks.getInt("Flight");
 
         if (flight > panilla.getProtocolConstants().maxFireworksFlight()
                 || flight < panilla.getProtocolConstants().minFireworksFlight()) {
-            return false;
+            return NbtCheckResult.FAIL;
         }
 
         INbtTagList explosions = fireworks.getList("Explosions", NbtDataType.COMPOUND);
 
         if (explosions != null
                 && explosions.size() > panilla.getProtocolConstants().maxFireworksExplosions()) {
-            return false;
+            return NbtCheckResult.FAIL;
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

@@ -11,8 +11,12 @@ public class NbtCheck_weBrushJson extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        return !panilla.getPanillaConfig().preventFaweBrushNbt;
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        if (panilla.getPanillaConfig().preventFaweBrushNbt) {
+            return NbtCheckResult.FAIL;
+        } else {
+            return NbtCheckResult.PASS;
+        }
     }
 
 }

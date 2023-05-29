@@ -6,8 +6,8 @@ public class EntityNbtNotPermittedException extends PacketException {
 
     private final UUID entityId;
 
-    public EntityNbtNotPermittedException(String nmsClass, boolean from, UUID entityId) {
-        super(nmsClass, from);
+    public EntityNbtNotPermittedException(String nmsClass, boolean from, FailedNbt failedNbt, UUID entityId) {
+        super(nmsClass, from, failedNbt);
         this.entityId = entityId;
     }
 

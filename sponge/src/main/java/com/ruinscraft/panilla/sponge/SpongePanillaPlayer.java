@@ -2,6 +2,8 @@ package com.ruinscraft.panilla.sponge;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.exception.PacketException;
+import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
@@ -39,7 +41,10 @@ public class SpongePanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public boolean canBypassChecks() {
+    public boolean canBypassChecks(PacketException e) {
+        if (e.getFailedNbt().result == NbtCheck.NbtCheckResult.CRITICAL) {
+            return false;
+        }
         return PanillaPlugin.get().getPanillaConfig().disabledWorlds.contains(getCurrentWorldName())
                 || hasPermission(IPanilla.PERMISSION_BYPASS);
     }

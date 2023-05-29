@@ -19,7 +19,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         if (panilla.getPanillaConfig().preventMinecraftEducationSkulls) {
             INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
 
@@ -40,7 +40,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
                                 decoded = new String(Base64.getDecoder().decode(b64));
                             } catch (IllegalArgumentException e) {
                                 panilla.getPlatform().getLogger().info("Invalid head texture");
-                                return false;
+                                return NbtCheckResult.CRITICAL;
                             }
 
                             // all lowercase, no parentheses or spaces
@@ -60,18 +60,16 @@ public class NbtCheck_SkullOwner extends NbtCheck {
                                         url.startsWith("https://textures.minecraft.net")) {
                                     continue;
                                 } else {
-                                    return false;
+                                    return NbtCheckResult.FAIL;
                                 }
                             }
-
-                            return true;
                         }
                     }
                 }
             }
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

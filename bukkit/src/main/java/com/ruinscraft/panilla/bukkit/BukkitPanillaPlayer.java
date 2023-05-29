@@ -2,6 +2,8 @@ package com.ruinscraft.panilla.bukkit;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.exception.PacketException;
+import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import org.bukkit.entity.Player;
 
 public class BukkitPanillaPlayer implements IPanillaPlayer {
@@ -38,7 +40,10 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
     }
 
     @Override
-    public boolean canBypassChecks() {
+    public boolean canBypassChecks(PacketException e) {
+        if (e.getFailedNbt().result == NbtCheck.NbtCheckResult.CRITICAL) {
+            return false;
+        }
         return PanillaPlugin.get().getPanillaConfig().disabledWorlds.contains(getCurrentWorldName())
                 || hasPermission(IPanilla.PERMISSION_BYPASS);
     }

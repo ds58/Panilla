@@ -1,6 +1,7 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.IPanilla;
+import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -57,23 +58,23 @@ public final class NbtChecks {
 
     public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                          IPanilla panilla) throws NbtNotPermittedException {
-        String failedNbt = checkAll(tag, nmsItemClassName, panilla);
+        FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {
-            throw new NbtNotPermittedException(nmsPacketClassName, true, slot, failedNbt);
+            throw new NbtNotPermittedException(nmsPacketClassName, true, failedNbt, slot);
         }
     }
 
     public static void checkPacketPlayOut(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                           IPanilla panilla) throws NbtNotPermittedException {
-        String failedNbt = checkAll(tag, nmsItemClassName, panilla);
+        FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {
-            throw new NbtNotPermittedException(nmsPacketClassName, false, slot, failedNbt);
+            throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
         }
     }
 
-    public static String checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public static FailedNbt checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         int nonMinecraftKeys = 0;
 
         for (String key : tag.getKeys()) {
@@ -92,15 +93,17 @@ public final class NbtChecks {
                 continue;
             }
 
-            if (!check.check(tag, nmsItemClassName, panilla)) {
-                return key;
+            NbtCheck.NbtCheckResult result = check.check(tag, nmsItemClassName, panilla);
+
+            if (result != NbtCheck.NbtCheckResult.PASS) {
+                return new FailedNbt(key, result);
             }
         }
 
         if (nonMinecraftKeys > panilla.getPanillaConfig().maxNonMinecraftNbtKeys) {
             for (String key : tag.getKeys()) {
                 if (checks.get(key) == null) {
-                    return key;
+                    return new FailedNbt(key, NbtCheck.NbtCheckResult.FAIL);
                 }
             }
         }

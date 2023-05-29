@@ -3,8 +3,11 @@ package com.ruinscraft.panilla.craftbukkit.v1_12_R1.io;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
+import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
+import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_12_R1.nbt.NbtTagCompound;
 import net.minecraft.server.v1_12_R1.*;
@@ -97,10 +100,11 @@ public class PacketInspector implements IPacketInspector {
                             return;
                         }
 
-                        String failed = NbtChecks.checkAll(new NbtTagCompound(item.getItemStack().getTag()), item.getItemStack().getClass().getSimpleName(), panilla);
+                        INbtTagCompound tag = new NbtTagCompound(item.getItemStack().getTag());
+                        FailedNbt failedNbt = NbtChecks.checkAll(tag, item.getItemStack().getClass().getSimpleName(), panilla);
 
-                        if (failed != null) {
-                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, entityId);
+                        if (failedNbt != null && failedNbt.result != NbtCheck.NbtCheckResult.PASS) {
+                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId);
                         }
                     }
                 }

@@ -56,7 +56,7 @@ public class PanillaLogger {
 
             message += " " + String.format(
                     panilla.getPanillaLocale().getTranslation("packet-dropped-reason-invalid-nbt"),
-                    nbtNotPermittedException.getTagName());
+                    nbtNotPermittedException.getFailedNbt().key);
         }
 
         message = panilla.getPlatform().translateColorCodes(message);

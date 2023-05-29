@@ -13,7 +13,7 @@ public class NbtCheck_display extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound display = tag.getCompound(getName());
 
         String name = display.getString("Name");
@@ -28,16 +28,16 @@ public class NbtCheck_display extends NbtCheck {
         }
 
         if (name != null && name.length() > maxNameLength) {
-            return false;
+            return NbtCheckResult.CRITICAL;
         }
 
         INbtTagList lore = display.getList("Lore", NbtDataType.LIST);
 
         if (lore.size() > panilla.getProtocolConstants().NOT_PROTOCOL_maxLoreLines()) {
-            return false;
+            return NbtCheckResult.CRITICAL;
         }
 
-        return true;
+        return NbtCheckResult.PASS;
     }
 
 }

@@ -27,7 +27,7 @@ public interface IPacketInspector {
         try {
             checkPacketPlayInSetCreativeSlot(_packet);
         } catch (NbtNotPermittedException e) {
-            if (!player.canBypassChecks()) {
+            if (!player.canBypassChecks(e)) {
                 sendPacketPlayOutSetSlotAir(player, e.getItemSlot());
             }
             throw e;

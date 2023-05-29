@@ -5,8 +5,8 @@ public class LegacyEntityNbtNotPermittedException extends PacketException {
 
     private final int entityId;
 
-    public LegacyEntityNbtNotPermittedException(String nmsClass, boolean from, int entityId) {
-        super(nmsClass, from);
+    public LegacyEntityNbtNotPermittedException(String nmsClass, boolean from, FailedNbt failedNbt, int entityId) {
+        super(nmsClass, from, failedNbt);
         this.entityId = entityId;
     }
 

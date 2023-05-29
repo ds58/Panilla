@@ -12,8 +12,8 @@ public class NbtCheck_BlockStateTag extends NbtCheck {
     }
 
     @Override
-    public boolean check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        return false;   // TODO: test variations of BlockStateTag to see what is potentially malicious
+    public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        return NbtCheckResult.FAIL;   // TODO: test variations of BlockStateTag to see what is potentially malicious
     }
 
 }
