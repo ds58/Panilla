@@ -2,6 +2,7 @@ package com.ruinscraft.panilla.craftbukkit.v1_13_R2.nbt;
 
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
+import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import net.minecraft.server.v1_13_R2.NBTTagList;
 
 public class NbtTagList implements INbtTagList {
@@ -20,6 +21,11 @@ public class NbtTagList implements INbtTagList {
     @Override
     public String getString(int index) {
         return handle.getString(index);
+    }
+
+    @Override
+    public boolean isCompound(int index) {
+        return handle.c(index) instanceof NBTTagCompound;
     }
 
     @Override

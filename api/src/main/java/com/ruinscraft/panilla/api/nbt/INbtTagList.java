@@ -6,6 +6,8 @@ public interface INbtTagList {
 
     String getString(int index);
 
+    boolean isCompound(int index);
+
     int size();
 
 }
