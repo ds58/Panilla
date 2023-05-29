@@ -11,26 +11,13 @@
 
 	<artifactId>panilla-api</artifactId>
 
-	<repositories>
-		<repository>
-			<id>sonatype</id>
-			<url>https://oss.sonatype.org/content/groups/public/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
-		<!-- 1.12.2 netty -->
+		<!-- 1.12.2 netty || should work with 1.12.2+ -->
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
 			<version>4.1.24.Final</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.flowpowered</groupId>
-			<artifactId>flow-nbt</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

@@ -2,9 +2,6 @@ package com.ruinscraft.panilla.v1_12_R1;
 
 import java.io.IOException;
 
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-
-import com.flowpowered.nbt.CompoundTag;
 import com.ruinscraft.panilla.api.exception.ModifiedItemStackException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
@@ -12,10 +9,11 @@ import com.ruinscraft.panilla.api.io.IProtocolConstants;
 
 import io.netty.buffer.UnpooledByteBufAllocator;
 import net.minecraft.server.v1_12_R1.ItemStack;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketDataSerializer;
+import net.minecraft.server.v1_12_R1.PacketPlayInCustomPayload;
 import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
+import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
 
 public class PacketInspector implements IPacketInspector {
 
@@ -37,6 +35,11 @@ public class PacketInspector implements IPacketInspector {
 			try {
 				packet.b(dataSerializer);
 
+				if (packet instanceof PacketPlayInCustomPayload
+						|| packet instanceof PacketPlayOutCustomPayload) {
+					packet.a(dataSerializer);
+				}
+				
 				sizeBytes = dataSerializer.readableBytes();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -56,9 +59,7 @@ public class PacketInspector implements IPacketInspector {
 			PacketPlayInSetCreativeSlot packetPlayInSetCreativeSlot = (PacketPlayInSetCreativeSlot) nmsPacket;
 			ItemStack itemStack = packetPlayInSetCreativeSlot.getItemStack();
 
-			NBTTagCompound nbtTagCompound = itemStack.getTag();
-
-			
+			System.out.println(itemStack.hasTag());
 		}
 	}
 
