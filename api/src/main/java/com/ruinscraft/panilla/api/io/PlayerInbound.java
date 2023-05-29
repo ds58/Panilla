@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api;
+package com.ruinscraft.panilla.api.io;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

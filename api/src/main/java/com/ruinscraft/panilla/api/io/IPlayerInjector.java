@@ -1,6 +1,4 @@
-package com.ruinscraft.panilla.api;
-
-import org.bukkit.entity.Player;
+package com.ruinscraft.panilla.api.io;
 
 public interface IPlayerInjector {
 
@@ -8,7 +6,7 @@ public interface IPlayerInjector {
 	static String PANILLA_CHANNEL_IN = "panilla_in";
 	static String PANILLA_CHANNEL_OUT = "panilla_out";
 
-	void register(Player bukkitPlayer);
-	void unregister(Player bukkitPlayer);
+	void register(final Object object);
+	void unregister(final Object object);
 
 }

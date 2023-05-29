@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.api;
+package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.exception.ModifiedItemStackException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
