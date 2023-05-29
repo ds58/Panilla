@@ -40,9 +40,9 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
                                 if (decoded.substring(urlIndex).startsWith("http://textures.minecraft.net")
                                         || decoded.substring(urlIndex).startsWith("https://textures.minecraft.net")) {
-                                    return false;
-                                } else {
                                     return true;
+                                } else {
+                                    return false;
                                 }
                             } catch (IllegalArgumentException e) {
                                 panilla.getPlatform().getLogger().info("Invalid head texture");
