@@ -19,7 +19,6 @@ public class NbtCheck_author extends NbtCheck {
 		}
 
 		return true;
-
 	}
 
 }

@@ -5,13 +5,9 @@ description: Prevent abusive NBT and harmful packets
 authors: [royalkingkb]
 website: https://github.com/Ruinscraft/Panilla
 permissions:
-  panilla.command:
-    description: Use the Panilla command
-    default: op
   panilla.log.chat:
     description: View warning logs in chat if enabled in the config
     default: op
 commands:
   panilla:
     description: Information about your Panilla instance
-    permission: panilla.command

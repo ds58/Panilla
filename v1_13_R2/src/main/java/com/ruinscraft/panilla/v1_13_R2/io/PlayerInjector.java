@@ -4,7 +4,9 @@ import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.PanillaLogger;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import com.ruinscraft.panilla.api.io.PlayerInbound;
@@ -17,12 +19,16 @@ public class PlayerInjector implements IPlayerInjector {
 
 	private final IPacketInspector packetInspector;
 	private final IContainerCleaner containerCleaner;
+	private final IProtocolConstants protocolConstants;
+	private final PConfig config;
 	private final PanillaLogger panillaLogger;
 
 	public PlayerInjector(IPacketInspector packetInspector, IContainerCleaner containerCleaner,
-			PanillaLogger panillaLogger) {
+			IProtocolConstants protocolConstants, PConfig config, PanillaLogger panillaLogger) {
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
+		this.protocolConstants = protocolConstants;
+		this.config = config;
 		this.panillaLogger = panillaLogger;
 	}
 
@@ -39,14 +45,15 @@ public class PlayerInjector implements IPlayerInjector {
 
 		/* Register inbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
-			PlayerInbound inbound = new PlayerInbound(player, packetInspector, containerCleaner, panillaLogger);
+			PlayerInbound inbound = new PlayerInbound(player, packetInspector, containerCleaner,
+					protocolConstants, config, panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
 			PlayerOutbound outbound = new PlayerOutbound(player, packetInspector, containerCleaner,
-					panillaLogger);
+					protocolConstants, config, panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}

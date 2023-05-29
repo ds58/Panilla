@@ -22,14 +22,10 @@ public class PanillaLogger {
 	private static final String CHAT_PERMISSION = "panilla.log.chat";
 
 	private final Plugin plugin;
-	private final PConfig config;
-	private final IProtocolConstants protocolConstants;
 	private FileConfiguration locale;
 
-	public PanillaLogger(Plugin plugin, PConfig config, IProtocolConstants protocolConstants) {
+	public PanillaLogger(Plugin plugin) {
 		this.plugin = plugin;
-		this.config = config;
-		this.protocolConstants = protocolConstants;
 	}
 
 	public void loadLocale(String localeFileName) throws IOException {
@@ -54,7 +50,7 @@ public class PanillaLogger {
 		}
 	}
 
-	public void warn(Player player, PacketException e) {
+	public void warn(Player player, PacketException e, IProtocolConstants protocolConstants, PConfig config) {
 		if (locale == null) {
 			plugin.getLogger().warning("Locale is not loaded");
 			return;

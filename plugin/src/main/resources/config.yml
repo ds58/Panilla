@@ -12,7 +12,7 @@ logging:
 
 # Strictness of how much you wish to enforce
 #   lenient - Only prevent game-breaking things or crashes
-#   average    - Prevent most abusive things
+#   average - Prevent most abusive things
 #   strict  - Prevent anything non-vanilla
 strictness: average
 

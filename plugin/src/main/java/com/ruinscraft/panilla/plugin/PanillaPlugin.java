@@ -64,8 +64,7 @@ public class PanillaPlugin extends JavaPlugin {
 
 		loadConfig();
 
-		final PanillaLogger panillaLogger = 
-				new PanillaLogger(this, getPanillaConfig(), getProtocolConstants());
+		PanillaLogger panillaLogger = new PanillaLogger(this);
 
 		try {
 			panillaLogger.loadLocale(panillaConfig.localeFile);
@@ -85,7 +84,7 @@ public class PanillaPlugin extends JavaPlugin {
 			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness,
 					protocolConstants);
 			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner,
-					panillaLogger);
+					protocolConstants, panillaConfig, panillaLogger);
 			break;
 		case "v1_13_R2":
 			protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
@@ -94,14 +93,13 @@ public class PanillaPlugin extends JavaPlugin {
 			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness,
 					protocolConstants);
 			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner,
-					panillaLogger);
+					protocolConstants, panillaConfig, panillaLogger);
 			break;
 		default:
 			getLogger().severe("Minecraft version " + v_Version + " is not supported.");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-
 
 		/* Register listeners */
 		getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
