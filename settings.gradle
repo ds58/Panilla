@@ -15,6 +15,7 @@ include(':panilla-craftbukkit-v1_16_R3')
 include(':panilla-craftbukkit-v1_17_R1')
 include(':panilla-craftbukkit-v1_18_R1')
 include(':panilla-craftbukkit-v1_18_R2')
+include(':panilla-craftbukkit-v1_19_R1')
 include(':panilla-bukkit')
 
 // api
@@ -32,4 +33,5 @@ project(':panilla-craftbukkit-v1_16_R3').projectDir = file('craftbukkit-v1_16_R3
 project(':panilla-craftbukkit-v1_17_R1').projectDir = file('craftbukkit-v1_17_R1')
 project(':panilla-craftbukkit-v1_18_R1').projectDir = file('craftbukkit-v1_18_R1')
 project(':panilla-craftbukkit-v1_18_R2').projectDir = file('craftbukkit-v1_18_R2')
+project(':panilla-craftbukkit-v1_19_R1').projectDir = file('craftbukkit-v1_19_R1')
 project(':panilla-bukkit').projectDir = file('bukkit')
