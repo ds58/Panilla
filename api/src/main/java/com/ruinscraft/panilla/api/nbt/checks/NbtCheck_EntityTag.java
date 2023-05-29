@@ -7,6 +7,8 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
+import java.util.UUID;
+
 public class NbtCheck_EntityTag extends NbtCheck {
 
     private static final String[] ARMOR_STAND_TAGS = new String[]{"NoGravity", "ShowArms", "NoBasePlate", "Small", "Rotation", "Marker", "Pose", "Invisible"};
@@ -52,6 +54,16 @@ public class NbtCheck_EntityTag extends NbtCheck {
             }
         }
 
+        if (entityTag.hasKey("UUID")) {
+            String uuid = entityTag.getString("UUID");
+
+            try {
+                UUID.fromString(uuid);
+            } catch (Exception e) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
         if (entityTag.hasKey("ExplosionPower")) {
             return NbtCheckResult.FAIL;
         }
@@ -92,6 +104,13 @@ public class NbtCheck_EntityTag extends NbtCheck {
 
         if (hasIdTag) {
             if (panilla.getPConfig().strictness == PStrictness.STRICT) {
+                return NbtCheckResult.FAIL;
+            }
+
+            String id = entityTag.getString("id");
+
+            // prevent lightning bolt eggs
+            if (id.toLowerCase().contains("lightning")) {
                 return NbtCheckResult.FAIL;
             }
 

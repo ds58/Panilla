@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 import java.util.Base64;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +23,28 @@ public class NbtCheck_SkullOwner extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         if (panilla.getPConfig().preventMinecraftEducationSkulls) {
             INbtTagCompound skullOwner = tag.getCompound("SkullOwner");
+
+            if (skullOwner.hasKey("Id")) {
+                String idString = skullOwner.getString("Id");
+
+                try {
+                    // Ensure valid UUID
+                    UUID.fromString(idString);
+                } catch (Exception e) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
+
+            if (skullOwner.hasKey("UUID")) {
+                String uuidString = skullOwner.getString("UUID");
+
+                try {
+                    // Ensure valid UUID
+                    UUID.fromString(uuidString);
+                } catch (Exception e) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
 
             if (skullOwner.hasKey("Properties")) {
                 INbtTagCompound properties = skullOwner.getCompound("Properties");
