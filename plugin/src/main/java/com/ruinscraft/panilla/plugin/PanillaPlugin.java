@@ -17,7 +17,6 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 public class PanillaPlugin extends JavaPlugin {
 
 	private PConfig panillaConfig;
-	private PanillaLogger panillaLogger;
 	private IProtocolConstants protocolConstants;
 	private IContainerCleaner containerCleaner;
 	private IPacketInspector packetInspector;
@@ -25,10 +24,6 @@ public class PanillaPlugin extends JavaPlugin {
 
 	public PConfig getPanillaConfig() {
 		return panillaConfig;
-	}
-
-	public PanillaLogger getPanillaLogger() {
-		return panillaLogger;
 	}
 
 	public IProtocolConstants getProtocolConstants() {
@@ -69,6 +64,9 @@ public class PanillaPlugin extends JavaPlugin {
 
 		loadConfig();
 
+		final PanillaLogger panillaLogger = 
+				new PanillaLogger(this, getPanillaConfig(), getProtocolConstants());
+
 		try {
 			panillaLogger.loadLocale(panillaConfig.localeFile);
 		} catch (IOException e) {
@@ -84,9 +82,9 @@ public class PanillaPlugin extends JavaPlugin {
 			protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
 			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness,
 					protocolConstants);
-			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness,
+			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness,
 					protocolConstants);
-			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner,
+			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner,
 					panillaLogger);
 			break;
 		case "v1_13_R2":
@@ -104,8 +102,6 @@ public class PanillaPlugin extends JavaPlugin {
 			return;
 		}
 
-		/* Register logger */
-		panillaLogger = new PanillaLogger(this, panillaConfig, protocolConstants);
 
 		/* Register listeners */
 		getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);

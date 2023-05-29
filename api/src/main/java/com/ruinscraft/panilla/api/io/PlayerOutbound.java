@@ -1,5 +1,7 @@
 package com.ruinscraft.panilla.api.io;
 
+import org.bukkit.entity.Player;
+
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.PanillaLogger;
 import com.ruinscraft.panilla.api.exception.PacketException;
@@ -10,14 +12,14 @@ import io.netty.channel.ChannelPromise;
 
 public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
-	private final Object _player;
+	private final Player player;
 	private final IPacketInspector packetInspector;
 	private final IContainerCleaner containerCleaner;
 	private final PanillaLogger panillaLogger;
 
-	public PlayerOutbound(Object _player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
+	public PlayerOutbound(Player player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
 			PanillaLogger panillaLogger) {
-		this._player = _player;
+		this.player = player;
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
 		this.panillaLogger = panillaLogger;
@@ -28,10 +30,12 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 		try {
 			packetInspector.checkPlayOut(msg);
 		} catch (PacketException e) {
-			containerCleaner.clean(_player);
-			panillaLogger.warn(_player, e);
+			containerCleaner.clean(player);
+			panillaLogger.warn(player, e);
 
 			return; // drop the packet
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		super.write(ctx, msg, promise);

@@ -26,48 +26,34 @@ public class PlayerInjector implements IPlayerInjector {
 		this.panillaLogger = panillaLogger;
 	}
 
-	private static Channel getPlayerChannel(Player _player) throws IllegalArgumentException {
-		if (!(_player instanceof CraftPlayer)) {
-			throw new IllegalArgumentException("_player not instanceof CraftPlayer");
-		}
-
-		CraftPlayer craftPlayer = (CraftPlayer) _player;
+	private static Channel getPlayerChannel(Player player) throws IllegalArgumentException {
+		CraftPlayer craftPlayer = (CraftPlayer) player;
 		EntityPlayer entityPlayer = craftPlayer.getHandle();
 
 		return entityPlayer.playerConnection.networkManager.channel;
 	}
 
 	@Override
-	public void register(final Object _player) {
-		if (!(_player instanceof Player)) {
-			return;
-		}
-
-		Player bukkitPlayer = (Player) _player;
-		Channel channel = getPlayerChannel(bukkitPlayer);
+	public void register(final Player player) {
+		Channel channel = getPlayerChannel(player);
 
 		/* Register inbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
-			PlayerInbound inbound = new PlayerInbound(bukkitPlayer, packetInspector, containerCleaner, panillaLogger);
+			PlayerInbound inbound = new PlayerInbound(player, packetInspector, containerCleaner, panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
-			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector, containerCleaner,
+			PlayerOutbound outbound = new PlayerOutbound(player, packetInspector, containerCleaner,
 					panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}
 
 	@Override
-	public void unregister(final Object _player) {
-		if (!(_player instanceof Player)) {
-			return;
-		}
-
-		Player bukkitPlayer = (Player) _player;
-		Channel channel = getPlayerChannel(bukkitPlayer);
+	public void unregister(final Player player) {
+		Channel channel = getPlayerChannel(player);
 
 		/* Unregister inbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_IN) != null) {

@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_display extends NbtCheck {
 
 	public NbtCheck_display() {
-		super("display", PStrictness.STRICT);
+		super("display", PStrictness.AVERAGE);
 	}
 
 	@Override

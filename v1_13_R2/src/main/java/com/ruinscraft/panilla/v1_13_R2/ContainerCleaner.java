@@ -1,6 +1,7 @@
 package com.ruinscraft.panilla.v1_13_R2;
 
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IProtocolConstants;
@@ -23,23 +24,23 @@ public class ContainerCleaner implements IContainerCleaner {
 	}
 
 	@Override
-	public void clean(Object _craftPlayer) {
-		if (_craftPlayer instanceof CraftPlayer) {
-			CraftPlayer craftPlayer = (CraftPlayer) _craftPlayer;
+	public void clean(Player player) {
+		CraftPlayer craftPlayer = (CraftPlayer) player;
+		Container container = craftPlayer.getHandle().activeContainer;
 
-			Container container = craftPlayer.getHandle().activeContainer;
+		for (int slot = 0; slot < container.slots.size(); slot++) {
+			ItemStack itemStack = container.getSlot(slot).getItem();
+			
+			if (itemStack == null || !itemStack.hasTag()) continue;
+			
+			NBTTagCompound tag = itemStack.getTag();
 
-			for (int slot = 0; slot < container.slots.size(); slot++) {
-				ItemStack itemStack = container.getSlot(slot).getItem();
-				NBTTagCompound tag = itemStack.getTag();
+			String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
+					itemStack.getItem().getClass().getSimpleName(), protocolConstants, strictness);
 
-				String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
-						itemStack.getItem().getClass().getSimpleName(), protocolConstants, strictness);
-
-				if (failedNbt != null) {
-					tag.remove(failedNbt);
-					container.getSlot(slot).getItem().setTag(tag);
-				}
+			if (failedNbt != null) {
+				tag.remove(failedNbt);
+				container.getSlot(slot).getItem().setTag(tag);
 			}
 		}
 	}

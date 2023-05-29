@@ -70,7 +70,7 @@ public final class NbtChecks {
 			IProtocolConstants protocolConstants, PStrictness strictness) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
-
+		
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt);
 		}

@@ -18,7 +18,7 @@ public interface IPacketInspector {
 	/* outbound packets (server->client) */
 	void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException;
 
-	default void checkPlayIn(Object _player, Object _packet) throws PacketException {
+	default void checkPlayIn(Object _packet) throws PacketException {
 		checkSize(_packet, true);
 		checkPacketPlayInSetCreativeSlot(_packet);
 		checkPacketPlayInUpdateSign(_packet);
