@@ -7,12 +7,14 @@ package com.ruinscraft.panilla.api;
  * and be a reasonable value which would prevent game-breaking things.
  */
 public interface IProtocolConstants {
-
+	
 	/* Values which could potentially change or have changed in previous versions of Minecraft */
 	
 	int packetMaxBytes();
 	
 	int maxAnvilRenameChars();
+	
+	// TODO: add sign max line length
 
 	/* Default values that I don't expect to change in future versions of Minecraft */
 	
@@ -28,7 +30,7 @@ public interface IProtocolConstants {
 		return 8;
 	}
 	
-	/* Not protocol -- Reasonable values/assumtions */
+	/* Not protocol -- Reasonable values/assumptions */
 	
 	default int NOT_PROTOCOL_maxLoreLineLength() {
 		return 128;

@@ -1,9 +1,10 @@
-package com.ruinscraft.panilla.v1_12_R1;
+package com.ruinscraft.panilla.v1_12_R1.io;
 
 import java.io.IOException;
 
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
@@ -18,10 +19,12 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
 
 public class PacketInspector implements IPacketInspector {
 
+	private final PStrictness strictness;
 	private final IProtocolConstants protocolConstants;
 	private final INbtChecker nbtChecker;
 
-	public PacketInspector(IProtocolConstants protocolConstants, INbtChecker nbtChecker) {
+	public PacketInspector(PStrictness strictness, IProtocolConstants protocolConstants, INbtChecker nbtChecker) {
+		this.strictness = strictness;
 		this.protocolConstants = protocolConstants;
 		this.nbtChecker = nbtChecker;
 	}
@@ -64,7 +67,7 @@ public class PacketInspector implements IPacketInspector {
 			ItemStack itemStack = packetPlayInSetCreativeSlot.getItemStack();
 			
 			if (itemStack != null && itemStack.hasTag()) {
-				nbtChecker.check(itemStack.getTag());
+				nbtChecker.checkAll(itemStack.getTag(), strictness);
 			}
 		}
 	}

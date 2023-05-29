@@ -1,5 +1,6 @@
 package com.ruinscraft.panilla.api;
 
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 
 public interface INbtChecker {
@@ -22,26 +23,34 @@ public interface INbtChecker {
 	void check_CustomPotionColor(Object object) throws NbtNotPermittedException;
 	void check_Fireworks(Object object) throws NbtNotPermittedException;
 	void check_EntityTag(Object object) throws NbtNotPermittedException;
-	
+
 	void checkNonValid(Object object) throws NbtNotPermittedException;
 
-	default void check(Object object) throws NbtNotPermittedException {
-		check_Item(object);
-		check_ench(object);
-		check_display(object);
-		check_AttributeModifiers(object);
-		check_Unbreakable(object);
-		check_SkullOwner(object);
-		check_HideFlags(object);
-		check_CanDestroy(object);
-		check_PickupDelay(object);
-		check_Age(object);
-		check_generation(object);
-		check_CanPlaceOn(object);
-		check_BlockEntityTag(object);
-		check_CustomPotionEffects(object);
-		check_Potion(object);
-		check_CustomPotionColor(object);
+	default void checkAll(Object object, PStrictness strictness) throws NbtNotPermittedException {
+		switch (strictness) {
+		case STRICT:	// petty
+			check_display(object);
+		case AVERAGE:	// somewhat abusive
+			check_Fireworks(object);
+			check_ench(object);
+			check_AttributeModifiers(object);
+			check_Unbreakable(object);
+			check_HideFlags(object);
+			check_SkullOwner(object);
+			check_CanDestroy(object);
+			check_PickupDelay(object);
+			check_Age(object);
+			check_generation(object);
+			check_CanPlaceOn(object);
+			check_CustomPotionEffects(object);
+			check_EntityTag(object);
+			check_Item(object);
+			check_Potion(object);
+		case LENIENT:	// game breaking
+			check_BlockEntityTag(object);
+			check_CustomPotionColor(object);
+			checkNonValid(object);
+		}
 	}
 
 }
