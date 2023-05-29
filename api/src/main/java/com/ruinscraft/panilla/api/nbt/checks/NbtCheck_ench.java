@@ -16,15 +16,20 @@ public class NbtCheck_ench extends NbtCheck {
     }
 
     private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {
+        final EnchantmentCompat enchCompat;
+
         if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
             final int id = enchantment.getInt("id");
-            return EnchantmentCompat.getByLegacyId(id);
+            enchCompat = EnchantmentCompat.getByLegacyId(id);
         } else if (enchantment.hasKeyOfType("id", NbtDataType.STRING)) {
             final String namedKey = enchantment.getString("id");
-            return EnchantmentCompat.getByNamedKey(namedKey);
+            enchCompat = EnchantmentCompat.getByNamedKey(namedKey);
+        } else {
+            panilla.getPanillaLogger().warning("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]", false);
+            enchCompat = null;
         }
-        panilla.getPanillaLogger().warning("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]", false);
-        return null;
+
+        return enchCompat;
     }
 
     @Override
