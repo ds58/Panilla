@@ -1,5 +1,7 @@
 package com.ruinscraft.panilla.plugin;
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +28,7 @@ public class PanillaPlugin extends JavaPlugin {
 	public PConfig getPanillaConfig() {
 		return panillaConfig;
 	}
-	
+
 	public IPanillaLogger getPanillaLogger() {
 		return panillaLogger;
 	}
@@ -56,6 +58,7 @@ public class PanillaPlugin extends JavaPlugin {
 
 		panillaConfig = new PConfig();
 
+		panillaConfig.localeFile = getConfig().getString("locale-file");
 		panillaConfig.consoleLogging = getConfig().getBoolean("logging.console");
 		panillaConfig.chatLogging = getConfig().getBoolean("logging.chat");
 		panillaConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness").toUpperCase());
@@ -75,8 +78,16 @@ public class PanillaPlugin extends JavaPlugin {
 		singleton = this;
 
 		loadConfig();
-		
+
 		panillaLogger = new PanillaLogger();
+
+		try {
+			panillaLogger.loadLocale(panillaConfig.localeFile);
+		} catch (IOException e) {
+			getLogger().severe(e.getMessage());
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 
 		final String v_Version = v_Version();
 
