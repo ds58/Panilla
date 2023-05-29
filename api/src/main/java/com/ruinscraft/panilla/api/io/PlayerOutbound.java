@@ -28,25 +28,30 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        if (++packetsSinceBypassCheck > 64) {
-            packetsSinceBypassCheck = 0;
-            bypass = IPlayerInjector.canBypass(player);
-        }
-
-        if (!bypass) {
-            try {
-                panilla.getPacketInspector().checkPlayOut(player, msg);
-            } catch (PacketException e) {
-                panilla.getContainerCleaner().clean(player);
-                panillaLogger.warn(player, e);
-
-                return; // drop the packet
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if (++packetsSinceBypassCheck > 64) {
+                packetsSinceBypassCheck = 0;
+                bypass = IPlayerInjector.canBypass(player);
             }
-        }
 
-        super.write(ctx, msg, promise);
+            if (!bypass) {
+                try {
+                    panilla.getPacketInspector().checkPlayOut(player, msg);
+                } catch (PacketException e) {
+                    panilla.getContainerCleaner().clean(player);
+                    panillaLogger.warn(player, e);
+
+                    return; // drop the packet
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            super.write(ctx, msg, promise);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }
