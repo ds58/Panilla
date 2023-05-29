@@ -9,7 +9,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 public class NbtCheck_display extends NbtCheck {
 
     public NbtCheck_display() {
-        super("display", PStrictness.AVERAGE);
+        super("display", PStrictness.LENIENT);
     }
 
     @Override
