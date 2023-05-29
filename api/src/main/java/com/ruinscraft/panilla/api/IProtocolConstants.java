@@ -44,6 +44,10 @@ public interface IProtocolConstants {
         return -1;  // TODO:
     }
 
+    default int maxBookPages() {
+        return 50;
+    }
+
     /* Not protocol -- Reasonable values/assumptions */
 
     default int NOT_PROTOCOL_maxItemNameLength() {
