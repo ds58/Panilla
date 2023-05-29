@@ -32,6 +32,7 @@ prevent-fawe-brush-nbt: false
 
 # When checking packets, by default, Panilla will check any inventory (player, chest, etc...)
 # Setting this to true will make Panilla only check player inventories
+
 # This can help with ensuring custom GUI's in plugins don't get flagged
 # This may also marginally improve performance
 ignore-non-player-inventories: false
