@@ -25,7 +25,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 			
 			super.write(ctx, msg, promise);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
