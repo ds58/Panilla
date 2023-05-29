@@ -37,7 +37,7 @@ public class NbtCheck_ench extends NbtCheck {
 
         for (int i = 0; i < enchantments.size(); i++) {
             INbtTagCompound enchantment = enchantments.getCompound(i);
-            EnchantmentCompat enchCompat = getEnchCompat(enchantment);
+            EnchantmentCompat enchCompat = getEnchCompat(enchantment, panilla);
 
             if (enchCompat == null) {
                 continue;
@@ -55,7 +55,11 @@ public class NbtCheck_ench extends NbtCheck {
 
             for (int j = 0; j < enchantments.size(); j++) {
                 INbtTagCompound otherEnchantment = enchantments.getCompound(j);
-                EnchantmentCompat _enchCompat = getEnchCompat(otherEnchantment);
+                EnchantmentCompat _enchCompat = getEnchCompat(otherEnchantment, panilla);
+
+                if (_enchCompat == null) {
+                    continue;
+                }
 
                 if (enchCompat != _enchCompat) {
                     if (panilla.getEnchantments().conflicting(enchCompat, _enchCompat)) {
@@ -68,7 +72,7 @@ public class NbtCheck_ench extends NbtCheck {
         return true;
     }
 
-    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment) {
+    private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {
         if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
             final int id = enchantment.getInt("id");
             return EnchantmentCompat.getByLegacyId(id);
@@ -76,6 +80,7 @@ public class NbtCheck_ench extends NbtCheck {
             final String namedKey = enchantment.getString("id");
             return EnchantmentCompat.getByNamedKey(namedKey);
         }
+        panilla.getPlatform().getLogger().info("Unknown enchantment: [" + String.join(", ", enchantment.getKeys()) + "]");
         return null;
     }
 

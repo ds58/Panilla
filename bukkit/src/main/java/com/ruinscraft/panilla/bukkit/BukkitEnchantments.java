@@ -8,18 +8,30 @@ public class BukkitEnchantments implements IEnchantments {
 
     @Override
     public int getMaxLevel(EnchantmentCompat enchCompat) {
-        return Enchantment.getByName(enchCompat.namedKey).getMaxLevel();
+        Enchantment bukkitEnchantment = Enchantment.getByName(enchCompat.namedKey);
+        if (bukkitEnchantment == null) {
+            return Integer.MAX_VALUE; // unknown enchantment
+        }
+        return bukkitEnchantment.getMaxLevel();
     }
 
     @Override
     public int getStartLevel(EnchantmentCompat enchCompat) {
-        return Enchantment.getByName(enchCompat.namedKey).getStartLevel();
+        Enchantment bukkitEnchantment = Enchantment.getByName(enchCompat.namedKey);
+        if (bukkitEnchantment == null) {
+            return Integer.MAX_VALUE; // unknown enchantment
+        }
+        return bukkitEnchantment.getStartLevel();
     }
 
     @Override
     public boolean conflicting(EnchantmentCompat enchCompat, EnchantmentCompat _enchCompat) {
-        return Enchantment.getByName(enchCompat.namedKey)
-                .conflictsWith(Enchantment.getByName(_enchCompat.namedKey));
+        Enchantment bukkitEnchantment = Enchantment.getByName(enchCompat.namedKey);
+        Enchantment _bukkitEnchantment = Enchantment.getByName(_enchCompat.namedKey);
+        if (bukkitEnchantment == null || _bukkitEnchantment == null) {
+            return false; // unknown enchantment
+        }
+        return bukkitEnchantment.conflictsWith(_bukkitEnchantment);
     }
 
 }
