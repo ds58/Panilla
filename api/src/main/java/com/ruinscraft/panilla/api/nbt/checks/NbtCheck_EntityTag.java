@@ -36,13 +36,17 @@ public class NbtCheck_EntityTag extends NbtCheck {
 		if (entityTag.hasKey("ArmorItems")) {
 			INbtTagList items = entityTag.getList("ArmorItems", NbtDataType.COMPOUND);
 
-			checkItems(items, nmsItemClassName, protocolConstants, config);
+			if (!checkItems(items, nmsItemClassName, protocolConstants, config)) {
+				return false;
+			}
 		}
 
 		if (entityTag.hasKey("HandItems")) {
 			INbtTagList items = entityTag.getList("HandItems", NbtDataType.COMPOUND);
 
-			checkItems(items, nmsItemClassName, protocolConstants, config);
+			if (!checkItems(items, nmsItemClassName, protocolConstants, config)) {
+				return false;
+			}
 		}
 
 		return true;
