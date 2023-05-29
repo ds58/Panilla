@@ -8,7 +8,6 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
-import com.ruinscraft.panilla.craftbukkit.v1_19_R1.TempHacks;
 import com.ruinscraft.panilla.craftbukkit.v1_19_R1.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
@@ -26,12 +25,40 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 
 public class PacketInspector implements IPacketInspector {
+    private static boolean paperChunkSystem = false;
+    private static MethodHandle getEntityLookupMethodHandle = null;
+    private static MethodHandle getEntityMethodHandle = null;
+
+    static {
+        try {
+            Class<?> entityLookupClass = Class.forName("io.papermc.paper.chunk.system.entity.EntityLookup");
+            getEntityLookupMethodHandle = MethodHandles.lookup().findVirtual(WorldServer.class, "getEntityLookup", MethodType.methodType(entityLookupClass));
+            getEntityMethodHandle = MethodHandles.lookup().findVirtual(entityLookupClass, "get", MethodType.methodType(Entity.class, UUID.class));
+            paperChunkSystem = true;
+        } catch (ClassNotFoundException ignored) {
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Entity getChunkSystemEntity(WorldServer worldServer, UUID entityId) {
+        try {
+            Object entityLookup = getEntityLookupMethodHandle.invoke(worldServer);
+            return (Entity) getEntityMethodHandle.invoke(entityLookup, entityId);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private final IPanilla panilla;
 
@@ -115,8 +142,6 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException {
-        if (TempHacks.isPaperChunkRewrite()) return;
-
         if (_packet instanceof PacketPlayOutSpawnEntity) {
             PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
 
@@ -124,7 +149,7 @@ public class PacketInspector implements IPacketInspector {
             Entity entity = null;
 
             for (WorldServer worldServer : MinecraftServer.getServer().E()) {
-                entity = worldServer.P.d().a(entityId);
+                entity = paperChunkSystem ? getChunkSystemEntity(worldServer, entityId) : worldServer.P.d().a(entityId);
                 if (entity != null) break;
             }
 
@@ -171,12 +196,10 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void stripNbtFromItemEntity(UUID entityId) {
-        if (TempHacks.isPaperChunkRewrite()) return;
-
         Entity entity = null;
 
         for (WorldServer worldServer : MinecraftServer.getServer().E()) {
-            entity = worldServer.P.d().a(entityId);
+            entity = paperChunkSystem ? getChunkSystemEntity(worldServer, entityId) : worldServer.P.d().a(entityId);
             if (entity != null) break;
         }
 
