@@ -21,6 +21,9 @@ public interface INbtChecker {
 	void check_Potion(Object object) throws NbtNotPermittedException;
 	void check_CustomPotionColor(Object object) throws NbtNotPermittedException;
 	void check_Fireworks(Object object) throws NbtNotPermittedException;
+	void check_EntityTag(Object object) throws NbtNotPermittedException;
+	
+	void checkNonValid(Object object) throws NbtNotPermittedException;
 
 	default void check(Object object) throws NbtNotPermittedException {
 		check_Item(object);
