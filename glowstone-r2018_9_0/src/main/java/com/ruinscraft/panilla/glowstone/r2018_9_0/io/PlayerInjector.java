@@ -17,7 +17,7 @@ public class PlayerInjector implements IPlayerInjector {
 
     @Override
     public String getMinecraftChannelName() {
-        return "";  // TODO: figure this out
+        return "handler";
     }
 
 }

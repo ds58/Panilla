@@ -24,7 +24,6 @@ import java.util.Map;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatform {
 
-    /* singleton ========================================== */
     private static PanillaPlugin singleton;
     private PanillaLogger panillaLogger;
     private PConfig pConfig;
@@ -150,11 +149,6 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         pLocale = new PLocale(translations, defaultTranslations);
     }
 
-    // TODO: what happens with glowstone?
-    private String v_Version() {
-        return getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
-    }
-
     @Override
     public void onEnable() {
         singleton = this;
@@ -178,38 +172,47 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         panillaLogger = new PanillaLogger(this);
         enchantments = new BukkitEnchantments();
 
-        final String v_Version = v_Version();
+        final String serverImp = Bukkit.getServer().getClass().getName();
 
-        // TODO: add glowstone support
-
-        switch (v_Version) {
-            case "v1_8_R3":
-                protocolConstants = new DefaultProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
-                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
-                break;
-            case "v1_12_R1":
-                protocolConstants = new DefaultProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
-                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
-                break;
-            case "v1_13_R2":
-                protocolConstants = new DefaultProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
-                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
-                break;
-            case "v1_14_R1":
-                protocolConstants = new DefaultProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
-                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
-                break;
+        imp: switch (serverImp) {
+            case "org.bukkit.craftbukkit.CraftServer":
+                final String craftVersion = getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
+                switch (craftVersion) {
+                    case "v1_8_R3":
+                        protocolConstants = new DefaultProtocolConstants();
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
+                        break imp;
+                    case "v1_12_R1":
+                        protocolConstants = new DefaultProtocolConstants();
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
+                        break imp;
+                    case "v1_13_R2":
+                        protocolConstants = new DefaultProtocolConstants();
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
+                        break imp;
+                    case "v1_14_R1":
+                        protocolConstants = new DefaultProtocolConstants();
+                        playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
+                        packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
+                        containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
+                        break imp;
+                }
+            case "net.glowstone.GlowServer":
+                if (Bukkit.getVersion().contains("1.12")) {
+                    protocolConstants = new DefaultProtocolConstants();
+                    playerInjector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PlayerInjector();
+                    packetInspector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PacketInspector(this);
+                    containerCleaner = new com.ruinscraft.panilla.glowstone.r2018_9_0.ContainerCleaner(this);
+                    break imp;
+                }
             default:
-                getLogger().severe("Minecraft version " + v_Version + " is not supported.");
-                getServer().getPluginManager().disablePlugin(this);
+                getLogger().warning("Unknown server implementation. " + Bukkit.getVersion() + " may not be supported by Panilla.");
                 return;
         }
 
@@ -232,6 +235,5 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
 
         singleton = null;
     }
-    /* singleton ========================================== */
 
 }
