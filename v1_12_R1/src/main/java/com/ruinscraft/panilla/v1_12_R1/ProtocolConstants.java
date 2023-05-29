@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.v1_12_R1;
 
-import com.ruinscraft.panilla.api.io.IProtocolConstants;
+import com.ruinscraft.panilla.api.IProtocolConstants;
 
 public class ProtocolConstants implements IProtocolConstants {
 
