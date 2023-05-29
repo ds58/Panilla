@@ -24,9 +24,7 @@ public class NbtCheck_display extends NbtCheck {
         // if strict, use anvil length
         if (config.strictness.lvl >= PStrictness.STRICT.lvl) {
             maxNameLength = protocolConstants.maxAnvilRenameChars();
-        }
-
-        else {
+        } else {
             maxNameLength = protocolConstants.NOT_PROTOCOL_maxItemNameLength();
         }
 

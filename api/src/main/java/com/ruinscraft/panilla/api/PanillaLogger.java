@@ -4,7 +4,6 @@ import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
-import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -73,8 +72,6 @@ public class PanillaLogger {
 
             message += " " + String.format(locale.getString("packet-dropped-reason-invalid-nbt"),
                     nbtNotPermittedException.getTagName());
-        } else if (e instanceof SignLineLengthTooLongException) {
-            message += " " + locale.getString("packet-dropped-reason-sign-length");
         }
 
         message = ChatColor.translateAlternateColorCodes('&', message);

@@ -3,7 +3,6 @@ package com.ruinscraft.panilla.api.io;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.PacketException;
-import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 
 public interface IPacketInspector {
 

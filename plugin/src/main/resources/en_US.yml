@@ -3,4 +3,3 @@ packet-from-dropped: Packet from %s (%s) was dropped
 packet-to-dropped: Packet to %s (%s) was dropped
 packet-dropped-reason-too-large: because it was too large (%d bytes out of protocol maximum of %d bytes)
 packet-dropped-reason-invalid-nbt: because NBT tag %s failed checks
-packet-dropped-reason-sign-length: because sign length was too long
