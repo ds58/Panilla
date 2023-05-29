@@ -20,13 +20,10 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
     // player -> server
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (!player.canBypassChecks()) {
-            try {
-                panilla.getPacketInspector().checkPlayIn(player, msg);
-            } catch (PacketException e) {
-                panilla.getContainerCleaner().clean(player);
-                panilla.getPanlliaLogger().warn(player, e);
-                // drop the packet
+        try {
+            panilla.getPacketInspector().checkPlayIn(player, msg);
+        } catch (PacketException e) {
+            if (handlePacketException(player, e)) {
                 return;
             }
         }
@@ -37,13 +34,10 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
     // server -> player
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        if (!player.canBypassChecks()) {
-            try {
-                panilla.getPacketInspector().checkPlayOut(msg);
-            } catch (PacketException e) {
-                panilla.getContainerCleaner().clean(player);
-                panilla.getPanlliaLogger().warn(player, e);
-                // drop the packet
+        try {
+            panilla.getPacketInspector().checkPlayOut(msg);
+        } catch (PacketException e) {
+            if (handlePacketException(player, e)) {
                 return;
             }
         }
@@ -55,6 +49,15 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         panilla.getPanlliaLogger().preventedException(player, cause);
         panilla.getContainerCleaner().clean(player);
+    }
+
+    private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
+        if (!player.canBypassChecks()) {
+            panilla.getContainerCleaner().clean(player);
+            panilla.getPanlliaLogger().warn(player, e);
+            return true;
+        }
+        return false;
     }
 
 }
