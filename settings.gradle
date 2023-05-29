@@ -12,13 +12,7 @@ include(':panilla-craftbukkit-v1_15_R1')
 include(':panilla-craftbukkit-v1_16_R1')
 include(':panilla-craftbukkit-v1_16_R2')
 include(':panilla-craftbukkit-v1_16_R3')
-include(':panilla-glowstone-r2018_9_0')
 include(':panilla-bukkit')
-
-// sponge
-include(':panilla-forge112')
-include(':panilla-forge113')
-include(':panilla-sponge')
 
 // api
 project(':panilla-api').projectDir = file('api')
@@ -32,10 +26,4 @@ project(':panilla-craftbukkit-v1_15_R1').projectDir = file('craftbukkit-v1_15_R1
 project(':panilla-craftbukkit-v1_16_R1').projectDir = file('craftbukkit-v1_16_R1')
 project(':panilla-craftbukkit-v1_16_R2').projectDir = file('craftbukkit-v1_16_R2')
 project(':panilla-craftbukkit-v1_16_R3').projectDir = file('craftbukkit-v1_16_R3')
-project(':panilla-glowstone-r2018_9_0').projectDir = file('glowstone-r2018_9_0')
 project(':panilla-bukkit').projectDir = file('bukkit')
-
-// sponge
-project(':panilla-forge112').projectDir = file('forge112')
-project(':panilla-forge113').projectDir = file('forge113')
-project(':panilla-sponge').projectDir = file('sponge')

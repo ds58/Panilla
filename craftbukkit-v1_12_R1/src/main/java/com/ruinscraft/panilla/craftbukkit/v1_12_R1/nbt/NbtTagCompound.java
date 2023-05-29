@@ -53,6 +53,11 @@ public class NbtTagCompound implements INbtTagCompound {
     }
 
     @Override
+    public int[] getIntArray(String key) {
+        return handle.getIntArray(key);
+    }
+
+    @Override
     public INbtTagList getList(String key, NbtDataType nbtDataType) {
         return new NbtTagList(handle.getList(key, nbtDataType.id));
     }
