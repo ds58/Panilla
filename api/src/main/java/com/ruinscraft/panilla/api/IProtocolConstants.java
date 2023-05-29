@@ -53,6 +53,10 @@ public interface IProtocolConstants {
 
     /* Not protocol -- Reasonable values/assumptions */
 
+    default int NOT_PROTOCOL_maxItemNameLength() {
+        return 128;
+    }
+
     default int NOT_PROTOCOL_maxLoreLineLength() {
         return 128;
     }
