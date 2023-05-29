@@ -7,13 +7,14 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_BlockStateTag extends NbtCheck {
 
+    // introduced in 1.14
     public NbtCheck_BlockStateTag() {
-        super("BlockStateTag", PStrictness.AVERAGE);
+        super("BlockStateTag", PStrictness.STRICT);
     }
 
     @Override
     public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-        return true;
+        return false;   // TODO: test variations of BlockStateTag to see what is potentially malicious
     }
 
 }
