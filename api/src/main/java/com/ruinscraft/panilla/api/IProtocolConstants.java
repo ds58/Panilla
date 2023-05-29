@@ -37,7 +37,7 @@ public interface IProtocolConstants {
     }
 
     default int maxPacketSize() {
-        return 2097152;
+        return 2097152; // comes from NMS
     }
 
     default int minPacketSize() {
@@ -59,7 +59,7 @@ public interface IProtocolConstants {
     }
 
     default int NOT_PROTOCOL_maxBlockEntityTagLengthBytes() {
-        return 707958;
+        return 65536 * 2;
     }
 
 }
