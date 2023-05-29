@@ -31,7 +31,7 @@ public interface IPlayerInjector {
     default void register(IPanilla panilla, IPanillaPlayer player) {
         Channel pChannel = getPlayerChannel(player);
 
-        if (pChannel == null) {
+        if (pChannel == null || !pChannel.isRegistered()) {
             return;
         }
 
