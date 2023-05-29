@@ -6,11 +6,15 @@ import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PLocale;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
-import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.util.Color;
 
@@ -22,8 +26,6 @@ import java.util.logging.Logger;
 public class PanillaPlugin implements IPanilla, IPanillaPlatform {
 
     @Inject
-    private Game game;
-    @Inject
     private Logger logger;
 
     private PConfig pConfig;
@@ -33,6 +35,11 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     private IPacketInspector packetInspector;
     private IContainerCleaner containerCleaner;
     private IEnchantments enchantments;
+
+    @Override
+    public String getVersionString() {
+        return Sponge.getPluginManager().getPlugin("panilla").get().getVersion().get();
+    }
 
     @Override
     public PConfig getPanillaConfig() {
@@ -94,11 +101,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     @Override
     public Collection<IPanillaPlayer> getOnlinePlayers() {
         Collection<IPanillaPlayer> panillaPlayers = Collections.EMPTY_SET;
-
-        for (Player player : game.getServer().getOnlinePlayers()) {
-
-        }
-
+        Sponge.getGame().getServer().getOnlinePlayers().forEach(p -> panillaPlayers.add(new SpongePanillaPlayer(p)));
         return panillaPlayers;
     }
 
@@ -109,9 +112,31 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        CommandSpec panillaCommandSpec = CommandSpec.builder()
+                .description(Text.of("Panilla information"))
+                .executor(new PanillaCommand())
+                .build();
 
-        
+        Sponge.getCommandManager().register(this, panillaCommandSpec);
+    }
 
+    @Listener
+    public void onServerStopping(GameStoppingServerEvent event) {
+        for (Player player : Sponge.getGame().getServer().getOnlinePlayers()) {
+            playerInjector.unregister(new SpongePanillaPlayer(player));
+        }
+    }
+
+    @Listener
+    public void onClientConnectionJoin(ClientConnectionEvent.Join event) {
+        Player player = event.getTargetEntity();
+        playerInjector.register(new SpongePanillaPlayer(player));
+    }
+
+    @Listener
+    public void onClientConnectionDisconnect(ClientConnectionEvent.Disconnect event) {
+        Player player = event.getTargetEntity();
+        playerInjector.unregister(new SpongePanillaPlayer(player));
     }
 
 }
