@@ -42,6 +42,9 @@ public final class NbtChecks {
         register(new NbtCheck_Decorations());
         register(new NbtCheck_Effects());
         register(new NbtCheck_CustomModelData());
+
+        // non-vanilla
+        register(new NbtCheck_weBrushJson());
     }
 
     public static void register(NbtCheck check) {
