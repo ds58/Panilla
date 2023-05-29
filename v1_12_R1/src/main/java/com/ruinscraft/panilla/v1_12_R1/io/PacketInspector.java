@@ -3,10 +3,10 @@ package com.ruinscraft.panilla.v1_12_R1.io;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-import com.ruinscraft.panilla.api.IItemStackChecker;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
@@ -18,7 +18,6 @@ import net.minecraft.server.v1_12_R1.PacketDataSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayInCustomPayload;
 import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
 import net.minecraft.server.v1_12_R1.PacketPlayInUpdateSign;
-import net.minecraft.server.v1_12_R1.PacketPlayInWindowClick;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
 import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot;
 
@@ -27,29 +26,19 @@ public class PacketInspector implements IPacketInspector {
 	private final PStrictness strictness;
 	private final IProtocolConstants protocolConstants;
 	private final INbtChecker nbtChecker;
-	private final IItemStackChecker itemStackChecker;
 
 	public PacketInspector(PStrictness strictness,
 			IProtocolConstants protocolConstants,
-			INbtChecker nbtChecker,
-			IItemStackChecker itemStackChecker) {
+			INbtChecker nbtChecker) {
 		this.strictness = strictness;
 		this.protocolConstants = protocolConstants;
 		this.nbtChecker = nbtChecker;
-		this.itemStackChecker = itemStackChecker;
-	}
-
-	private void checkItemStack(ItemStack itemStack) throws Exception {
-		if (itemStack != null) {
-			if (itemStack.hasTag()) nbtChecker.checkAll(itemStack.getTag(), strictness);
-			itemStackChecker.checkAll(itemStack, strictness, nbtChecker);
-		}
 	}
 
 	@Override
-	public void checkSize(Object player, Object nmsPacket) throws OversizedPacketException {
-		if (nmsPacket instanceof Packet<?>) {
-			Packet<?> packet = (Packet<?>) nmsPacket;
+	public void checkSize(Object _player, Object _packet) throws OversizedPacketException {
+		if (_packet instanceof Packet<?>) {
+			Packet<?> packet = (Packet<?>) _packet;
 			PacketDataSerializer dataSerializer = 
 					new PacketDataSerializer(UnpooledByteBufAllocator.DEFAULT.buffer());
 
@@ -78,25 +67,20 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayInSetCreativeSlot(Object player, Object nmsPacket) throws Exception {
-		if (nmsPacket instanceof PacketPlayInSetCreativeSlot) {
-			checkItemStack(((PacketPlayInSetCreativeSlot) nmsPacket).getItemStack());
+	public void checkPacketPlayInSetCreativeSlot(Object _player, Object _packet) throws NbtNotPermittedException {
+		if (_packet instanceof PacketPlayInSetCreativeSlot) {
+			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
+
+			nbtChecker.checkAll(packet.getItemStack().getTag(), strictness);
 		}
 	}
 
 	@Override
-	public void checkPacketPlayInWindowClick(Object player, Object nmsPacket) throws Exception {
-		if (nmsPacket instanceof PacketPlayInWindowClick) {
-			checkItemStack(((PacketPlayInWindowClick) nmsPacket).e());
-		}
-	}
+	public void checkPacketPlayInUpdateSign(Object _player, Object _packet) throws SignLineLengthTooLongException {
+		if (_packet instanceof PacketPlayInUpdateSign) {
+			PacketPlayInUpdateSign packet = (PacketPlayInUpdateSign) _packet;
 
-	@Override
-	public void checkPacketPlayInUpdateSign(Object player, Object nmsPacket) throws SignLineLengthTooLongException {
-		if (nmsPacket instanceof PacketPlayInUpdateSign) {
-			PacketPlayInUpdateSign packetPlayInUpdateSign = (PacketPlayInUpdateSign) nmsPacket;
-
-			for (String line : packetPlayInUpdateSign.b()) {
+			for (String line : packet.b()) {
 				if (line.length() > protocolConstants.maxSignLineLength()) {
 					throw new SignLineLengthTooLongException();
 				}
@@ -105,16 +89,20 @@ public class PacketInspector implements IPacketInspector {
 	}
 
 	@Override
-	public void checkPacketPlayOutSetSlot(Object player, Object nmsPacket) throws Exception {
-		if (nmsPacket instanceof PacketPlayOutSetSlot) {
-			PacketPlayOutSetSlot packetPlayOutSetSlot = (PacketPlayOutSetSlot) nmsPacket;
+	public void checkPacketPlayOutSetSlot(Object _player, Object _packet) throws NbtNotPermittedException {
+		if (_packet instanceof PacketPlayOutSetSlot) {
+			PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
 
-			Field itemStackField = packetPlayOutSetSlot.getClass().getDeclaredField("c");
-			itemStackField.setAccessible(true);
+			try {
+				Field itemStackField = packet.getClass().getDeclaredField("c");
 
-			if (itemStackField.get(packetPlayOutSetSlot) instanceof ItemStack) {
-				ItemStack itemStack = (ItemStack) itemStackField.get(packetPlayOutSetSlot);
-				checkItemStack(itemStack);
+				itemStackField.setAccessible(true);
+
+				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
+
+				nbtChecker.checkAll(itemStack.getTag(), strictness);
+			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
 			}
 		}
 	}

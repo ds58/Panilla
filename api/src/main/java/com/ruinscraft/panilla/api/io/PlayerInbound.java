@@ -1,30 +1,29 @@
 package com.ruinscraft.panilla.api.io;
 
+import com.ruinscraft.panilla.api.IContainerCleaner;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class PlayerInbound extends ChannelInboundHandlerAdapter {
 
-	private final Object player;
+	private final Object _player;
 	private final IPacketInspector packetInspector;
+	private final IContainerCleaner containerCleaner;
 
-	public PlayerInbound(Object player, IPacketInspector packetInspector) {
-		this.player = player;
+	public PlayerInbound(Object _player, IPacketInspector packetInspector, IContainerCleaner containerCleaner) {
+		this._player = _player;
 		this.packetInspector = packetInspector;
+		this.containerCleaner = containerCleaner;
 	}
 	
-	public Object getPlayer() {
-		return player;
-	}
-
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		try {
-			packetInspector.checkIn(player, msg);
-			
+			packetInspector.checkIn(_player, msg);
 			super.channelRead(ctx, msg);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			containerCleaner.clean(_player);
 		}
 	}
 

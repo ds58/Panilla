@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.ruinscraft.panilla.api.IItemStackChecker;
+import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
@@ -18,7 +18,7 @@ public class PanillaPlugin extends JavaPlugin {
 	private PConfig panillaConfig;
 	private IProtocolConstants protocolConstants;
 	private INbtChecker nbtChecker;
-	private IItemStackChecker itemStackChecker;
+	private IContainerCleaner containerCleaner;
 	private IPacketInspector packetInspector;
 	private IPlayerInjector playerInjector;
 
@@ -29,13 +29,13 @@ public class PanillaPlugin extends JavaPlugin {
 	public IProtocolConstants getProtocolConstants() {
 		return protocolConstants;
 	}
-	
+
 	public INbtChecker getNbtChecker() {
 		return nbtChecker;
 	}
-	
-	public IItemStackChecker getItemStackChecker() {
-		return itemStackChecker;
+
+	public IContainerCleaner getContainerCleaner() {
+		return containerCleaner;
 	}
 
 	public IPacketInspector getPacketInspector() {
@@ -78,9 +78,9 @@ public class PanillaPlugin extends JavaPlugin {
 			case "v1_12_R1":
 				protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
 				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
-				itemStackChecker = new com.ruinscraft.panilla.v1_12_R1.ItemStackChecker(protocolConstants);
-				packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker, itemStackChecker);
-				playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector);
+				containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, nbtChecker);
+				packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker);
+				playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner);
 				break;
 			case "v1_13_R2":
 				// TODO: impl 1.13.2
@@ -99,7 +99,7 @@ public class PanillaPlugin extends JavaPlugin {
 
 		/* Register commands */
 		getCommand("panilla").setExecutor(new PanillaCommand());
-		
+
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			playerInjector.register(player);
 		}
