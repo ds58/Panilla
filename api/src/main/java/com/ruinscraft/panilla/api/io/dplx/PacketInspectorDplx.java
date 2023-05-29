@@ -50,9 +50,7 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
 
     private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
         if (!player.canBypassChecks(panilla, e)) {
-            panilla.exec(() -> {
-                panilla.getInventoryCleaner().clean(player);
-            });
+            panilla.getInventoryCleaner().clean(player);
 
             IPanillaLogger panillaLogger = panilla.getPanillaLogger();
             PTranslations pTranslations = panilla.getPTranslations();
