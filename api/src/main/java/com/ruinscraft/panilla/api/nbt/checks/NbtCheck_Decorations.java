@@ -10,9 +10,10 @@ public class NbtCheck_Decorations extends NbtCheck {
         super("Decorations", PStrictness.AVERAGE);
     }
 
+    // for treasure maps
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
-        return NbtCheckResult.FAIL;
+        return NbtCheckResult.PASS;
     }
 
 }
