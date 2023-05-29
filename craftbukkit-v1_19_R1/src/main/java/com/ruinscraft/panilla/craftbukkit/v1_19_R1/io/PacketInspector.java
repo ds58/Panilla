@@ -133,12 +133,12 @@ public class PacketInspector implements IPacketInspector {
                         return;
                     }
 
-                    if (!item.h().t()) {
+                    if (!item.i().t()) {
                         return;
                     }
 
-                    INbtTagCompound tag = new NbtTagCompound(item.h().v());
-                    String itemName = item.h().c().a();
+                    INbtTagCompound tag = new NbtTagCompound(item.i().v());
+                    String itemName = item.i().c().a();
                     FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
                     if (FailedNbt.fails(failedNbt)) {
@@ -161,15 +161,7 @@ public class PacketInspector implements IPacketInspector {
             Object[] params = { 0, 0, slot, new ItemStack(Blocks.a) };
             Object packetPlayOutSetSlotInstance = constructor.newInstance(params);
             entityPlayer.b.a((Packet<?>) packetPlayOutSetSlotInstance);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
@@ -186,8 +178,8 @@ public class PacketInspector implements IPacketInspector {
         if (entity instanceof EntityItem) {
             EntityItem item = (EntityItem) entity;
             if (item.h() == null) return;
-            if (!item.h().t()) return;
-            item.h().c((NBTTagCompound) null);
+            if (!item.i().t()) return;
+            item.i().c((NBTTagCompound) null);
         }
     }
 
