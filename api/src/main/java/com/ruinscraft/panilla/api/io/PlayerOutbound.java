@@ -10,6 +10,8 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import org.bukkit.entity.Player;
 
+import static com.ruinscraft.panilla.api.io.IPlayerInjector.BYPASS_PERMISSION;
+
 public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
     private final Player player;
@@ -19,6 +21,10 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
     private final PConfig config;
     private final PanillaLogger panillaLogger;
 
+    // a cache for permission checking
+    private short packetsSinceBypassCheck = 0;
+    private boolean bypass = false;
+
     public PlayerOutbound(Player player, IPacketInspector packetInspector, IContainerCleaner containerCleaner,
                           IProtocolConstants protocolConstants, PConfig config, PanillaLogger panillaLogger) {
         this.player = player;
@@ -27,19 +33,28 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
         this.protocolConstants = protocolConstants;
         this.config = config;
         this.panillaLogger = panillaLogger;
+
+        bypass = IPlayerInjector.canBypass(player);
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        try {
-            packetInspector.checkPlayOut(msg);
-        } catch (PacketException e) {
-            containerCleaner.clean(player);
-            panillaLogger.warn(player, e, protocolConstants, config);
+        if (++packetsSinceBypassCheck > 64) {
+            packetsSinceBypassCheck = 0;
+            bypass = IPlayerInjector.canBypass(player);
+        }
 
-            return; // drop the packet
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!bypass) {
+            try {
+                packetInspector.checkPlayOut(msg);
+            } catch (PacketException e) {
+                containerCleaner.clean(player);
+                panillaLogger.warn(player, e, protocolConstants, config);
+
+                return; // drop the packet
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         super.write(ctx, msg, promise);
