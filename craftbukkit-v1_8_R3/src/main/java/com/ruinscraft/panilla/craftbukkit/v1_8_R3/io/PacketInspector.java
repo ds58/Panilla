@@ -127,8 +127,13 @@ public class PacketInspector implements IPacketInspector {
         Entity entity = getEntityById(entityId);
 
         if (entity != null) {
-            entity.dead = true; // TODO: test
+            entity.dead = true;
         }
+    }
+
+    @Override
+    public void validateBaseComponentParse(String string) throws Exception {
+        // do nothing
     }
 
     private Entity getEntityById(int entityId) {

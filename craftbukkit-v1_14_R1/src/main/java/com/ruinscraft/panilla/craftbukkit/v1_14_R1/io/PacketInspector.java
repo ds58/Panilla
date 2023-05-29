@@ -136,4 +136,9 @@ public class PacketInspector implements IPacketInspector {
         throw new IllegalStateException("Cannot use #removeEntityLegacy on 1.14");
     }
 
+    @Override
+    public void validateBaseComponentParse(String string) throws Exception {
+        // do nothing
+    }
+
 }
