@@ -13,6 +13,9 @@ public interface IProtocolConstants {
      * Minecraft
      */
 
+    // < 1 for no compression
+    int packetCompressionLevel();
+
     int maxPacketSizeBytes();
 
     /*

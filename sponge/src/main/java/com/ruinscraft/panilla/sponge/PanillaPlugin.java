@@ -30,6 +30,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     @Inject
     private Logger logger;
 
+    private PanillaLogger panillaLogger;
     private PConfig pConfig;
     private PLocale pLocale;
     private IProtocolConstants protocolConstants;
@@ -39,8 +40,8 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     private IEnchantments enchantments;
 
     @Override
-    public String getVersionString() {
-        return Sponge.getPluginManager().getPlugin("panilla").get().getVersion().get();
+    public PanillaLogger getPanlliaLogger() {
+        return panillaLogger;
     }
 
     @Override
@@ -131,8 +132,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
             e.printStackTrace();
         }
 
-        PanillaLogger panillaLogger = new PanillaLogger(this);
-
+        panillaLogger = new PanillaLogger(this);
         enchantments = new SpongeEnchantments();
 
         MinecraftVersion minecraftVersion = Sponge.getGame().getPlatform().getMinecraftVersion();
@@ -143,7 +143,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
             case "1.12.1":
             case "1.12.2":
                 protocolConstants = new com.ruinscraft.panilla.forge112.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.forge112.io.PlayerInjector(this, panillaLogger);
+                playerInjector = new com.ruinscraft.panilla.forge112.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.forge112.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.forge112.ContainerCleaner(this);
                 break;
@@ -174,7 +174,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     @Listener
     public void onClientConnectionJoin(ClientConnectionEvent.Join event) {
         Player player = event.getTargetEntity();
-        playerInjector.register(new SpongePanillaPlayer(player));
+        playerInjector.register(new SpongePanillaPlayer(player), this);
     }
 
     @Listener

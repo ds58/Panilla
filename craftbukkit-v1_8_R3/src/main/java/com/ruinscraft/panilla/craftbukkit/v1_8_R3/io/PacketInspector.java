@@ -3,7 +3,6 @@ package com.ruinscraft.panilla.craftbukkit.v1_8_R3.io;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_8_R3.nbt.NbtTagCompound;
@@ -23,17 +22,17 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkSize(Object _packet, boolean from) throws OversizedPacketException {
+    public int getPacketSize(Object _packet) {
+        int sizeBytes = 0;
+
         if (_packet instanceof Packet<?>) {
             Packet<?> packet = (Packet<?>) _packet;
             PacketDataSerializer dataSerializer = new PacketDataSerializer(UnpooledByteBufAllocator.DEFAULT.buffer());
 
-            int sizeBytes = 0;
-
             try {
                 packet.b(dataSerializer);
 
-                sizeBytes = dataSerializer.readableBytes();
+                sizeBytes = dataSerializer.e();
 
                 // https://github.com/aadnk/ProtocolLib/commit/5ec87c9d7650ae21faca9b7b3cc7ac1629870d24
                 if (packet instanceof PacketPlayInCustomPayload || packet instanceof PacketPlayOutCustomPayload) {
@@ -44,11 +43,9 @@ public class PacketInspector implements IPacketInspector {
             } finally {
                 dataSerializer.release();
             }
-
-            if (sizeBytes > panilla.getProtocolConstants().maxPacketSizeBytes()) {
-                throw new OversizedPacketException(packet.getClass().getSimpleName(), from, sizeBytes);
-            }
         }
+
+        return sizeBytes;
     }
 
     @Override

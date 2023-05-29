@@ -2,4 +2,5 @@ prefix: "&c"
 packet-from-dropped: Пакет от %s (%s) был удален
 packet-to-dropped: Пакет до %s (%s) был удален
 packet-dropped-reason-too-large: потому что слишком большой (%d байтов из максимальных %d байтов)
+packet-dropped-reason-too-small: потому что слишком маленький (%d байтов из минимальный %d байтов)
 packet-dropped-reason-invalid-nbt: потому что NBT тег %s не прошел проверку

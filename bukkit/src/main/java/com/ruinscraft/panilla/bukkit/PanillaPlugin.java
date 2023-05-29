@@ -10,13 +10,13 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatform {
 
+    private PanillaLogger panillaLogger;
     private PConfig pConfig;
     private PLocale pLocale;
     private IProtocolConstants protocolConstants;
@@ -33,8 +34,8 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     private IEnchantments enchantments;
 
     @Override
-    public String getVersionString() {
-        return getDescription().getVersion();
+    public PanillaLogger getPanlliaLogger() {
+        return panillaLogger;
     }
 
     @Override
@@ -115,23 +116,25 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     private synchronized void loadLocale(String localeFileName) throws IOException {
         PFiles.saveResource(localeFileName, getDataFolder());
 
-        YamlConfiguration yaml = new YamlConfiguration();
-
-        File file = new File(getDataFolder(), localeFileName);
-
-        try {
-            yaml.load(file);
-        } catch (InvalidConfigurationException e) {
-            throw new IOException(e.getMessage());
-        }
-
+        YamlConfiguration yaml =
+                YamlConfiguration.loadConfiguration(new File(getDataFolder(), localeFileName));
         Map<String, String> translations = new HashMap<>();
 
         for (String key : yaml.getKeys(false)) {
             translations.put(key, yaml.getString(key));
         }
 
-        pLocale = new PLocale(translations);
+        // load default english translations
+        YamlConfiguration defaultEnglishYaml =
+                YamlConfiguration.loadConfiguration(new InputStreamReader(getResource("en_US.yml")));
+        Map<String, String> defaultTranslations = new HashMap<>();
+
+        for (String key : defaultEnglishYaml.getKeys(false)) {
+            System.out.println(key);
+            defaultTranslations.put(key, defaultEnglishYaml.getString(key));
+        }
+
+        pLocale = new PLocale(translations, defaultTranslations);
     }
 
     private String v_Version() {
@@ -158,8 +161,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
             e.printStackTrace();
         }
 
-        PanillaLogger panillaLogger = new PanillaLogger(this);
-
+        panillaLogger = new PanillaLogger(this);
         enchantments = new BukkitEnchantments();
 
         final String v_Version = v_Version();
@@ -167,25 +169,25 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         switch (v_Version) {
             case "v1_8_R3":
                 protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector(this, panillaLogger);
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
                 break;
             case "v1_12_R1":
                 protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector(this, panillaLogger);
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
                 break;
             case "v1_13_R2":
                 protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector(this, panillaLogger);
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
                 break;
             case "v1_14_R1":
                 protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector(this, panillaLogger);
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
                 break;
@@ -202,7 +204,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         getCommand("panilla").setExecutor(new PanillaCommand());
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            playerInjector.register(new BukkitPanillaPlayer(player));
+            playerInjector.register(new BukkitPanillaPlayer(player), this);
         }
     }
 
