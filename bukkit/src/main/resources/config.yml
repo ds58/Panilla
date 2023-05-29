@@ -49,6 +49,17 @@ disabled-worlds:
 #  - world_nether
 #  - some_other_world_name
 
+# Override Minecraft's max enchantment levels
+# Useful if you want to manually set a max enchantment level for specific enchantments
+# You must use either normal or strict mode for this to work
+# Find a list of Minecraft enchantment names here: https://www.digminecraft.com/lists/enchantment_list_pc.php
+max-enchantment-levels:
+  override-minecraft-max-enchantment-levels: false
+  overrides:
+    sharpness: 15
+    protection: 10
+    feather_falling: 10
+
 # This is to prevent crash items which have an excessive
 # amount of NBT keys.
 #

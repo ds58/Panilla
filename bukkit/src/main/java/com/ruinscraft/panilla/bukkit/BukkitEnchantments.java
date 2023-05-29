@@ -2,6 +2,7 @@ package com.ruinscraft.panilla.bukkit;
 
 import com.ruinscraft.panilla.api.EnchantmentCompat;
 import com.ruinscraft.panilla.api.IEnchantments;
+import com.ruinscraft.panilla.api.config.PConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -17,11 +18,22 @@ public class BukkitEnchantments implements IEnchantments {
         is_legacy = Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.8");
     }
 
+    private PConfig pConfig;
+
+    public BukkitEnchantments(PConfig pConfig) {
+        this.pConfig = pConfig;
+    }
+
     @Override
     public int getMaxLevel(EnchantmentCompat enchCompat) {
         Enchantment bukkitEnchantment = getBukkitEnchantment(enchCompat);
         if (bukkitEnchantment == null) {
             return Integer.MAX_VALUE; // unknown enchantment
+        } else if (pConfig.overrideMinecraftMaxEnchantmentLevels) {
+            String enchantmentName = enchCompat.namedKey.split(":")[1];
+            if (pConfig.minecraftMaxEnchantmentLevelOverrides.containsKey(enchantmentName)) {
+                return pConfig.minecraftMaxEnchantmentLevelOverrides.get(enchantmentName);
+            }
         }
         return bukkitEnchantment.getMaxLevel();
     }
@@ -31,8 +43,9 @@ public class BukkitEnchantments implements IEnchantments {
         Enchantment bukkitEnchantment = getBukkitEnchantment(enchCompat);
         if (bukkitEnchantment == null) {
             return Integer.MAX_VALUE; // unknown enchantment
+        } else {
+            return bukkitEnchantment.getStartLevel();
         }
-        return bukkitEnchantment.getStartLevel();
     }
 
     @Override
@@ -41,8 +54,9 @@ public class BukkitEnchantments implements IEnchantments {
         Enchantment _bukkitEnchantment = getBukkitEnchantment(_enchCompat);
         if (bukkitEnchantment == null || _bukkitEnchantment == null) {
             return false; // unknown enchantment
+        } else {
+            return bukkitEnchantment.conflictsWith(_bukkitEnchantment);
         }
-        return bukkitEnchantment.conflictsWith(_bukkitEnchantment);
     }
 
     private Enchantment getBukkitEnchantment(EnchantmentCompat enchCompat) {

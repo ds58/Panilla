@@ -13,6 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla {
 
@@ -98,6 +100,16 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         pConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
         pConfig.disabledWorlds = getConfig().getStringList("disabled-worlds");
         pConfig.maxNonMinecraftNbtKeys = getConfig().getInt("max-non-minecraft-nbt-keys", pConfig.maxNonMinecraftNbtKeys);
+        pConfig.overrideMinecraftMaxEnchantmentLevels = getConfig().getBoolean("max-enchantment-levels.override-minecraft-max-enchantment-levels", pConfig.overrideMinecraftMaxEnchantmentLevels);
+
+        Map<String, Integer> enchantmentOverrides = new HashMap<>();
+
+        for (String enchantmentOverride : getConfig().getConfigurationSection("max-enchantment-levels.overrides").getKeys(false)) {
+            int level = getConfig().getInt("max-enchantment-levels.overrides." + enchantmentOverride);
+            enchantmentOverrides.put(enchantmentOverride, level);
+        }
+
+        pConfig.minecraftMaxEnchantmentLevelOverrides = enchantmentOverrides;
     }
 
     private synchronized void loadTranslations(String languageKey) {
@@ -114,7 +126,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         loadTranslations(pConfig.language);
 
         panillaLogger = new BukkitPanillaLogger(this, getLogger());
-        enchantments = new BukkitEnchantments();
+        enchantments = new BukkitEnchantments(pConfig);
 
         imp:
         switch (SERVER_IMP) {
