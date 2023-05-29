@@ -1,0 +1,4 @@
+dependencies {
+    compileOnly project(':panilla-api')
+    compileOnly 'org.bukkit:craftbukkit:1.14-R0.1-SNAPSHOT'
+}
