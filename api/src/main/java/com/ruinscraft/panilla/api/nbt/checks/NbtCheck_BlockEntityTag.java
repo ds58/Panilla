@@ -57,6 +57,15 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
+        // check the item within a JukeBox
+        if (blockEntityTag.hasKey("RecordItem")) {
+            INbtTagCompound item = blockEntityTag.getCompound("RecordItem");
+
+            if (!checkItem(item, nmsItemClassName, panilla)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -70,6 +79,17 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 
                 if (failedNbt != null) return false;
             }
+        }
+
+        return true;
+    }
+
+    // true if ok, false if not ok
+    private static boolean checkItem(INbtTagCompound item, String nmsItemClassName, IPanilla panilla) {
+        if (item.hasKey("tag")) {
+            String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, panilla);
+
+            if (failedNbt != null) return false;
         }
 
         return true;
