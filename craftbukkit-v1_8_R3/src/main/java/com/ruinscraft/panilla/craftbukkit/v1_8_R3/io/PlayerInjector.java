@@ -3,7 +3,10 @@ package com.ruinscraft.panilla.craftbukkit.v1_8_R3.io;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import io.netty.channel.Channel;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.PacketDecompressor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
 public class PlayerInjector implements IPlayerInjector {
@@ -13,6 +16,16 @@ public class PlayerInjector implements IPlayerInjector {
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
         return entityPlayer.playerConnection.networkManager.channel;
+    }
+
+    @Override
+    public int getCompressionLevel() {
+        return MinecraftServer.getServer().aK();    // TODO: check this mapping
+    }
+
+    @Override
+    public ByteToMessageDecoder getDecompressor() {
+        return new PacketDecompressor(getCompressionLevel());
     }
 
 }
