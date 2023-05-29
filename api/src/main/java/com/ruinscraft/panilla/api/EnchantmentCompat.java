@@ -53,8 +53,10 @@ public enum EnchantmentCompat {
     }
 
     public static EnchantmentCompat getByNamedKey(String namedKey) {
+        namedKey = namedKey.toLowerCase();
+
         for (EnchantmentCompat enchantmentCompat : EnchantmentCompat.values()) {
-            if (enchantmentCompat.namedKey.equals(namedKey)) {
+            if (enchantmentCompat.namedKey.contains(namedKey)) {
                 return enchantmentCompat;
             }
         }
