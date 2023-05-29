@@ -14,11 +14,11 @@ public enum NbtDataType {
 	LIST		(0x09),
 	COMPOUND	(0x10),
 	INT_ARRAY	(0x11);
-	
+
 	public final int id;
-	
+
 	NbtDataType(int id) {
 		this.id = id;
 	}
-	
+
 }

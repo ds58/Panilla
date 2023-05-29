@@ -87,17 +87,21 @@ public class PanillaPlugin extends JavaPlugin {
 		case "v1_12_R1":
 			protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
 			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, protocolConstants);
-			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants);
-			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
+			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness, protocolConstants);
+			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
 			break;
 		case "v1_13_R2":
+			protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
+			containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(panillaConfig.strictness, protocolConstants);
+			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness, protocolConstants);
+			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
 			break;
 		default:
 			getLogger().severe("Minecraft version " + v_Version + " is not supported.");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-		
+
 		/* Register logger */
 		panillaLogger = new PanillaLogger(this, panillaConfig, protocolConstants);
 
