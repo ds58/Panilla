@@ -43,11 +43,11 @@ public interface IPacketInspector {
             checkPacketPlayOutSpawnEntity(packetHandle);
         } catch (EntityNbtNotPermittedException e) {
             stripNbtFromItemEntity(e.getEntityId());
-            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getNmsClass(), e.getFailedNbt().key), true);
+            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getFailedNbt().key), true);
             throw e;
         } catch (LegacyEntityNbtNotPermittedException e) {
             stripNbtFromItemEntityLegacy(e.getEntityId());
-            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getNmsClass(), e.getFailedNbt().key), true);
+            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getFailedNbt().key), true);
             throw e;
         }
     }
