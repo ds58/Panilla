@@ -72,12 +72,8 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
     // true if ok, false if not ok
     private static boolean checkItems(INbtTagList items, String nmsItemClassName, IPanilla panilla) {
         for (int i = 0; i < items.size(); i++) {
-            INbtTagCompound item = items.getCompound(i);
-
-            if (item.hasKey("tag")) {
-                String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, panilla);
-
-                if (failedNbt != null) return false;
+            if (!checkItem(items.getCompound(i), nmsItemClassName, panilla)) {
+                return false;
             }
         }
 
