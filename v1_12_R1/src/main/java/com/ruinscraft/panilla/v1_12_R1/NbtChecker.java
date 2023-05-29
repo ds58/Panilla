@@ -326,4 +326,22 @@ public class NbtChecker implements INbtChecker {
 
 	}
 
+	@Override
+	public void checkForNotValid(Object _tag) throws NbtNotPermittedException {
+		if (_tag instanceof NBTTagCompound) {
+			NBTTagCompound root = (NBTTagCompound) _tag;
+
+			for (String subTag : root.c()) {
+				try {
+					final String methodName = "check_" + subTag;
+					getClass().getMethod(methodName, Object.class);
+				} catch (NoSuchMethodException e) {
+					throw new NbtNotPermittedException(subTag);
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }

@@ -4,6 +4,7 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IPanillaLogger;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import com.ruinscraft.panilla.api.io.PlayerInbound;
@@ -16,10 +17,14 @@ public class PlayerInjector implements IPlayerInjector {
 
 	private final IPacketInspector packetInspector;
 	private final IContainerCleaner containerCleaner;
+	private final IPanillaLogger panillaLogger;
 
-	public PlayerInjector(IPacketInspector packetInspector, IContainerCleaner containerCleaner) {
+	public PlayerInjector(IPacketInspector packetInspector,
+			IContainerCleaner containerCleaner,
+			IPanillaLogger panillaLogger) {
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
+		this.panillaLogger = panillaLogger;
 	}
 
 	private static Channel getPlayerChannel(Player _player) throws IllegalArgumentException {
@@ -44,13 +49,13 @@ public class PlayerInjector implements IPlayerInjector {
 
 		/* Register inbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
-			PlayerInbound inbound = new PlayerInbound(bukkitPlayer, packetInspector, containerCleaner);
+			PlayerInbound inbound = new PlayerInbound(bukkitPlayer, packetInspector, containerCleaner, panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
-			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector, containerCleaner);
+			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector, containerCleaner, panillaLogger);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}

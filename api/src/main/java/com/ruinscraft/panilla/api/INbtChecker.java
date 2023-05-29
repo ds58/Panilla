@@ -1,7 +1,5 @@
 package com.ruinscraft.panilla.api;
 
-import java.util.List;
-
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 
@@ -66,18 +64,8 @@ public interface INbtChecker {
 	/* suspicious stew */
 	void check_Effects(Object _tag) throws NbtNotPermittedException;
 
-	default void checkForNotValid(List<String> _tags) throws NbtNotPermittedException {
-			for (String _tag : _tags) {
-				try {
-					getClass().getMethod("check_" + _tag, Object.class);
-				} catch (NoSuchMethodException e) {
-					throw new NbtNotPermittedException(_tag);
-				} catch (SecurityException e) {
-					e.printStackTrace();
-				}
-			}
-	}
-
+	void checkForNotValid(Object _tag) throws NbtNotPermittedException;
+	
 	default void checkAll(Object _tag, PStrictness strictness) throws NbtNotPermittedException {
 		switch (strictness) {
 		case STRICT:	// petty
@@ -112,6 +100,7 @@ public interface INbtChecker {
 			check_BlockEntityTag(_tag);
 			check_CustomPotionEffects(_tag);
 			check_pages(_tag);
+			checkForNotValid(_tag);
 		}
 	}
 

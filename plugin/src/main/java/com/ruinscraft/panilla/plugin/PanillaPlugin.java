@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.INbtChecker;
+import com.ruinscraft.panilla.api.IPanillaLogger;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
@@ -15,6 +16,7 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 public class PanillaPlugin extends JavaPlugin {
 
 	private PConfig panillaConfig;
+	private IPanillaLogger panillaLogger;
 	private IProtocolConstants protocolConstants;
 	private INbtChecker nbtChecker;
 	private IContainerCleaner containerCleaner;
@@ -23,6 +25,10 @@ public class PanillaPlugin extends JavaPlugin {
 
 	public PConfig getPanillaConfig() {
 		return panillaConfig;
+	}
+	
+	public IPanillaLogger getPanillaLogger() {
+		return panillaLogger;
 	}
 
 	public IProtocolConstants getProtocolConstants() {
@@ -69,6 +75,8 @@ public class PanillaPlugin extends JavaPlugin {
 		singleton = this;
 
 		loadConfig();
+		
+		panillaLogger = new PanillaLogger();
 
 		final String v_Version = v_Version();
 
@@ -78,7 +86,7 @@ public class PanillaPlugin extends JavaPlugin {
 			nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
 			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, nbtChecker);
 			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker);
-			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner);
+			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
 			break;
 		case "v1_13_R2":
 			// TODO: impl 1.13.2
