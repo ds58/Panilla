@@ -8,7 +8,7 @@ include(':panilla-craftbukkit-v1_8_R3')
 include(':panilla-craftbukkit-v1_12_R1')
 include(':panilla-craftbukkit-v1_13_R2')
 include(':panilla-craftbukkit-v1_14_R1')
-include(':panilla-glowstone-2018_9_0')
+include(':panilla-glowstone-r2018_9_0')
 include(':panilla-bukkit')
 
 // sponge
@@ -24,7 +24,7 @@ project(':panilla-craftbukkit-v1_8_R3').projectDir = file('craftbukkit-v1_8_R3')
 project(':panilla-craftbukkit-v1_12_R1').projectDir = file('craftbukkit-v1_12_R1')
 project(':panilla-craftbukkit-v1_13_R2').projectDir = file('craftbukkit-v1_13_R2')
 project(':panilla-craftbukkit-v1_14_R1').projectDir = file('craftbukkit-v1_14_R1')
-project(':panilla-glowstone-2018_9_0').projectDir = file('glowstone-2018_9_0')
+project(':panilla-glowstone-r2018_9_0').projectDir = file('glowstone-r2018_9_0')
 project(':panilla-bukkit').projectDir = file('bukkit')
 
 // sponge
