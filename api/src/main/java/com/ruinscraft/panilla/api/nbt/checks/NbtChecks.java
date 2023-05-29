@@ -52,13 +52,8 @@ public final class NbtChecks {
         return checks.get(tag);
     }
 
-    public static boolean exists(String tag) {
-        return checks.containsKey(tag);
-    }
-
     public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                          IPanilla panilla) throws NbtNotPermittedException {
-
         String failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {
@@ -68,7 +63,6 @@ public final class NbtChecks {
 
     public static void checkPacketPlayOut(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                           IPanilla panilla) throws NbtNotPermittedException {
-
         String failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
         if (failedNbt != null) {

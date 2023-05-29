@@ -18,8 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatform {
@@ -94,7 +94,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
 
     @Override
     public Collection<IPanillaPlayer> getOnlinePlayers() {
-        Collection<IPanillaPlayer> panillaPlayers = Collections.emptySet();
+        Collection<IPanillaPlayer> panillaPlayers = new HashSet<>();
         Bukkit.getOnlinePlayers().forEach(p -> panillaPlayers.add(new BukkitPanillaPlayer(p)));
         return panillaPlayers;
     }
