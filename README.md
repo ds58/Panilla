@@ -32,9 +32,6 @@ This plugin is most useful on creative-mode servers, where players are given cre
 ### Why have you not used ProtocolLib?
 It was a personal decision. I wanted to be as close to Minecraft as possible. It also means users don't have to install an additional plugin.
 
-### Will this plugin work on Minecraft (CraftBukkit) version X?
-If X is < Minecraft 1.12.2, the answer is no. If X is listed as a Maven module in the source directory of this plugin, it is likely yes.
-
 ### I am using your plugin and have a player that crashes when they login to the server.
 Make a GitHub issue on the [project's homepage](https://github.com/Ruinscraft/Panilla). It would be very helpful if you included a player.dat file from your world/playerdata/player-uuid.dat so that I can take a look at their inventory contents.
 
