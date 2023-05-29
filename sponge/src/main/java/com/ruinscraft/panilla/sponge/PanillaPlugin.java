@@ -128,6 +128,8 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
 
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        instance = this;
+
         loadConfig();
 
         try {
@@ -174,6 +176,8 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
         for (Player player : Sponge.getGame().getServer().getOnlinePlayers()) {
             playerInjector.unregister(new SpongePanillaPlayer(player));
         }
+
+        instance = null;
     }
 
     @Listener
@@ -186,6 +190,12 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     public void onClientConnectionDisconnect(ClientConnectionEvent.Disconnect event) {
         Player player = event.getTargetEntity();
         playerInjector.unregister(new SpongePanillaPlayer(player));
+    }
+
+    private static PanillaPlugin instance;
+
+    public static PanillaPlugin get() {
+        return instance;
     }
 
 }
