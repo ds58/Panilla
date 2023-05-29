@@ -82,7 +82,7 @@ public interface INbtChecker {
 			check_RepairCost(_tag);
 			check_AttributeModifiers(_tag);
 			check_Potion(_tag);
-			check_CustomPotionColor(_tag);
+			check_CustomPotionEffects(_tag);
 			check_resolved(_tag);
 			check_generation(_tag);
 			check_author(_tag);
@@ -98,7 +98,7 @@ public interface INbtChecker {
 			check_Effects(_tag);
 		case LENIENT:	// game breaking
 			check_BlockEntityTag(_tag);
-			check_CustomPotionEffects(_tag);
+			check_CustomPotionColor(_tag);
 			check_pages(_tag);
 			checkForNotValid(_tag);
 		}
