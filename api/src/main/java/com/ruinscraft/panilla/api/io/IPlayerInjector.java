@@ -64,8 +64,6 @@ public interface IPlayerInjector {
             PacketInspectorDplx packetInspector = new PacketInspectorDplx(panilla, player);
             pChannel.pipeline().addBefore(getPacketHandlerName(), HANDLER_PANILLA_INSPECTOR, packetInspector);
         }
-
-        System.out.println(pChannel.pipeline().names());
     }
 
     default void unregister(final IPanillaPlayer player) {
