@@ -71,7 +71,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
-        return null;
+        return NbtCheckResult.PASS;
     }
 
     private static FailedNbt checkItems(INbtTagList items, String nmsItemClassName, IPanilla panilla) {
