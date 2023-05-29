@@ -44,7 +44,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     }
 
     @Override
-    public PanillaLogger getPanlliaLogger() {
+    public PanillaLogger getPanillaLogger() {
         return panillaLogger;
     }
 

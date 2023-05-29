@@ -40,7 +40,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     }
 
     @Override
-    public PanillaLogger getPanlliaLogger() {
+    public PanillaLogger getPanillaLogger() {
         return panillaLogger;
     }
 
