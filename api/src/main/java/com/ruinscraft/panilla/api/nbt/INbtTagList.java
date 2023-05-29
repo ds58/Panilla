@@ -2,7 +2,9 @@ package com.ruinscraft.panilla.api.nbt;
 
 public interface INbtTagList {
 
-    INbtTagCompound get(int index);
+    INbtTagCompound getCompound(int index);
+
+    String getString(int index);
 
     int size();
 

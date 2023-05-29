@@ -58,7 +58,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
     private static boolean checkItems(INbtTagList items, String nmsItemClassName,
                                       IProtocolConstants protocolConstants, PConfig config) {
         for (int i = 0; i < items.size(); i++) {
-            INbtTagCompound item = items.get(i);
+            INbtTagCompound item = items.getCompound(i);
 
             if (item.hasKey("tag")) {
                 String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, config);

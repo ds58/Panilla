@@ -13,8 +13,13 @@ public class NbtTagList implements INbtTagList {
     }
 
     @Override
-    public INbtTagCompound get(int index) {
+    public INbtTagCompound getCompound(int index) {
         return new NbtTagCompound(handle.get(index));
+    }
+
+    @Override
+    public String getString(int index) {
+        return handle.getString(index);
     }
 
     @Override
