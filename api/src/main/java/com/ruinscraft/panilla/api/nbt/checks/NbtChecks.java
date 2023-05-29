@@ -37,6 +37,7 @@ public final class NbtChecks {
         register(new NbtCheck_title());
         register(new NbtCheck_pages());
         register(new NbtCheck_SkullOwner());
+        register(new NbtCheck_SkullProfile());
         register(new NbtCheck_Explosion());
         register(new NbtCheck_Fireworks());
         register(new NbtCheck_EntityTag());

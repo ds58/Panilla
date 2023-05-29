@@ -45,7 +45,12 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
             }
         }
 
-        super.write(ctx, msg, promise);
+        try {
+            super.write(ctx, msg, promise);
+        } catch (IllegalArgumentException e) {
+            // java.lang.IllegalArgumentException: Packet too big (is 10606067, should be less than 8388608): net.minecraft.network.protocol.game.PacketPlayOutWindowItems@20e05249
+            panilla.getPanillaLogger().info("Dropped packet to " + player.getName() + " :: " + e.getMessage(), false);
+        }
     }
 
     private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
