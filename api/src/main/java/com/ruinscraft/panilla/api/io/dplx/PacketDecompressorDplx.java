@@ -51,12 +51,14 @@ public class PacketDecompressorDplx extends ByteToMessageDecoder {
                 PTranslations translations = panilla.getPTranslations();
                 String message = translations.getTranslation("preventedKick", player.getName(), " oversized packet");
                 panilla.getPanillaLogger().log(message, true);
+                return;
             }
 
             if (packetLength < minBytes) {
                 PTranslations translations = panilla.getPTranslations();
                 String message = translations.getTranslation("preventedKick", player.getName(), " undersized packet");
                 panilla.getPanillaLogger().log(message, true);
+                return;
             }
 
             byte[] buffer = new byte[packetSerializer.readableBytes()];
