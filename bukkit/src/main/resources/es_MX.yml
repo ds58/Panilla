@@ -1,5 +1,0 @@
-prefix: "&c"
-packet-from-dropped: Packet de %s (%s) estaba ignorado
-packet-to-dropped: Packet a %s (%s) estaba ignorado
-packet-dropped-reason-too-large: Porque es demasiado grande (%d bytes de un máximo de of %d bytes)
-packet-dropped-reason-invalid-nbt: Porque NBT etiqueta %s cheques fallidos

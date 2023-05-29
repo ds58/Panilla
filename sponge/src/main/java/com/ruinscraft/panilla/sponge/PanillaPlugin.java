@@ -6,6 +6,7 @@ import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PLocale;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
@@ -18,6 +19,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 import org.spongepowered.api.util.Color;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -110,8 +112,50 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
         return logger;
     }
 
+    private synchronized void loadConfig() {
+        // TODO:
+    }
+
+    private synchronized void loadLocale(String localeFileName) throws IOException {
+        // TODO:
+    }
+
     @Listener
     public void onServerStart(GameStartedServerEvent event) {
+        loadConfig();
+
+        try {
+            loadLocale(pConfig.localeFile);
+        } catch (IOException e) {
+            getLogger().warning("Could not load locale file: " + pConfig.localeFile);
+            e.printStackTrace();
+        }
+
+        PanillaLogger panillaLogger = new PanillaLogger(this);
+
+        enchantments = new SpongeEnchantments();
+
+        MinecraftVersion minecraftVersion = Sponge.getGame().getPlatform().getMinecraftVersion();
+
+        // TODO: no idea if this works
+        switch (minecraftVersion.getName()) {
+            case "1.12":
+            case "1.12.1":
+            case "1.12.2":
+                protocolConstants = new com.ruinscraft.panilla.forge112.ProtocolConstants();
+                playerInjector = new com.ruinscraft.panilla.forge112.io.PlayerInjector(this, panillaLogger);
+                packetInspector = new com.ruinscraft.panilla.forge112.io.PacketInspector(this);
+                containerCleaner = new com.ruinscraft.panilla.forge112.ContainerCleaner(this);
+                break;
+            case "1.13":
+            case "1.13.1":
+            case "1.13.2":
+                break;
+            default:
+                break;
+        }
+
+        // command registry | should this go here?
         CommandSpec panillaCommandSpec = CommandSpec.builder()
                 .description(Text.of("Panilla information"))
                 .executor(new PanillaCommand())
