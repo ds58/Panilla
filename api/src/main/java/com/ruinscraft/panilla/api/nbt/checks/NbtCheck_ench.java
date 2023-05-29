@@ -37,7 +37,9 @@ public class NbtCheck_ench extends NbtCheck {
 			INbtTagCompound enchantment = enchantments.get(i);
 			Enchantment bukkitEnchantment = getEnchantment(enchantment);
 
-			if (bukkitEnchantment == null) return true;
+			if (bukkitEnchantment == null) {
+				continue;
+			}
 			
 			int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
 
@@ -64,7 +66,7 @@ public class NbtCheck_ench extends NbtCheck {
 	}
 
 	private static Enchantment getEnchantment(INbtTagCompound enchantment) {
-		if (enchantment.hasKeyOfType("id", NbtDataType.INT)) {
+		if (enchantment.hasKeyOfType("id", NbtDataType.INT) || enchantment.hasKeyOfType("id", NbtDataType.SHORT)) {
 			final int id = enchantment.getInt("id");
 
 			try {

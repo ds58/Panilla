@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.ruinscraft</groupId>
 			<artifactId>panilla-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
