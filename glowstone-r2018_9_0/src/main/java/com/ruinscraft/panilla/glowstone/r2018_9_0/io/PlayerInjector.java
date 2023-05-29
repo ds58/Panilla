@@ -31,4 +31,9 @@ public class PlayerInjector implements IPlayerInjector {
         return null;    // TODO:
     }
 
+    @Override
+    public ByteToMessageDecoder getDecoder() {
+        return null;
+    }
+
 }
