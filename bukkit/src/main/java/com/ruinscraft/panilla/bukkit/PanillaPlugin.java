@@ -6,6 +6,10 @@ import com.ruinscraft.panilla.api.config.PLocale;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner;
+import com.ruinscraft.panilla.craftbukkit.v1_14_R1.ProtocolConstants;
+import com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector;
+import com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -157,23 +161,29 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         final String v_Version = v_Version();
 
         switch (v_Version) {
+            case "v1_8_R3":
+                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ProtocolConstants();
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector(this, panillaLogger);
+                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
+                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
+                break;
             case "v1_12_R1":
-                protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(this, panillaLogger);
-                packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(this);
+                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ProtocolConstants();
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector(this, panillaLogger);
+                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
+                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
                 break;
             case "v1_13_R2":
-                protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(this, panillaLogger);
-                packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(this);
+                protocolConstants = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ProtocolConstants();
+                playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector(this, panillaLogger);
+                packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
+                containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
                 break;
             case "v1_14_R1":
-                protocolConstants = new com.ruinscraft.panilla.v1_14_R1.ProtocolConstants();
-                playerInjector = new com.ruinscraft.panilla.v1_14_R1.io.PlayerInjector(this, panillaLogger);
-                packetInspector = new com.ruinscraft.panilla.v1_14_R1.io.PacketInspector(this);
-                containerCleaner = new com.ruinscraft.panilla.v1_14_R1.ContainerCleaner(this);
+                protocolConstants = new ProtocolConstants();
+                playerInjector = new PlayerInjector(this, panillaLogger);
+                packetInspector = new PacketInspector(this);
+                containerCleaner = new ContainerCleaner(this);
                 break;
             default:
                 getLogger().severe("Minecraft version " + v_Version + " is not supported.");

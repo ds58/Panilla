@@ -17,6 +17,7 @@
         <module>sponge</module>
         <module>sponge72</module>
         <module>sponge80</module>
+        <module>craftbukkit-v1_8_R3</module>
     </modules>
 
     <properties>
