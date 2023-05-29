@@ -51,12 +51,12 @@ public final class NbtChecks {
         register(new NbtCheck_weBrushJson());
     }
 
-    public static void register(NbtCheck check) {
+    private static void register(NbtCheck check) {
         checks.put(check.getName(), check);
     }
 
-    public static NbtCheck get(String tag) {
-        return checks.get(tag);
+    public static Map<String, NbtCheck> getChecks() {
+        return checks;
     }
 
     public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
@@ -77,8 +77,30 @@ public final class NbtChecks {
         }
     }
 
+    private static boolean tagMeetsKeyThreshold(INbtTagCompound tag, IPanilla panilla) {
+        int maxNonMinecraftKeys = panilla.getPConfig().maxNonMinecraftNbtKeys;
+
+        if (tag.getNonMinecraftKeys().size() > maxNonMinecraftKeys) {
+            return false;
+        }
+
+        for (String key : tag.getKeys()) {
+            if (tag.hasKeyOfType(key, NbtDataType.COMPOUND)) {
+                INbtTagCompound subTag = tag.getCompound(key);
+
+                if (!tagMeetsKeyThreshold(subTag, panilla)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public static FailedNbt checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
-        int nonMinecraftKeys = 0;
+        if (!tagMeetsKeyThreshold(tag, panilla)) {
+            return FailedNbt.FAIL_KEY_THRESHOLD;
+        }
 
         for (String key : tag.getKeys()) {
             if (panilla.getPConfig().nbtWhitelist.contains(key)) {
@@ -96,7 +118,7 @@ public final class NbtChecks {
             NbtCheck check = checks.get(key);
 
             if (check == null) {
-                nonMinecraftKeys++;
+                // a non-minecraft NBT tag
                 continue;
             }
 
@@ -108,14 +130,6 @@ public final class NbtChecks {
 
             if (result != NbtCheck.NbtCheckResult.PASS) {
                 return new FailedNbt(key, result);
-            }
-        }
-
-        if (nonMinecraftKeys > panilla.getPConfig().maxNonMinecraftNbtKeys) {
-            for (String key : tag.getKeys()) {
-                if (checks.get(key) == null) {
-                    return new FailedNbt(key, NbtCheck.NbtCheckResult.CRITICAL);
-                }
             }
         }
 
