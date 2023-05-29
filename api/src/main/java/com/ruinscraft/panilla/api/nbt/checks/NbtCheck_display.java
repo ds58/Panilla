@@ -18,6 +18,16 @@ public class NbtCheck_display extends NbtCheck {
         super("display", PStrictness.LENIENT);
     }
 
+    private static String createTextFromJsonArray(JsonArray jsonArray) {
+        StringBuilder text = new StringBuilder();
+
+        for (JsonElement jsonElement : jsonArray) {
+            text.append(jsonElement.getAsJsonObject().get("text").getAsString());
+        }
+
+        return text.toString();
+    }
+
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         INbtTagCompound display = tag.getCompound(getName());
@@ -77,16 +87,6 @@ public class NbtCheck_display extends NbtCheck {
         }
 
         return NbtCheckResult.PASS;
-    }
-
-    private static String createTextFromJsonArray(JsonArray jsonArray) {
-        StringBuilder text = new StringBuilder();
-
-        for (JsonElement jsonElement : jsonArray) {
-            text.append(jsonElement.getAsJsonObject().get("text").getAsString());
-        }
-
-        return text.toString();
     }
 
 }

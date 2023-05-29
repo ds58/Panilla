@@ -16,6 +16,7 @@ public interface IPacketInspector {
     /**
      * Checks PacketPlayOutSetSlot
      * Should optionally return (depending on config) if the window id is not 0
+     *
      * @param packetHandle
      * @throws NbtNotPermittedException
      */
@@ -24,6 +25,7 @@ public interface IPacketInspector {
     /**
      * Checks PacketPlayOutWindowItems
      * Should return if the window id is not 0 (the player's inventory)
+     *
      * @param packetHandle
      * @throws NbtNotPermittedException
      */
