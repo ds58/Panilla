@@ -14,13 +14,13 @@ import net.minecraft.network.protocol.game.PacketPlayInSetCreativeSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutSetSlot;
 import net.minecraft.network.protocol.game.PacketPlayOutSpawnEntity;
 import net.minecraft.network.protocol.game.PacketPlayOutWindowItems;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.EntityPlayer;
+import net.minecraft.server.level.WorldServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 
 import java.lang.reflect.Field;
@@ -59,7 +59,7 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
 
             try {
-                Field windowIdField = PacketPlayOutSetSlot.class.getDeclaredField("a");
+                Field windowIdField = PacketPlayOutSetSlot.class.getDeclaredField("c");
 
                 windowIdField.setAccessible(true);
 
@@ -70,8 +70,8 @@ public class PacketInspector implements IPacketInspector {
                     return;
                 }
 
-                Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("b");
-                Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("c");
+                Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("d");
+                Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("e");
 
                 slotField.setAccessible(true);
                 itemStackField.setAccessible(true);
@@ -138,19 +138,18 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
 
             try {
-                Field typeField = PacketPlayOutSpawnEntity.class.getDeclaredField("b");
+                Field typeField = PacketPlayOutSpawnEntity.class.getDeclaredField("d");
 
                 typeField.setAccessible(true);
 
                 UUID entityId = (UUID) typeField.get(packet);
-                org.bukkit.entity.Entity bukkitEntity = org.bukkit.Bukkit.getEntity(entityId);
-                CraftEntity craftEntity = (CraftEntity) bukkitEntity;
 
-                if (craftEntity == null) {
-                    return;
+                Entity entity = null;
+
+                for (WorldServer worldServer : MinecraftServer.getServer().getWorlds()) {
+                    entity = worldServer.G.d().a(entityId);
+                    if (entity != null) break;
                 }
-
-                Entity entity = craftEntity.getHandle();
 
                 if (entity != null) {
                     if (entity instanceof EntityItem) {
@@ -169,7 +168,7 @@ public class PacketInspector implements IPacketInspector {
                         FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
                         if (FailedNbt.fails(failedNbt)) {
-                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId, bukkitEntity.getWorld().getName());
+                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId, entity.getWorld().getWorld().getName());
                         }
                     }
                 }
@@ -189,25 +188,18 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void stripNbtFromItemEntity(UUID entityId) {
-        org.bukkit.entity.Entity bukkitEntity = Bukkit.getServer().getEntity(entityId);
+        Entity entity = null;
 
-        if (bukkitEntity instanceof CraftEntity) {
-            CraftEntity craftEntity = (CraftEntity) bukkitEntity;
-            Entity entity = craftEntity.getHandle();
+        for (WorldServer worldServer : MinecraftServer.getServer().getWorlds()) {
+            entity = worldServer.G.d().a(entityId);
+            if (entity != null) break;
+        }
 
-            if (entity instanceof EntityItem) {
-                EntityItem item = (EntityItem) entity;
-
-                if (item.getItemStack() == null) {
-                    return;
-                }
-
-                if (!item.getItemStack().hasTag()) {
-                    return;
-                }
-
-                item.getItemStack().setTag(null);
-            }
+        if (entity instanceof EntityItem) {
+            EntityItem item = (EntityItem) entity;
+            if (item.getItemStack() == null) return;
+            if (!item.getItemStack().hasTag()) return;
+            item.getItemStack().setTag(null);
         }
     }
 
