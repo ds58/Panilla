@@ -47,7 +47,11 @@ public class PanillaCommand implements CommandExecutor {
         if (args.length < 1) {
             return showInfo(sender);
         } else if (args[0].equalsIgnoreCase("debug")) {
-            return showDebug(sender);
+            if (sender.hasPermission("panilla.command.debug")) {
+                return showDebug(sender);
+            } else {
+                sender.sendMessage(ChatColor.RED + "You don't have permission for this command.");
+            }
         }
 
         return true;

@@ -70,7 +70,7 @@ public interface IPlayerInjector {
         ChannelHandler panillaHandler = pChannel.pipeline().get(HANDLER_PANILLA_INSPECTOR);
 
         if (panillaHandler != null && panillaHandler instanceof PacketInspectorDplx) {
-            pChannel.pipeline().remove(HANDLER_PANILLA_INSPECTOR);
+            pChannel.pipeline().remove(panillaHandler);
         }
     }
 
