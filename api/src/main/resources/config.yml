@@ -24,12 +24,10 @@ strictness: average
 # See this paste: https://paste.ubuntu.com/p/SSGg6szMc4/
 prevent-minecraft-education-skulls: false
 
-# This prevents FAWE brush NBT on items
+# This prevents FAWE brush NBT on items. It stops users from giving
+# out FAWE brush items which may trick others into accidentally WorldEdit'ing
 #
-# This stops users from giving out FAWE brush items which may trick users
-# into accidentally WorldEdit'ing
-#
-# Good for creative-mode servers which give FAWE to regular users
+# strictness must be set to average or strict
 prevent-fawe-brush-nbt: false
 
 # Whitelist NBT tags from being checked
