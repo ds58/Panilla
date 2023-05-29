@@ -41,13 +41,13 @@ public class PlayerInjector implements IPlayerInjector {
 
 		/* Register inbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
-			PlayerInbound inbound = new PlayerInbound(packetInspector);
+			PlayerInbound inbound = new PlayerInbound(bukkitPlayer, packetInspector);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
 		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
-			PlayerOutbound outbound = new PlayerOutbound(packetInspector);
+			PlayerOutbound outbound = new PlayerOutbound(bukkitPlayer, packetInspector);
 			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}
