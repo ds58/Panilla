@@ -59,7 +59,7 @@ public enum EnchantmentCompat {
 
 	public static EnchantmentCompat getByLegacyName(String legacyName) {
 		if (legacyName.isEmpty()) return null;
-		
+
 		for (EnchantmentCompat enchantmentCompat : EnchantmentCompat.values()) {
 			if (enchantmentCompat.legacyName.equals(legacyName)) {
 				return enchantmentCompat;

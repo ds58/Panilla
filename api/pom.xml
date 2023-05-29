@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>panilla-api</artifactId>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
