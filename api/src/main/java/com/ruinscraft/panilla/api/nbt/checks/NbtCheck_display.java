@@ -20,7 +20,6 @@ public class NbtCheck_display extends NbtCheck {
 			return false;
 		}
 
-
 		return true;
 	}
 

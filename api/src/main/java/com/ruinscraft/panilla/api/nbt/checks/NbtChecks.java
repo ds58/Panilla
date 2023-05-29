@@ -56,11 +56,8 @@ public final class NbtChecks {
 		return checks.containsKey(tag);
 	}
 
-	public static void checkPacketPlayIn(INbtTagCompound tag,
-			String nmsItemClassName,
-			String nmsPacketClassName,
-			IProtocolConstants protocolConstants,
-			PStrictness strictness) throws NbtNotPermittedException {
+	public static void checkPacketPlayIn(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
+			IProtocolConstants protocolConstants, PStrictness strictness) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
 
@@ -69,11 +66,8 @@ public final class NbtChecks {
 		}
 	}
 
-	public static void checkPacketPlayOut(INbtTagCompound tag,
-			String nmsItemClassName,
-			String nmsPacketClassName,
-			IProtocolConstants protocolConstants,
-			PStrictness strictness) throws NbtNotPermittedException {
+	public static void checkPacketPlayOut(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
+			IProtocolConstants protocolConstants, PStrictness strictness) throws NbtNotPermittedException {
 
 		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
 
@@ -82,9 +76,7 @@ public final class NbtChecks {
 		}
 	}
 
-	public static String checkAll(INbtTagCompound tag,
-			String nmsItemClassName,
-			IProtocolConstants protocolConstants,
+	public static String checkAll(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants,
 			PStrictness strictness) {
 		for (String key : tag.getKeys()) {
 			NbtCheck check = checks.get(key);

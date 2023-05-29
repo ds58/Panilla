@@ -6,5 +6,5 @@ public class NbtCheck_StoredEnchantments extends NbtCheck_ench {
 	public String getName() {
 		return "StoredEnchantments";
 	}
-	
+
 }

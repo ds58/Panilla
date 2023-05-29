@@ -23,7 +23,7 @@ public abstract class NbtCheck {
 	public PStrictness getTolerance() {
 		return tolerance;
 	}
-	
+
 	public String[] getAliases() {
 		return aliases;
 	}

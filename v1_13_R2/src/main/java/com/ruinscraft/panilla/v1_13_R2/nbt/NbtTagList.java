@@ -22,5 +22,5 @@ public class NbtTagList implements INbtTagList {
 	public int size() {
 		return handle.size();
 	}
-	
+
 }

@@ -60,11 +60,7 @@ public class PanillaPlugin extends JavaPlugin {
 	}
 
 	private String v_Version() {
-		return 	getServer().
-				getClass().
-				getPackage().
-				getName().
-				substring("org.bukkit.craftbukkit.".length());
+		return getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
 	}
 
 	@Override
@@ -86,15 +82,21 @@ public class PanillaPlugin extends JavaPlugin {
 		switch (v_Version) {
 		case "v1_12_R1":
 			protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, protocolConstants);
-			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness, protocolConstants);
-			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
+			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness,
+					protocolConstants);
+			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness,
+					protocolConstants);
+			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner,
+					panillaLogger);
 			break;
 		case "v1_13_R2":
 			protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
-			containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(panillaConfig.strictness, protocolConstants);
-			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness, protocolConstants);
-			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner, panillaLogger);
+			containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(panillaConfig.strictness,
+					protocolConstants);
+			packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig.strictness,
+					protocolConstants);
+			playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner,
+					panillaLogger);
 			break;
 		default:
 			getLogger().severe("Minecraft version " + v_Version + " is not supported.");
@@ -125,12 +127,18 @@ public class PanillaPlugin extends JavaPlugin {
 		singleton = null;
 	}
 
-	/* ========================================== singleton ========================================== */
+	/*
+	 * ========================================== singleton
+	 * ==========================================
+	 */
 	private static PanillaPlugin singleton;
 
 	public static PanillaPlugin get() {
 		return singleton;
 	}
-	/* ========================================== singleton ========================================== */
+	/*
+	 * ========================================== singleton
+	 * ==========================================
+	 */
 
 }

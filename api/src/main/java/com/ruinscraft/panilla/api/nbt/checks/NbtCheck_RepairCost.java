@@ -14,5 +14,5 @@ public class NbtCheck_RepairCost extends NbtCheck {
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
 		return true;
 	}
-	
+
 }

@@ -6,5 +6,5 @@ public class NbtCheck_Enchantments extends NbtCheck_ench {
 	public String getName() {
 		return "Enchantments";
 	}
-	
+
 }

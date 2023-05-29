@@ -69,21 +69,16 @@ public class PanillaLogger {
 		String message = locale.getString("prefix");
 
 		if (e.isFrom()) {
-			message += String.format(locale.getString("packet-from-dropped"),
-					player.getName(),
-					e.getNmsClass());
+			message += String.format(locale.getString("packet-from-dropped"), player.getName(), e.getNmsClass());
 		} else {
-			message += String.format(locale.getString("packet-to-dropped"),
-					player.getName(),
-					e.getNmsClass());
+			message += String.format(locale.getString("packet-to-dropped"), player.getName(), e.getNmsClass());
 		}
 
 		if (e instanceof OversizedPacketException) {
 			OversizedPacketException oversizedPacketException = (OversizedPacketException) e;
 
 			message += " " + String.format(locale.getString("packet-dropped-reason-too-large"),
-					oversizedPacketException.getSizeBytes(),
-					protocolConstants.maxPacketSizeBytes());
+					oversizedPacketException.getSizeBytes(), protocolConstants.maxPacketSizeBytes());
 		}
 
 		else if (e instanceof NbtNotPermittedException) {
