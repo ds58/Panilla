@@ -40,6 +40,10 @@ public interface IProtocolConstants {
         return 2097152;
     }
 
+    default int minPacketSize() {
+        return -1;  // TODO:
+    }
+
     /* Not protocol -- Reasonable values/assumptions */
 
     default int NOT_PROTOCOL_maxItemNameLength() {

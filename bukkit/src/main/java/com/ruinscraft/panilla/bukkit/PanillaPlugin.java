@@ -5,14 +5,19 @@ import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla {
+
+    private static final String SERVER_IMP = Bukkit.getServer().getClass().getSimpleName();
+    private static Class<? extends IPacketSerializer> packetSerializerClass;
 
     private PConfig pConfig;
     private PTranslations pTranslations;
@@ -44,13 +49,13 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
     }
 
     @Override
-    public IPlayerInjector getPlayerInjector() {
-        return playerInjector;
+    public IPacketInspector getPacketInspector() {
+        return packetInspector;
     }
 
     @Override
-    public IPacketInspector getPacketInspector() {
-        return packetInspector;
+    public IPlayerInjector getPlayerInjector() {
+        return playerInjector;
     }
 
     @Override
@@ -61,6 +66,21 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
     @Override
     public IEnchantments getEnchantments() {
         return enchantments;
+    }
+
+    @Override
+    public IPacketSerializer createPacketSerializer(Object byteBuf) {
+        try {
+            return (IPacketSerializer) packetSerializerClass.getConstructors()[0].newInstance(byteBuf);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private synchronized void loadConfig() {
@@ -95,32 +115,34 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         panillaLogger = new BukkitPanillaLogger(this, getLogger());
         enchantments = new BukkitEnchantments();
 
-        final String serverImp = Bukkit.getServer().getClass().getSimpleName();
-
         imp:
-        switch (serverImp) {
+        switch (SERVER_IMP) {
             case "CraftServer":
                 final String craftVersion = getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
                 switch (craftVersion) {
                     case "v1_8_R3":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_8_R3.ContainerCleaner(this);
                         break imp;
                     case "v1_12_R1":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_12_R1.ContainerCleaner(this);
                         break imp;
                     case "v1_13_R2":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.io.PacketInspector(this);
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_13_R2.ContainerCleaner(this);
                         break imp;
                     case "v1_14_R1":
+                        packetSerializerClass = com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.dplx.PacketSerializer.class;
                         protocolConstants = new DefaultProtocolConstants();
                         playerInjector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PlayerInjector();
                         packetInspector = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.io.PacketInspector(this);
@@ -129,6 +151,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                 }
             case "GlowServer":
                 if (Bukkit.getVersion().contains("1.12")) {
+                    packetSerializerClass = com.ruinscraft.panilla.glowstone.r2018_9_0.io.dplx.PacketSerializer.class;
                     protocolConstants = new DefaultProtocolConstants();
                     playerInjector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PlayerInjector();
                     packetInspector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PacketInspector(this);

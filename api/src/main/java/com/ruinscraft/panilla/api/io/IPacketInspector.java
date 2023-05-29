@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public interface IPacketInspector {
 
-    void checkPacketPlayInSetCreativeSlot(Object _packet) throws NbtNotPermittedException;
+    void checkPacketPlayInSetCreativeSlot(Object packetHandle) throws NbtNotPermittedException;
 
-    void checkPacketPlayOutSetSlot(Object _packet) throws NbtNotPermittedException;
+    void checkPacketPlayOutSetSlot(Object packetHandle) throws NbtNotPermittedException;
 
-    void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException, LegacyEntityNbtNotPermittedException;
+    void checkPacketPlayOutSpawnEntity(Object packetHandle) throws EntityNbtNotPermittedException, LegacyEntityNbtNotPermittedException;
 
     void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot);
 
@@ -24,9 +24,9 @@ public interface IPacketInspector {
     @Deprecated
     void removeEntityLegacy(int entityId);
 
-    default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object _packet) throws PacketException {
+    default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException {
         try {
-            checkPacketPlayInSetCreativeSlot(_packet);
+            checkPacketPlayInSetCreativeSlot(packetHandle);
         } catch (NbtNotPermittedException e) {
             if (!player.canBypassChecks(panilla, e)) {
                 sendPacketPlayOutSetSlotAir(player, e.getItemSlot());
@@ -35,10 +35,10 @@ public interface IPacketInspector {
         }
     }
 
-    default void checkPlayOut(Object _packet) throws PacketException {
-        checkPacketPlayOutSetSlot(_packet);
+    default void checkPlayOut(Object packetHandle) throws PacketException {
+        checkPacketPlayOutSetSlot(packetHandle);
         try {
-            checkPacketPlayOutSpawnEntity(_packet);
+            checkPacketPlayOutSpawnEntity(packetHandle);
         } catch (EntityNbtNotPermittedException e) {
             removeEntity(e.getEntityId());
             throw e;

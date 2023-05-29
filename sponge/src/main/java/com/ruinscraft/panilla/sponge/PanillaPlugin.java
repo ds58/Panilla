@@ -5,6 +5,7 @@ import com.ruinscraft.panilla.api.*;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PTranslations;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Sponge;
@@ -74,6 +75,11 @@ public class PanillaPlugin implements IPanilla {
     @Override
     public IEnchantments getEnchantments() {
         return enchantments;
+    }
+
+    @Override
+    public IPacketSerializer createPacketSerializer(Object byteBuf) {
+        return null;    // TODO: implement
     }
 
     private synchronized void loadConfig() {

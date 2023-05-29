@@ -25,10 +25,6 @@ public class BukkitPanillaLogger implements IPanillaLogger {
 
     @Override
     public void log(String message, boolean colorize) {
-        if (message == null) {
-            return;
-        }
-
         if (colorize) {
             message = colorize(message);
         }
