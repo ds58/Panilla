@@ -13,7 +13,7 @@ public class NbtCheck_CanPlaceOn extends NbtCheck {
 
 	@Override
 	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return false;
+		return true;
 	}
 
 }
