@@ -57,4 +57,8 @@ public interface IProtocolConstants {
         return 128;
     }
 
+    default int NOT_PROTOCOL_maxLoreLines() {
+        return 64;
+    }
+
 }
