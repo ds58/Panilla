@@ -7,13 +7,13 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_RepairCost extends NbtCheck {
 
-	public NbtCheck_RepairCost() {
-		super("RepairCost", PStrictness.AVERAGE);
-	}
+    public NbtCheck_RepairCost() {
+        super("RepairCost", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		return true;
-	}
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        return true;
+    }
 
 }

@@ -7,19 +7,19 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
 public class NbtCheck_title extends NbtCheck {
 
-	public NbtCheck_title() {
-		super("title", PStrictness.AVERAGE);
-	}
+    public NbtCheck_title() {
+        super("title", PStrictness.AVERAGE);
+    }
 
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
-		int titleLength = tag.getString("title").length();
+    @Override
+    public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
+        int titleLength = tag.getString("title").length();
 
-		if (titleLength > protocolConstants.maxBookTitleLength()) {
-			return false;
-		}
+        if (titleLength > protocolConstants.maxBookTitleLength()) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }
