@@ -8,7 +8,6 @@ import io.netty.channel.Channel;
 
 public interface IPlayerInjector {
 
-    String HANDLER_PANILLA_DECOMPRESSOR = "panilla_decompressor";
     String HANDLER_PANILLA_INSPECTOR = "panilla_inspector";
 
     Channel getPlayerChannel(IPanillaPlayer player);
@@ -30,9 +29,9 @@ public interface IPlayerInjector {
 
         /* Replace Minecraft packet decompressor */
         if (pChannel.pipeline().get(getDecompressorHandlerName()) != null) {
-            /* Inject Panilla decompressor */
+            /* Inject Panilla decompressor (Panilla uses the same channel name as the vanilla decompressor) */
             PacketDecompressorDplx packetDecompressor = new PacketDecompressorDplx(panilla, player);
-            pChannel.pipeline().addBefore(getDecompressorHandlerName(), HANDLER_PANILLA_DECOMPRESSOR, packetDecompressor);
+            pChannel.pipeline().addBefore(getDecompressorHandlerName(), getDecompressorHandlerName(), packetDecompressor);
             /* Remove Minecraft decompressor */
             pChannel.pipeline().remove(getDecompressorHandlerName());
         }
