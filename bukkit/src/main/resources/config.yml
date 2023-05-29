@@ -1,0 +1,31 @@
+# Panilla configuration
+
+# Do not change
+configuration-version: 1.0
+
+locale-file: en_US.yml
+
+# Logging options
+logging:
+  console: false
+  chat: false
+
+# Strictness of how much you wish to enforce
+#   lenient - Only prevent game-breaking things or crashes
+#   average - Prevent most abusive things
+#   strict  - Prevent anything non-vanilla
+strictness: average
+
+# Whitelist NBT tags from being checked
+nbt-whitelist:
+#  - Enchantments   # 1.13+ format
+#  - ench           # 1.12 format
+
+# You shouldn't have to touch this.
+#
+# If you have plugins which use an excessive amount of
+# custom NBT keys, then you can raise it as high as you like.
+#
+# This is to prevent crash items which have an excessive
+# amount of NBT keys.
+max-non-minecraft-nbt-keys: 16
