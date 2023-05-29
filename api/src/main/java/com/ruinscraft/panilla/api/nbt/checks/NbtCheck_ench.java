@@ -28,6 +28,10 @@ public class NbtCheck_ench extends NbtCheck {
             }
         }
 
+        if (using == null) {
+            throw new IllegalStateException("Unknown enchantment tag");
+        }
+
         INbtTagList enchantments = tag.getList(using, NbtDataType.COMPOUND);
 
         for (int i = 0; i < enchantments.size(); i++) {
