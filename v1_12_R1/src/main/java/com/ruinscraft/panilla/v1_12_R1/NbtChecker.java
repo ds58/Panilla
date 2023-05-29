@@ -5,8 +5,8 @@ import org.bukkit.enchantments.Enchantment;
 
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.NbtDataType;
 import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagList;
@@ -60,14 +60,17 @@ public class NbtChecker implements INbtChecker {
 	}
 
 	@Override
-	public boolean check_BlockEntityTag(Object _tag, PStrictness strictness) {
+	public boolean check_BlockEntityTag(Object _tag, String itemClassName, PStrictness strictness) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("BlockEntityTag")) {
+				System.out.println("wow");
+				
 				NBTTagCompound blockEntityTag = root.getCompound("BlockEntityTag");
 
 				if (blockEntityTag.hasKey("Lock")) {
+					System.out.println("has lock");
 					return false;
 				}
 
@@ -75,21 +78,35 @@ public class NbtChecker implements INbtChecker {
 						|| blockEntityTag.hasKey("Text2")
 						|| blockEntityTag.hasKey("Text3")
 						|| blockEntityTag.hasKey("Text4")) {
+					System.out.println("has text");
 					return false;
 				}
 
-				// TODO: only ShulkerBox should have Items (I think?)
 				if (blockEntityTag.hasKey("Items")) {
+					if (itemClassName == null || !itemClassName.equals("ItemShulkerBox")) {
+						System.out.println("has items but not a shulkerbox");
+						return false;
+					}
+					
+					System.out.println("made it to here");
+					
 					NBTTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND.getId());
 
 					for (int i = 0; i < items.size(); i++) {
 						NBTTagCompound item = items.get(i);
 
 						if (item.hasKey("tag")) {
-							checkAll(_tag, strictness);	// recursive
+							String failedNbt = checkAll(_tag, itemClassName, strictness);
+							
+							if (failedNbt != null) {
+								System.out.println(failedNbt);
+								return false;
+							}
 						}
 					}
 				}
+				
+				
 			}
 		}
 
@@ -378,6 +395,7 @@ public class NbtChecker implements INbtChecker {
 			for (String subTag : root.c()) {
 				try {
 					final String methodName = "check_" + subTag;
+
 					getClass().getMethod(methodName, Object.class);
 				} catch (NoSuchMethodException e) {
 					return subTag;

@@ -13,7 +13,7 @@ public interface INbtChecker {
 
 	/* block _tags */
 	boolean check_CanPlaceOn(Object _tag);
-	boolean check_BlockEntityTag(Object _tag, PStrictness strictness);	// recursive
+	boolean check_BlockEntityTag(Object _tag, String itemClassName, PStrictness strictness);	// recursive
 	boolean check_BlockStateTag(Object _tag);
 
 	/* enchantments */
@@ -68,7 +68,7 @@ public interface INbtChecker {
 
 	String checkForNotValid(Object _tag);
 
-	default String checkAll(Object _tag, PStrictness strictness) {
+	default String checkAll(Object _tag, String itemClassName, PStrictness strictness) {
 		switch (strictness) {
 		case STRICT:	// petty
 			if (!check_display(_tag)) return "display";
@@ -99,26 +99,34 @@ public interface INbtChecker {
 			if (!check_Decorations(_tag)) return "Decorations";
 			if (!check_Effects(_tag)) return "Effects";
 		case LENIENT:	// game breaking
-			if (!check_BlockEntityTag(_tag, strictness)) return "BlockEntityTag";
+			System.out.println("I am checking...");
+			if (!check_BlockEntityTag(_tag, itemClassName, strictness)) {
+				System.out.println("it failed");
+				return "BlockEntityTag";
+			}
+			System.out.println("after check...");
 			if (!check_CustomPotionColor(_tag)) return "CustomPotionColor";
 			if (!check_pages(_tag)) return "pages";
 			String invalid = checkForNotValid(_tag);
-			if (invalid != null) return invalid;
+			if (invalid != null) {
+				System.out.println("found invalid " + invalid);
+				return invalid;
+			}
 		}
 		
 		return null;
 	}
 
-	default void checkPlayIn(Object _tag, PStrictness strictness, String nmsClass) throws NbtNotPermittedException {
-		String failedNbt = checkAll(_tag, strictness);
+	default void checkPlayIn(Object _tag, String itemClassName, PStrictness strictness, String nmsClass) throws NbtNotPermittedException {
+		String failedNbt = checkAll(_tag, itemClassName, strictness);
 		
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsClass, true, failedNbt);
 		}
 	}
 
-	default void checkPlayOut(Object _tag, PStrictness strictness, String nmsClass) throws NbtNotPermittedException {
-		String failedNbt = checkAll(_tag, strictness);
+	default void checkPlayOut(Object _tag, String itemClassName, PStrictness strictness, String nmsClass) throws NbtNotPermittedException {
+		String failedNbt = checkAll(_tag, itemClassName, strictness);
 		
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsClass, false, failedNbt);

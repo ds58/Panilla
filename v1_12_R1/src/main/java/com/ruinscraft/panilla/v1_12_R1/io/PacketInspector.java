@@ -71,7 +71,12 @@ public class PacketInspector implements IPacketInspector {
 		if (_packet instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
-			nbtChecker.checkPlayIn(packet.getItemStack().getTag(), strictness, packet.getClass().getSimpleName());
+			ItemStack itemStack = packet.getItemStack();
+			
+			nbtChecker.checkPlayIn(itemStack.getTag(),
+					itemStack.getItem().getClass().getSimpleName(),
+					strictness,
+					packet.getClass().getSimpleName());
 		}
 	}
 
@@ -100,7 +105,10 @@ public class PacketInspector implements IPacketInspector {
 
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
-				nbtChecker.checkPlayOut(itemStack.getTag(), strictness, packet.getClass().getSimpleName());
+				nbtChecker.checkPlayOut(itemStack.getTag(),
+						itemStack.getItem().getClass().getSimpleName(),
+						strictness,
+						packet.getClass().getSimpleName());
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
