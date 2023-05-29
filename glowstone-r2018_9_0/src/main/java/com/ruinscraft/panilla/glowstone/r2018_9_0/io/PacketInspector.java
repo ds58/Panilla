@@ -71,6 +71,11 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
+    public void checkPacketPlayOutWindowItems(Object packetHandle) throws NbtNotPermittedException {
+        // TODO:
+    }
+
+    @Override
     public void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException, LegacyEntityNbtNotPermittedException {
         if (_packet instanceof SpawnMobMessage) {
             SpawnMobMessage packet = (SpawnMobMessage) _packet;

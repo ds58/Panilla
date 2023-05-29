@@ -15,6 +15,8 @@ public interface IPacketInspector {
 
     void checkPacketPlayOutSetSlot(Object packetHandle) throws NbtNotPermittedException;
 
+    void checkPacketPlayOutWindowItems(Object packetHandle) throws NbtNotPermittedException;
+
     void checkPacketPlayOutSpawnEntity(Object packetHandle) throws EntityNbtNotPermittedException, LegacyEntityNbtNotPermittedException;
 
     void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot);
@@ -38,6 +40,7 @@ public interface IPacketInspector {
 
     default void checkPlayOut(IPanilla panilla, Object packetHandle) throws PacketException {
         checkPacketPlayOutSetSlot(packetHandle);
+        checkPacketPlayOutWindowItems(packetHandle);
 
         try {
             checkPacketPlayOutSpawnEntity(packetHandle);

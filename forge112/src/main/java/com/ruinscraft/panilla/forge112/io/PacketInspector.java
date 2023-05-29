@@ -67,6 +67,11 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
+    public void checkPacketPlayOutWindowItems(Object packetHandle) throws NbtNotPermittedException {
+        // TODO:
+    }
+
+    @Override
     public void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException {
         // TODO:
     }

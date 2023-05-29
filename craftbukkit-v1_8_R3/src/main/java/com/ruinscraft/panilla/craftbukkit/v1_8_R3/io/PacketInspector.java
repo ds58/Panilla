@@ -70,6 +70,35 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
+    public void checkPacketPlayOutWindowItems(Object _packet) throws NbtNotPermittedException {
+        if (_packet instanceof PacketPlayOutWindowItems) {
+            PacketPlayOutWindowItems packet = (PacketPlayOutWindowItems) _packet;
+
+            try {
+                Field itemStacksField = PacketPlayOutWindowItems.class.getDeclaredField("b");
+
+                itemStacksField.setAccessible(true);
+
+                ItemStack[] itemStacks = (ItemStack[]) itemStacksField.get(packet);
+
+                for (ItemStack itemStack : itemStacks) {
+                    if (itemStack == null || !itemStack.hasTag()) {
+                        continue;
+                    }
+
+                    NbtTagCompound tag = new NbtTagCompound(itemStack.getTag());
+                    String itemClass = itemStack.getClass().getSimpleName();
+                    String packetClass = packet.getClass().getSimpleName();
+
+                    NbtChecks.checkPacketPlayOut(0, tag, itemClass, packetClass, panilla); // TODO: set slot?
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void checkPacketPlayOutSpawnEntity(Object _packet) throws LegacyEntityNbtNotPermittedException {
         if (_packet instanceof PacketPlayOutSpawnEntity) {
             PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
