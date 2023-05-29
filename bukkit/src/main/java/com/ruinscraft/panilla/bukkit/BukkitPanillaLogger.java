@@ -3,7 +3,6 @@ package com.ruinscraft.panilla.bukkit;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaLogger;
 import com.ruinscraft.panilla.api.config.PConfig;
-import com.ruinscraft.panilla.api.config.PTranslations;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,11 +19,15 @@ public class BukkitPanillaLogger implements IPanillaLogger {
         this.jLogger = jLogger;
     }
 
-    @Override
-    public void log(String translationKey, boolean colorize) {
-        PTranslations pTranslations = panilla.getPTranslations();
+    private static String colorize(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
 
-        String message = pTranslations.getTranslation(translationKey);
+    @Override
+    public void log(String message, boolean colorize) {
+        if (message == null) {
+            return;
+        }
 
         if (colorize) {
             message = colorize(message);
@@ -59,10 +62,6 @@ public class BukkitPanillaLogger implements IPanillaLogger {
         }
 
         jLogger.warning(message);
-    }
-
-    private static String colorize(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
 }

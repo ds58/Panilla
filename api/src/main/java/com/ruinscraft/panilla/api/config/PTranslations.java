@@ -16,14 +16,6 @@ public class PTranslations {
         this.translations = translations;
     }
 
-    public String getLanguageKey() {
-        return languageKey;
-    }
-
-    public String getTranslation(String key) {
-        return translations.get(key);
-    }
-
     public static PTranslations get(String languageKey) throws IOException {
         try (InputStream inputStream = PTranslations.class.getResourceAsStream("/messages_" + languageKey + ".properties")) {
             Properties properties = new Properties();
@@ -38,6 +30,19 @@ public class PTranslations {
 
             return new PTranslations(languageKey, translations);
         }
+    }
+
+    public String getLanguageKey() {
+        return languageKey;
+    }
+
+    public String getTranslation(String key, String... replacements) {
+        String unformatted = translations.get(key);
+        if (unformatted == null) {
+            return "unknown translation: " + key;
+        }
+        String formatted = String.format(translations.get(key), replacements);
+        return formatted;
     }
 
 }

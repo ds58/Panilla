@@ -95,11 +95,11 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         panillaLogger = new BukkitPanillaLogger(this, getLogger());
         enchantments = new BukkitEnchantments();
 
-        final String serverImp = Bukkit.getServer().getClass().getName();
+        final String serverImp = Bukkit.getServer().getClass().getSimpleName();
 
         imp:
         switch (serverImp) {
-            case "org.bukkit.craftbukkit.CraftServer":
+            case "CraftServer":
                 final String craftVersion = getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
                 switch (craftVersion) {
                     case "v1_8_R3":
@@ -127,7 +127,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         containerCleaner = new com.ruinscraft.panilla.craftbukkit.v1_14_R1.ContainerCleaner(this);
                         break imp;
                 }
-            case "net.glowstone.GlowServer":
+            case "GlowServer":
                 if (Bukkit.getVersion().contains("1.12")) {
                     protocolConstants = new DefaultProtocolConstants();
                     playerInjector = new com.ruinscraft.panilla.glowstone.r2018_9_0.io.PlayerInjector();

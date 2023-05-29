@@ -33,9 +33,11 @@ public class PacketInspector implements IPacketInspector {
 
             if (itemStack == null || !itemStack.hasTag()) return;
 
-            NbtChecks.checkPacketPlayIn(slot, new NbtTagCompound(
-                            itemStack.getTag()), itemStack.getItem().getClass().getSimpleName(),
-                    packet.getClass().getSimpleName(), panilla);
+            NbtTagCompound tag = new NbtTagCompound(itemStack.getTag());
+            String itemClass = itemStack.getItem().getClass().getSimpleName();
+            String packetClass = packet.getClass().getSimpleName();
+
+            NbtChecks.checkPacketPlayIn(slot, tag, itemClass, packetClass, panilla);
         }
     }
 
@@ -56,9 +58,11 @@ public class PacketInspector implements IPacketInspector {
 
                 if (itemStack == null || !itemStack.hasTag()) return;
 
-                NbtChecks.checkPacketPlayOut(slot, new NbtTagCompound(
-                                itemStack.getTag()), itemStack.getItem().getClass().getSimpleName(),
-                        packet.getClass().getSimpleName(), panilla);
+                NbtTagCompound tag = new NbtTagCompound(itemStack.getTag());
+                String itemClass = itemStack.getClass().getSimpleName();
+                String packetClass = packet.getClass().getSimpleName();
+
+                NbtChecks.checkPacketPlayOut(slot, tag, itemClass, packetClass, panilla);
             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
             }

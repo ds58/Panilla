@@ -5,7 +5,6 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
-import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.forge112.nbt.NbtTagCompound;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,7 +34,7 @@ public class ContainerCleaner implements IContainerCleaner {
             INbtTagCompound tag = new NbtTagCompound(nmsTag);
             FailedNbt failedNbt = NbtChecks.checkAll(tag, itemStack.getItem().getClass().getSimpleName(), panilla);
 
-            if (failedNbt != null && failedNbt.result != NbtCheck.NbtCheckResult.PASS) {
+            if (FailedNbt.fails(failedNbt)) {
                 nmsTag.removeTag(failedNbt.key);
                 container.getSlot(slot).getStack().setTagCompound(nmsTag);
             }
