@@ -4,7 +4,8 @@ dependencies {
     compile project(':panilla-craftbukkit-v1_12_R1')
     compile project(':panilla-craftbukkit-v1_13_R2')
     compile project(':panilla-craftbukkit-v1_14_R1')
-    compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
+    compile project(':panilla-glowstone-2018_9_0')
+    compileOnly('org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT')
 }
 
 buildscript {
@@ -12,16 +13,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath('com.github.jengelman.gradle.plugins:shadow:1.2.3')
     }
 }
 
 processResources {
     from('src/main/resources') {
-        include 'plugin.yml'
-        expand(
-                version: project.parent.version
-        )
+        include('plugin.yml')
+        expand(version: project.parent.version)
     }
 }
 
@@ -29,14 +28,15 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {
     dependencies {
-        include(dependency(':panilla-api'))
-        include(dependency(':panilla-craftbukkit-v1_8_R3'))
-        include(dependency(':panilla-craftbukkit-v1_12_R1'))
-        include(dependency(':panilla-craftbukkit-v1_13_R2'))
-        include(dependency(':panilla-craftbukkit-v1_14_R1'))
+        include(':panilla-api')
+        include(':panilla-craftbukkit-v1_8_R3')
+        include(':panilla-craftbukkit-v1_12_R1')
+        include(':panilla-craftbukkit-v1_13_R2')
+        include(':panilla-craftbukkit-v1_14_R1')
+        include(':panilla-glowstone-2019_9_0')
     }
     archiveName = "Panilla.jar"
-    destinationDir = file '../target/craftbukkit'
+    destinationDir = file '../target/bukkit'
 }
 
 build.dependsOn(shadowJar)

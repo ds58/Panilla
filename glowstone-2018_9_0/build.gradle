@@ -1,0 +1,10 @@
+repositories {
+    maven {
+        url('https://repo.glowstone.net/content/repositories/snapshots/')
+    }
+}
+
+dependencies {
+    compileOnly project(':panilla-api')
+    compileOnly('net.glowstone:glowstone:2018.10.0-SNAPSHOT')
+}
