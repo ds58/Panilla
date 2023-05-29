@@ -160,7 +160,7 @@ public class PacketInspector implements IPacketInspector {
                         FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
                         if (FailedNbt.fails(failedNbt)) {
-                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId);
+                            throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId, bukkitEntity.getWorld().getName());
                         }
                     }
                 }

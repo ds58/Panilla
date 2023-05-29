@@ -57,9 +57,11 @@ public interface IPacketInspector {
         try {
             checkPacketPlayOutSpawnEntity(packetHandle);
         } catch (EntityNbtNotPermittedException e) {
-            stripNbtFromItemEntity(e.getEntityId());
-            panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getFailedNbt().key), true);
-            throw e;
+            if (!panilla.getPConfig().disabledWorlds.contains(e.getWorld())) {
+                stripNbtFromItemEntity(e.getEntityId());
+                panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getFailedNbt().key), true);
+                throw e;
+            }
         } catch (LegacyEntityNbtNotPermittedException e) {
             stripNbtFromItemEntityLegacy(e.getEntityId());
             panilla.getPanillaLogger().log(panilla.getPTranslations().getTranslation("itemEntityStripped", e.getFailedNbt().key), true);
