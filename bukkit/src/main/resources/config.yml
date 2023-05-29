@@ -6,8 +6,7 @@
 # Issues and help https://github.com/Ruinscraft/Panilla/issues
 ##################################################################
 
-# Current translations include: [en, es, ru]
-# Submit your own translation by making a pull request or an issue on GitHub
+# The language option below currently does nothing.
 language: en
 
 # Logging options
@@ -33,13 +32,13 @@ prevent-fawe-brush-nbt: false
 
 # Whitelist NBT tags from being checked
 # Keep in mind some NBT tags vary between Minecraft versions
-#     (eg: ench vs Enchantments)
+#     (eg: ench on 1.12 vs Enchantments on 1.13)
 nbt-whitelist:
-#  - ench           # 1.12 and below format
-#  - Enchantments   # 1.13 and up format
+#  - Enchantments
 
 # Prevent Panilla from checking NBT in certain worlds
 # Effectively sets the world to the lenient strictness (to prevent crash exploits)
+# Case sensitive!
 disabled-worlds:
 #  - world_nether
 #  - some_other_world_name
@@ -49,7 +48,6 @@ disabled-worlds:
 #
 # If you have plugins which use an excessive amount of
 # custom NBT keys, then you can raise it as high as you like.
-#
 #
 # Generally, you should never have to touch this.
 max-non-minecraft-nbt-keys: 16
