@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.forge112;
 
-import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IInventoryCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
@@ -12,11 +12,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ContainerCleaner implements IContainerCleaner {
+public class InventoryCleaner implements IInventoryCleaner {
 
     private final IPanilla panilla;
 
-    public ContainerCleaner(IPanilla panilla) {
+    public InventoryCleaner(IPanilla panilla) {
         this.panilla = panilla;
     }
 

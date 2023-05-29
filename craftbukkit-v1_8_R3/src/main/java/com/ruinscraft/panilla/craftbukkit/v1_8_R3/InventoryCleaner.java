@@ -1,6 +1,6 @@
 package com.ruinscraft.panilla.craftbukkit.v1_8_R3;
 
-import com.ruinscraft.panilla.api.IContainerCleaner;
+import com.ruinscraft.panilla.api.IInventoryCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
@@ -12,11 +12,11 @@ import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
-public class ContainerCleaner implements IContainerCleaner {
+public class InventoryCleaner implements IInventoryCleaner {
 
     private final IPanilla panilla;
 
-    public ContainerCleaner(IPanilla panilla) {
+    public InventoryCleaner(IPanilla panilla) {
         this.panilla = panilla;
     }
 
