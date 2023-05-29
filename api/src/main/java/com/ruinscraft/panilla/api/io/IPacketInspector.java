@@ -9,6 +9,7 @@ public interface IPacketInspector {
 	void checkPacketPlayInSetCreativeSlot(Object player, Object nmsPacket) throws Exception;
 	void checkPacketPlayInWindowClick(Object player, Object nmsPacket) throws Exception;
 	void checkPacketPlayInUpdateSign(Object player, Object nmsPacket) throws SignLineLengthTooLongException;
+	void checkPacketPlayOutSetSlot(Object player, Object nmsPacket) throws Exception;
 
 	default void checkIn(Object player, Object nmsPacket) throws Exception {
 		checkSize(player, nmsPacket);
@@ -19,6 +20,7 @@ public interface IPacketInspector {
 	
 	default void checkOut(Object player, Object nmsPacket) throws Exception {
 		checkSize(player, nmsPacket);
+		checkPacketPlayOutSetSlot(player, nmsPacket);
 	}
 	
 }

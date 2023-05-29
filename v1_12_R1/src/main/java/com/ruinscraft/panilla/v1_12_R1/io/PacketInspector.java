@@ -1,6 +1,7 @@
 package com.ruinscraft.panilla.v1_12_R1.io;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import com.ruinscraft.panilla.api.IItemStackChecker;
 import com.ruinscraft.panilla.api.INbtChecker;
@@ -19,6 +20,7 @@ import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
 import net.minecraft.server.v1_12_R1.PacketPlayInUpdateSign;
 import net.minecraft.server.v1_12_R1.PacketPlayInWindowClick;
 import net.minecraft.server.v1_12_R1.PacketPlayOutCustomPayload;
+import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot;
 
 public class PacketInspector implements IPacketInspector {
 
@@ -98,6 +100,21 @@ public class PacketInspector implements IPacketInspector {
 				if (line.length() > protocolConstants.maxSignLineLength()) {
 					throw new SignLineLengthTooLongException();
 				}
+			}
+		}
+	}
+
+	@Override
+	public void checkPacketPlayOutSetSlot(Object player, Object nmsPacket) throws Exception {
+		if (nmsPacket instanceof PacketPlayOutSetSlot) {
+			PacketPlayOutSetSlot packetPlayOutSetSlot = (PacketPlayOutSetSlot) nmsPacket;
+
+			Field itemStackField = packetPlayOutSetSlot.getClass().getDeclaredField("c");
+			itemStackField.setAccessible(true);
+
+			if (itemStackField.get(packetPlayOutSetSlot) instanceof ItemStack) {
+				ItemStack itemStack = (ItemStack) itemStackField.get(packetPlayOutSetSlot);
+				checkItemStack(itemStack);
 			}
 		}
 	}
