@@ -13,5 +13,11 @@ public class ProtocolConstants implements IProtocolConstants {
 	public int maxAnvilRenameChars() {
 		return 35;
 	}
+
+	// TODO: fill in
+	@Override
+	public int maxSignLineLength() {
+		return 0;
+	}
 	
 }
