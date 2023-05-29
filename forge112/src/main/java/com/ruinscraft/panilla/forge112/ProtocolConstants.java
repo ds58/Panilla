@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.sponge72;
+package com.ruinscraft.panilla.forge112;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
 

@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.sponge72.nbt;
+package com.ruinscraft.panilla.forge112.nbt;
 
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
