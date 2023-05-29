@@ -7,6 +7,8 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
 public interface IPanilla {
 
+    String PERMISSION_BYPASS = "panilla.bypass";
+
     PanillaLogger getPanlliaLogger();
 
     PConfig getPanillaConfig();

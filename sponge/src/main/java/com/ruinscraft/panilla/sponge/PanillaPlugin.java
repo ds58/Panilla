@@ -142,7 +142,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
             case "1.12":
             case "1.12.1":
             case "1.12.2":
-                protocolConstants = new com.ruinscraft.panilla.forge112.ProtocolConstants();
+                protocolConstants = new DefaultProtocolConstants();
                 playerInjector = new com.ruinscraft.panilla.forge112.io.PlayerInjector();
                 packetInspector = new com.ruinscraft.panilla.forge112.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.forge112.ContainerCleaner(this);
@@ -174,7 +174,7 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
     @Listener
     public void onClientConnectionJoin(ClientConnectionEvent.Join event) {
         Player player = event.getTargetEntity();
-        playerInjector.register(new SpongePanillaPlayer(player), this);
+        playerInjector.register(this, new SpongePanillaPlayer(player));
     }
 
     @Listener

@@ -12,4 +12,8 @@ public interface IPanillaPlayer {
 
     void sendMessage(String message);
 
+    default boolean canBypassChecks() {
+        return hasPermission(IPanilla.PERMISSION_BYPASS);
+    }
+
 }

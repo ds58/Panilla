@@ -8,20 +8,6 @@ package com.ruinscraft.panilla.api;
  */
 public interface IProtocolConstants {
 
-    /*
-     * Values which could potentially change or have changed in previous versions of
-     * Minecraft
-     */
-
-    // < 1 for no compression
-    int packetCompressionLevel();
-
-    int maxPacketSizeBytes();
-
-    /*
-     * Default values that I don't expect to change in future versions of Minecraft
-     */
-
     default int maxUsernameLength() {
         return 16;
     }
@@ -32,10 +18,6 @@ public interface IProtocolConstants {
 
     default int maxAnvilRenameChars() {
         return 35;
-    }
-
-    default int maxSignLineLength() {
-        return 48;
     }
 
     default int maxFireworksFlight() {
@@ -57,10 +39,6 @@ public interface IProtocolConstants {
     /* Not protocol -- Reasonable values/assumptions */
 
     default int NOT_PROTOCOL_maxItemNameLength() {
-        return 128;
-    }
-
-    default int NOT_PROTOCOL_maxLoreLineLength() {
         return 128;
     }
 
