@@ -104,7 +104,7 @@ public class PacketInspector implements IPacketInspector {
 
     @Override
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
-        
+
     }
 
     @Override
