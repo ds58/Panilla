@@ -4,9 +4,9 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IPacketInspector;
-import com.ruinscraft.panilla.api.IPlayerInbound;
 import com.ruinscraft.panilla.api.IPlayerInjector;
-import com.ruinscraft.panilla.api.IPlayerOutbound;
+import com.ruinscraft.panilla.api.PlayerInbound;
+import com.ruinscraft.panilla.api.PlayerOutbound;
 
 import io.netty.channel.Channel;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
@@ -36,13 +36,13 @@ public class PlayerInjector implements IPlayerInjector {
 
 		/* Register inbound */
 		if (channel.pipeline().get(CHANNEL_IN) == null) {
-			IPlayerInbound inbound = new PlayerInbound(packetInspector, bukkitPlayer);
+			PlayerInbound inbound = new PlayerInbound(packetInspector, bukkitPlayer);
 			channel.pipeline().addBefore(MINECRAFT_PACKET_HANDLER, CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
 		if (channel.pipeline().get(CHANNEL_OUT) == null) {
-			IPlayerOutbound outbound = new PlayerOutbound(packetInspector, bukkitPlayer);
+			PlayerOutbound outbound = new PlayerOutbound(packetInspector, bukkitPlayer);
 			channel.pipeline().addBefore(MINECRAFT_PACKET_HANDLER, CHANNEL_OUT, outbound);
 		}
 	}

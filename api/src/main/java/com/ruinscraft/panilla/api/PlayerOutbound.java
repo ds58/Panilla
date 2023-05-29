@@ -1,16 +1,14 @@
-package com.ruinscraft.panilla.v1_12_R1;
+package com.ruinscraft.panilla.api;
 
 import org.bukkit.entity.Player;
 
-import com.ruinscraft.panilla.api.IPacketInspector;
-import com.ruinscraft.panilla.api.IPlayerOutbound;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 
-public class PlayerOutbound extends ChannelOutboundHandlerAdapter implements IPlayerOutbound {
+public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
 	private final IPacketInspector packetInspector;
 	private final Player bukkitPlayer;
@@ -20,7 +18,6 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter implements IPl
 		this.bukkitPlayer = bukkitPlayer;
 	}
 	
-	@Override
 	public Player getBukkitPlayer() {
 		return bukkitPlayer;
 	}
