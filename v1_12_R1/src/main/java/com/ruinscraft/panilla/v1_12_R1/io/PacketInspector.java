@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
@@ -24,11 +24,11 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot;
 
 public class PacketInspector implements IPacketInspector {
 
-	private final PStrictness strictness;
+	private final PConfig config;
 	private final IProtocolConstants protocolConstants;
 
-	public PacketInspector(PStrictness strictness, IProtocolConstants protocolConstants) {
-		this.strictness = strictness;
+	public PacketInspector(PConfig config, IProtocolConstants protocolConstants) {
+		this.config = config;
 		this.protocolConstants = protocolConstants;
 	}
 
@@ -72,7 +72,7 @@ public class PacketInspector implements IPacketInspector {
 
 			NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
 					itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
-					protocolConstants, strictness);
+					protocolConstants, config);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class PacketInspector implements IPacketInspector {
 
 				NbtChecks.checkPacketPlayOut(new NbtTagCompound(itemStack.getTag()),
 						itemStack.getItem().getClass().getSimpleName(), packet.getClass().getSimpleName(),
-						protocolConstants, strictness);
+						protocolConstants, config);
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

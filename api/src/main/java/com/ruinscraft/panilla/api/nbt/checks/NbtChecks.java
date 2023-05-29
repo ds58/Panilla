@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
-import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -57,9 +57,9 @@ public final class NbtChecks {
 	}
 
 	public static void checkPacketPlayIn(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
-			IProtocolConstants protocolConstants, PStrictness strictness) throws NbtNotPermittedException {
+			IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
 
-		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
+		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
 
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, true, failedNbt);
@@ -67,29 +67,33 @@ public final class NbtChecks {
 	}
 
 	public static void checkPacketPlayOut(INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
-			IProtocolConstants protocolConstants, PStrictness strictness) throws NbtNotPermittedException {
+			IProtocolConstants protocolConstants, PConfig config) throws NbtNotPermittedException {
 
-		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, strictness);
+		String failedNbt = checkAll(tag, nmsItemClassName, protocolConstants, config);
 		
 		if (failedNbt != null) {
 			throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt);
 		}
 	}
 
-	public static String checkAll(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants,
-			PStrictness strictness) {
+	public static String checkAll(INbtTagCompound tag, String nmsItemClassName,
+			IProtocolConstants protocolConstants, PConfig config) {
 		for (String key : tag.getKeys()) {
+			if (config.nbtWhitelist.contains(key)) {
+				continue;
+			}
+			
 			NbtCheck check = checks.get(key);
 
 			if (check == null) {
 				return key;
 			}
 
-			if (check.getTolerance().lvl > strictness.lvl) {
+			if (check.getTolerance().lvl > config.strictness.lvl) {
 				continue;
 			}
 
-			if (!check.check(tag, nmsItemClassName, protocolConstants, strictness)) {
+			if (!check.check(tag, nmsItemClassName, protocolConstants, config)) {
 				return key;
 			}
 		}

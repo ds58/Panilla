@@ -1,6 +1,7 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
@@ -13,7 +14,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
 		INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
 //		// locked chests
@@ -38,7 +39,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 				INbtTagCompound item = items.get(i);
 
 				if (item.hasKey("tag")) {
-					String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, strictness);
+					String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, config);
 					
 					if (failedNbt != null) return false;
 				}

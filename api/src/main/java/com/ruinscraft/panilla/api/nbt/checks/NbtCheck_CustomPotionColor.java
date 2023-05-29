@@ -3,6 +3,7 @@ package com.ruinscraft.panilla.api.nbt.checks;
 import org.bukkit.Color;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
@@ -13,7 +14,7 @@ public class NbtCheck_CustomPotionColor extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
 		int bgr = tag.getInt(getName());
 
 		try {

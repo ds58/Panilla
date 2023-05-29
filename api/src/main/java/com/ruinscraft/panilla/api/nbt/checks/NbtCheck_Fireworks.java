@@ -1,6 +1,7 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
@@ -13,7 +14,7 @@ public class NbtCheck_Fireworks extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PConfig config) {
 		INbtTagCompound fireworks = tag.getCompound("Fireworks");
 
 		int flight = fireworks.getInt("Flight");
