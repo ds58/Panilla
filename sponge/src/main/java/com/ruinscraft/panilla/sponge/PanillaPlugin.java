@@ -83,6 +83,11 @@ public class PanillaPlugin implements IPanilla {
         return null;    // TODO: implement
     }
 
+    @Override
+    public void exec(Runnable runnable) {
+        // TODO:
+    }
+
     private synchronized void loadConfig() {
         // TODO: how do config files work on Sponge?
     }

@@ -26,4 +26,6 @@ public interface IPanilla {
 
     IPacketSerializer createPacketSerializer(Object byteBuf);
 
+    void exec(Runnable runnable);
+
 }
