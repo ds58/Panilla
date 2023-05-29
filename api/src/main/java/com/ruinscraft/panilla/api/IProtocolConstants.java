@@ -36,6 +36,10 @@ public interface IProtocolConstants {
         return 3; // large slime
     }
 
+    default int maxPacketSize() {
+        return 2097152;
+    }
+
     /* Not protocol -- Reasonable values/assumptions */
 
     default int NOT_PROTOCOL_maxItemNameLength() {
