@@ -123,6 +123,17 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
+        // /give @p furnace{BlockEntityTag:{RecipesUsed:{"minecraft:bow":1}}} 1
+        // Breaking this furnace in the world will cause a client crash
+        // https://github.com/ds58/Panilla/issues/120
+        if (blockEntityTag.hasKey("RecipesUsed")) {
+            INbtTagCompound recipesUsed = blockEntityTag.getCompound("RecipesUsed");
+
+            if (recipesUsed.hasKeyOfType("minecraft:bow", NbtDataType.INT)) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
         // check the item within a JukeBox
         if (blockEntityTag.hasKey("RecordItem")) {
             INbtTagCompound item = blockEntityTag.getCompound("RecordItem");
