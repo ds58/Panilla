@@ -30,8 +30,9 @@ public class PlayerInjector implements IPlayerInjector {
             NetworkManager networkManager = (NetworkManager) networkManagerField.get(playerConnection);
             return networkManager.m;
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
