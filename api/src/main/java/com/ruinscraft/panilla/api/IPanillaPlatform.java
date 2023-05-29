@@ -15,4 +15,6 @@ public interface IPanillaPlatform {
 
     Logger getLogger();
 
+    void runTaskLater(long delay, Runnable task);
+
 }

@@ -113,6 +113,11 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
         return logger;
     }
 
+    @Override
+    public void runTaskLater(long delay, Runnable task) {
+        // TODO:
+    }
+
     private synchronized void loadConfig() {
         // TODO:
     }

@@ -100,6 +100,11 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         return panillaPlayers;
     }
 
+    @Override
+    public void runTaskLater(long delay, Runnable task) {
+        getServer().getScheduler().runTaskLater(this, task, delay);
+    }
+
     private synchronized void loadConfig() throws IOException {
         PFiles.saveResource("config.yml", getDataFolder());
 
