@@ -2,6 +2,7 @@ package com.ruinscraft.panilla.forge112.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
+import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
@@ -13,6 +14,7 @@ import net.minecraft.network.play.client.CPacketCreativeInventoryAction;
 import net.minecraft.network.play.server.SPacketSetSlot;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 public class PacketInspector implements IPacketInspector {
 
@@ -65,10 +67,25 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
+    public void checkPacketPlayOutSpawnEntity(Object _packet) throws EntityNbtNotPermittedException {
+        // TODO:
+    }
+
+    @Override
     public void sendPacketPlayOutSetSlotAir(IPanillaPlayer player, int slot) {
         EntityPlayerMP entityPlayerMP = (EntityPlayerMP) player.getHandle();
         SPacketSetSlot packet = new SPacketSetSlot(0, slot, new ItemStack(Blocks.AIR));
         entityPlayerMP.connection.sendPacket(packet);
+    }
+
+    @Override
+    public void removeEntity(UUID entityId) {
+        // TODO:
+    }
+
+    @Override
+    public void removeEntityLegacy(int entityId) {
+        throw new IllegalStateException("Cannot use #removeEntityLegacy on 1.12");
     }
 
 }

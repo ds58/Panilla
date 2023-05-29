@@ -2,8 +2,6 @@ package com.ruinscraft.panilla.api.exception;
 
 public class PacketException extends Exception {
 
-    private static final long serialVersionUID = 3839488734683711733L;
-
     private final String nmsClass;
     private final boolean from;
 
