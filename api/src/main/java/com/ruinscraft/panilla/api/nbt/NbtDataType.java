@@ -11,4 +11,14 @@ public enum NbtDataType {
         this.id = id;
     }
 
+    public static NbtDataType fromId(int id) {
+        for (NbtDataType type : values()) {
+            if (type.id == id) {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
 }

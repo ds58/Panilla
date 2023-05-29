@@ -4,6 +4,8 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
+import com.ruinscraft.panilla.api.nbt.INbtTagList;
+import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +85,14 @@ public final class NbtChecks {
                 continue;
             }
 
+            if (tag.hasKeyOfType(key, NbtDataType.LIST)) {
+                INbtTagList list = tag.getList(key);
+
+                if (list.size() > 128) {
+                    return new FailedNbt((key), NbtCheck.NbtCheckResult.CRITICAL);
+                }
+            }
+
             NbtCheck check = checks.get(key);
 
             if (check == null) {
@@ -104,7 +114,7 @@ public final class NbtChecks {
         if (nonMinecraftKeys > panilla.getPConfig().maxNonMinecraftNbtKeys) {
             for (String key : tag.getKeys()) {
                 if (checks.get(key) == null) {
-                    return new FailedNbt(key, NbtCheck.NbtCheckResult.FAIL);
+                    return new FailedNbt(key, NbtCheck.NbtCheckResult.CRITICAL);
                 }
             }
         }
