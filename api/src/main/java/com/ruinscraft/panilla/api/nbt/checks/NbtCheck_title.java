@@ -11,7 +11,7 @@ public class NbtCheck_title extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		int titleLength = tag.getString("title").length();
 
 		if (titleLength > protocolConstants.maxBookTitleLength()) {

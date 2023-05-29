@@ -13,7 +13,7 @@ public class NbtCheck_Fireworks extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		INbtTagCompound fireworks = tag.getCompound("Fireworks");
 
 		int flight = fireworks.getInt("Flight");

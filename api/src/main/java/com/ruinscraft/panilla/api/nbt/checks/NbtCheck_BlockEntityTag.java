@@ -13,7 +13,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
 		// locked chests
@@ -38,7 +38,9 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 				INbtTagCompound item = items.get(i);
 
 				if (item.hasKey("tag")) {
-					// TODO: check recursively
+					String failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, protocolConstants, strictness);
+					
+					if (failedNbt != null) return false;
 				}
 			}
 		}

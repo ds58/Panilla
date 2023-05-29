@@ -17,7 +17,7 @@ public class NbtCheck_ench extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		String using = null;
 
 		if (tag.hasKey(getName())) {

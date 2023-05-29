@@ -13,7 +13,7 @@ public class NbtCheck_CustomPotionColor extends NbtCheck {
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants, PStrictness strictness) {
 		int bgr = tag.getInt(getName());
 
 		try {
