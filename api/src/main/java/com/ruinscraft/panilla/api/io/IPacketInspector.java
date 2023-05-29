@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 public interface IPacketInspector {
 
 	/* all packets */
-	void checkSize(Object _packet) throws OversizedPacketException;
+	void checkSize(Object _packet, boolean from) throws OversizedPacketException;
 	/* inbound packets		(client->server) */
 	void checkPacketPlayInSetCreativeSlot(Object _packet) throws NbtNotPermittedException;
 	void checkPacketPlayInUpdateSign(Object _packet) throws SignLineLengthTooLongException;
@@ -16,14 +16,14 @@ public interface IPacketInspector {
 
 	default void checkPlayIn(Object _player, Object _packet) 
 			throws OversizedPacketException, NbtNotPermittedException, SignLineLengthTooLongException {
-		checkSize(_packet);
+		checkSize(_packet, true);
 		checkPacketPlayInSetCreativeSlot(_packet);
 		checkPacketPlayInUpdateSign(_packet);
 	}
 	
 	default void checkPlayOut(Object _packet)
 			throws OversizedPacketException, NbtNotPermittedException {
-		checkSize(_packet);
+		checkSize(_packet, false);
 		checkPacketPlayOutSetSlot(_packet);
 	}
 	

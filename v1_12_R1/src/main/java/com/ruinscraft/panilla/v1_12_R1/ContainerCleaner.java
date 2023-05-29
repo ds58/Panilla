@@ -5,7 +5,6 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.config.PStrictness;
-import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 
 import net.minecraft.server.v1_12_R1.Container;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
@@ -30,11 +29,10 @@ public class ContainerCleaner implements IContainerCleaner {
 			for (int slot = 0; slot < container.slots.size(); slot++) {
 				NBTTagCompound tag = container.getSlot(slot).getItem().getTag();
 
-				try {
-					nbtChecker.checkAll(tag, strictness);
-				} catch (NbtNotPermittedException e) {
-					tag.remove(e.getTagName());
+				String failedNbt = nbtChecker.checkAll(tag, strictness);
 
+				if (failedNbt != null) {
+					tag.remove(failedNbt);
 					container.getSlot(slot).getItem().setTag(tag);
 				}
 			}

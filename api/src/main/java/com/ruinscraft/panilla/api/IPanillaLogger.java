@@ -1,10 +1,12 @@
 package com.ruinscraft.panilla.api;
 
+import java.io.IOException;
+
+import com.ruinscraft.panilla.api.exception.PacketException;
+
 public interface IPanillaLogger {
 
-	void all(String message);
-	void chat(String message);
-	void console(String message);
-	String generateWarning(Object _player, Exception exception);
+	void loadLocale(String localeFile) throws IOException;
+	void warn(Object _player, PacketException e);
 	
 }

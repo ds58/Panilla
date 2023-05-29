@@ -1,20 +1,18 @@
 package com.ruinscraft.panilla.api.exception;
 
-public class OversizedPacketException extends Exception {
+public class OversizedPacketException extends PacketException {
 
 	private static final long serialVersionUID = -4128984869675949399L;
 
-	private String className;
-	private int sizeBytes;
-	
-	public OversizedPacketException(String className, int sizeBytes) {
-		this.className = className;
+	private final int sizeBytes;
+
+	public OversizedPacketException(String nmsClass, boolean from, int sizeBytes) {
+		super(nmsClass, from);
 		this.sizeBytes = sizeBytes;
 	}
-	
-	@Override
-	public String getMessage() {
-		return "packet class " + className + " was too large: " + sizeBytes;
+
+	public int getSizeBytes() {
+		return sizeBytes;
 	}
-	
+
 }
