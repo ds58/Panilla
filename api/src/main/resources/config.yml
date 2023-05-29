@@ -16,10 +16,18 @@ logging:
 #   strict  - Prevent anything non-vanilla
 strictness: average
 
+# This prevents users from creating high resolution skulls with
+# a Minecraft Education account
+#
+# strictness must be set to average or strict
+#
+# See this paste: https://paste.ubuntu.com/p/SSGg6szMc4/
+prevent-minecraft-education-skulls: false
+
 # Whitelist NBT tags from being checked
 nbt-whitelist:
-#  - Enchantments   # 1.13+ format
-#  - ench           # 1.12 format
+#  - Enchantments   # 1.13 and up format
+#  - ench           # 1.12 and below format
 
 # You shouldn't have to touch this.
 #
