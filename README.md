@@ -1,12 +1,23 @@
 # Panilla
-Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
-
 [Support the development of this plugin and purchase a precompiled .jar file on SpigotMC](https://www.spigotmc.org/resources/65694/) (or compile your own for free)
 
 ## Overview
-Panilla is a plugin for CraftBukkit based Minecraft servers (CraftBukkit, Spigot, Paper, etc) to prevent abusive NBT and potentially harmful packets.
+Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
 
-With this plugin, you will be able to prevent:
+Panilla is software to prevent abusive NBT and packets on Minecraft: Java Edition servers.
+
+Currently supported server implementations:
+- CraftBukkit (Spigot, Paper, etc)
+  - 1.8.8
+  - 1.12.x
+  - 1.13.x
+  - 1.14
+- SpongeVanilla (beta)
+  - 1.12.x
+- SpongeForge (beta)
+  - 1.12.x
+
+With this software, you will be able to prevent:
 
 - Unobtainable Enchantments (eg. Sharpness X)
 - Unobtainable Potions (eg. Insta-kill)
@@ -21,19 +32,7 @@ With this plugin, you will be able to prevent:
 - Unbreakable items
 - and more abusive NBT
 
-## FAQ
-### Why is this plugin needed?
-Normally, these NBT tags are not obtainable in vanilla survival-mode Minecraft. With the use of creative-mode, players can use a few different methods to obtain these items such as:
-- use a hacked client to edit the NBT
-- load a toolbar from a single-player world/other server which has items with edited NBT
-
-This plugin is most useful on creative-mode servers, where players are given creative-mode access. It could also be beneficial for use on survival-mode servers if you just wish to keep your server in-check. Be aware that this plugin does remove NBT from items if it deems they are "illegitimate" (it does not remove the item itself).
-
-### Why have you not used ProtocolLib?
-It was a personal decision. I wanted to be as close to Minecraft as possible. It also means users don't have to install an additional plugin.
-
-### I am using your plugin and have a player that crashes when they login to the server.
-Make a GitHub issue on the [project's homepage](https://github.com/Ruinscraft/Panilla). It would be very helpful if you included a player.dat file from your world/playerdata/player-uuid.dat so that I can take a look at their inventory contents.
-
 ## Compiling
-In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla. When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository. From there, you can compile the project with `mvn package`. The output plugin jar file will be `plugin/target/Panilla.jar`.
+In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla.
+When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
+From there, you can compile the project with `./gradlew build`. The output plugin jars file will be the `target/` directory.
