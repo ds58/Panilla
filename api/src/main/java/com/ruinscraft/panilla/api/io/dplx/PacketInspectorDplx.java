@@ -4,6 +4,9 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaLogger;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.config.PTranslations;
+import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
+import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.exception.LegacyEntityNbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.PacketException;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -37,7 +40,7 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         try {
-            panilla.getPacketInspector().checkPlayOut(msg);
+            panilla.getPacketInspector().checkPlayOut(panilla, msg);
         } catch (PacketException e) {
             if (handlePacketException(player, e)) {
                 return;
@@ -56,7 +59,13 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
 
             String nmsClass = e.getNmsClass();
             String username = player.getName();
-            String tag = e.getFailedNbt().key;
+            String tag;
+
+            if (FailedNbt.failsThreshold(e.getFailedNbt())) {
+                tag = "key size threshold";
+            } else {
+                tag = e.getFailedNbt().key;
+            }
 
             final String message;
 
@@ -70,6 +79,7 @@ public class PacketInspectorDplx extends ChannelDuplexHandler {
 
             return true;
         }
+
         return false;
     }
 
