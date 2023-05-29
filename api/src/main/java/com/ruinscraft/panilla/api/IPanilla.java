@@ -9,7 +9,7 @@ public interface IPanilla {
 
     String PERMISSION_BYPASS = "panilla.bypass";
 
-    PanillaLogger getPanlliaLogger();
+    PanillaLogger getPanillaLogger();
 
     PConfig getPanillaConfig();
 

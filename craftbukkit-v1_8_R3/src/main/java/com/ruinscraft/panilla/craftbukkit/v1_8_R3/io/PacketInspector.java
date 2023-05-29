@@ -7,7 +7,6 @@ import com.ruinscraft.panilla.api.exception.LegacyEntityNbtNotPermittedException
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
-import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_8_R3.nbt.NbtTagCompound;
 import net.minecraft.server.v1_8_R3.*;
@@ -94,7 +93,7 @@ public class PacketInspector implements IPacketInspector {
                         INbtTagCompound tag = new NbtTagCompound(item.getItemStack().getTag());
                         FailedNbt failedNbt = NbtChecks.checkAll(tag, item.getItemStack().getClass().getSimpleName(), panilla);
 
-                        if (failedNbt != null && failedNbt.result != NbtCheck.NbtCheckResult.PASS) {
+                        if (FailedNbt.fails(failedNbt)) {
                             throw new LegacyEntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId);
                         }
                     }

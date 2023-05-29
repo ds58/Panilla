@@ -17,7 +17,7 @@ public class PanillaExceptionHandler extends ChannelDuplexHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        panilla.getPanlliaLogger().preventedException(player, cause);
+        panilla.getPanillaLogger().preventedException(player, cause);
         panilla.getContainerCleaner().clean(player);
     }
 

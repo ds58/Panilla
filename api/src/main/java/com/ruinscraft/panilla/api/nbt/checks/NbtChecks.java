@@ -61,8 +61,8 @@ public final class NbtChecks {
                                          IPanilla panilla) throws NbtNotPermittedException {
         FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
-        if (failedNbt != null) {
-            throw new NbtNotPermittedException(nmsPacketClassName, true, failedNbt, slot);
+        if (FailedNbt.fails(failedNbt)) {
+            throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
         }
     }
 
@@ -70,7 +70,7 @@ public final class NbtChecks {
                                           IPanilla panilla) throws NbtNotPermittedException {
         FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
 
-        if (failedNbt != null) {
+        if (FailedNbt.fails(failedNbt)) {
             throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
         }
     }
@@ -109,7 +109,7 @@ public final class NbtChecks {
             }
         }
 
-        return null;
+        return FailedNbt.NOFAIL;
     }
 
 }

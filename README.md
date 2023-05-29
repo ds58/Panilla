@@ -10,6 +10,7 @@ Currently Panilla supports:
   - CraftBukkit* 1.12.x
   - CraftBukkit* 1.13.x
   - CraftBukkit* 1.14.x
+  - Glowstone 1.12.2 / 2018_9_0 (work in progress)
   
   **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
 - Sponge
@@ -18,7 +19,7 @@ Currently Panilla supports:
 If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
 
 ## Overview
-Panilla is software to prevent abusive NBT and packets on Minecraft: Java Edition servers.
+Panilla is software to prevent abusive NBT and packets on Minecraft servers.
 
 With this software, you will be able to prevent:
 

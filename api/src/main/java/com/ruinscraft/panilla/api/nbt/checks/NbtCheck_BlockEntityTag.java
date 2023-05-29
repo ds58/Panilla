@@ -15,6 +15,30 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
 
+    private static FailedNbt checkItems(INbtTagList items, String nmsItemClassName, IPanilla panilla) {
+        for (int i = 0; i < items.size(); i++) {
+            FailedNbt failedNbt = checkItem(items.getCompound(i), nmsItemClassName, panilla);
+
+            if (FailedNbt.fails(failedNbt)) {
+                return failedNbt;
+            }
+        }
+
+        return FailedNbt.NOFAIL;
+    }
+
+    private static FailedNbt checkItem(INbtTagCompound item, String nmsItemClassName, IPanilla panilla) {
+        if (item.hasKey("tag")) {
+            FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, panilla);
+
+            if (FailedNbt.fails(failedNbt)) {
+                return failedNbt;
+            }
+        }
+
+        return FailedNbt.NOFAIL;
+    }
+
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
         INbtTagCompound blockEntityTag = tag.getCompound(getName());
@@ -55,7 +79,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 
             FailedNbt failedNbt = checkItems(items, nmsItemClassName, panilla);
 
-            if (failedNbt != null && failedNbt.result != NbtCheckResult.PASS) {
+            if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
             }
         }
@@ -66,36 +90,12 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 
             FailedNbt failedNbt = checkItem(item, nmsItemClassName, panilla);
 
-            if (failedNbt != null && failedNbt.result != NbtCheckResult.PASS) {
+            if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;
             }
         }
 
         return NbtCheckResult.PASS;
-    }
-
-    private static FailedNbt checkItems(INbtTagList items, String nmsItemClassName, IPanilla panilla) {
-        for (int i = 0; i < items.size(); i++) {
-            FailedNbt failedNbt = checkItem(items.getCompound(i), nmsItemClassName, panilla);
-
-            if (failedNbt != null) {
-                return failedNbt;
-            }
-        }
-
-        return null;
-    }
-
-    private static FailedNbt checkItem(INbtTagCompound item, String nmsItemClassName, IPanilla panilla) {
-        if (item.hasKey("tag")) {
-            FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), nmsItemClassName, panilla);
-
-            if (failedNbt != null) {
-                return failedNbt;
-            }
-        }
-
-        return null;
     }
 
 }
