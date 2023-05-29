@@ -13,11 +13,11 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
 
-    private FailedNbt checkItems(INbtTagList items, String itemName, IPanilla panilla) {
+    public static FailedNbt checkItems(String nbtTagName, INbtTagList items, String itemName, IPanilla panilla) {
         int charCount = NbtCheck_pages.getCharCountForItems(items);
 
         if (charCount > 100_000) {
-            return new FailedNbt(getName(), NbtCheck.NbtCheckResult.CRITICAL);
+            return new FailedNbt(nbtTagName, NbtCheck.NbtCheckResult.CRITICAL);
         }
 
         for (int i = 0; i < items.size(); i++) {
@@ -31,7 +31,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         return FailedNbt.NO_FAIL;
     }
 
-    private FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
+    public static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
         if (item.hasKey("tag")) {
             FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
 
@@ -116,7 +116,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
 
             INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
-            FailedNbt failedNbt = checkItems(items, itemName, panilla);
+            FailedNbt failedNbt = checkItems(getName(), items, itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
                 return failedNbt.result;

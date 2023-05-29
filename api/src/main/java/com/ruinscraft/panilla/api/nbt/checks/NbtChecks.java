@@ -48,6 +48,7 @@ public final class NbtChecks {
         register(new NbtCheck_CustomModelData());
         register(new NbtCheck_HasVisualFire()); // 1.17
         register(new NbtCheck_ChargedProjectiles());
+        register(new NbtCheck_Items());
 
         // non-vanilla
         register(new NbtCheck_weBrushJson());
