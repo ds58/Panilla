@@ -7,8 +7,8 @@ import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import com.ruinscraft.panilla.api.io.PlayerInbound;
 import com.ruinscraft.panilla.api.io.PlayerOutbound;
 import io.netty.channel.Channel;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 
 public class PlayerInjector implements IPlayerInjector {
 
