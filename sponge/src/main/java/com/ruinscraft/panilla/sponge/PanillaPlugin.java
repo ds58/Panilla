@@ -147,12 +147,9 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
                 packetInspector = new com.ruinscraft.panilla.forge112.io.PacketInspector(this);
                 containerCleaner = new com.ruinscraft.panilla.forge112.ContainerCleaner(this);
                 break;
-            case "1.13":
-            case "1.13.1":
-            case "1.13.2":
-                break;
             default:
-                break;
+                getLogger().severe("Minecraft version " + minecraftVersion.getName() + " is not supported.");
+                return;
         }
 
         // command registry | should this go here?
@@ -162,6 +159,9 @@ public class PanillaPlugin implements IPanilla, IPanillaPlatform {
                 .build();
 
         Sponge.getCommandManager().register(this, panillaCommandSpec);
+
+        // listener registry | should this go here?
+        Sponge.getGame().getEventManager().registerListeners(this, this);
     }
 
     @Listener
