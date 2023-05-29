@@ -28,6 +28,7 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         IPanillaPlayer pplayer = new BukkitPanillaPlayer(event.getPlayer());
+        panilla.getInventoryCleaner().clean(pplayer);
         try {
             panilla.getPlayerInjector().register(panilla, pplayer);
         } catch (IOException e) {
