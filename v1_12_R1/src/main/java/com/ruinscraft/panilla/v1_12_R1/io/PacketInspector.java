@@ -61,7 +61,7 @@ public class PacketInspector implements IPacketInspector {
 			}
 
 			if (sizeBytes > protocolConstants.packetMaxBytes()) {
-				throw new OversizedPacketException(packet.getClass().getName(), from, sizeBytes);
+				throw new OversizedPacketException(packet.getClass().getSimpleName(), from, sizeBytes);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class PacketInspector implements IPacketInspector {
 		if (_packet instanceof PacketPlayInSetCreativeSlot) {
 			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
-			nbtChecker.checkPlayIn(packet.getItemStack().getTag(), strictness, packet.getClass().getName());
+			nbtChecker.checkPlayIn(packet.getItemStack().getTag(), strictness, packet.getClass().getSimpleName());
 		}
 	}
 
@@ -82,7 +82,7 @@ public class PacketInspector implements IPacketInspector {
 
 			for (String line : packet.b()) {
 				if (line.length() > protocolConstants.maxSignLineLength()) {
-					throw new SignLineLengthTooLongException(packet.getClass().getName(), true);
+					throw new SignLineLengthTooLongException(packet.getClass().getSimpleName(), true);
 				}
 			}
 		}
@@ -100,7 +100,7 @@ public class PacketInspector implements IPacketInspector {
 
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
-				nbtChecker.checkPlayOut(itemStack.getTag(), strictness, packet.getClass().getName());
+				nbtChecker.checkPlayOut(itemStack.getTag(), strictness, packet.getClass().getSimpleName());
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

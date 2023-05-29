@@ -107,13 +107,10 @@ public class NbtChecker implements INbtChecker {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
 			if (root.hasKey("ench") || root.hasKey("Enchantments")) {
-				String using = "ench";
-
 				NBTTagList enchantments = root.getList("ench", NbtDataType.COMPOUND.getId());
 
 				if (enchantments == null) {
 					enchantments = root.getList("Enchantments", NbtDataType.COMPOUND.getId());
-					using = "Enchantments";
 				}
 
 				for (int i = 0; i < enchantments.size(); i++) {
@@ -349,7 +346,7 @@ public class NbtChecker implements INbtChecker {
 	}
 
 	@Override
-	public boolean checkForNotValid(Object _tag) {
+	public String checkForNotValid(Object _tag) {
 		if (_tag instanceof NBTTagCompound) {
 			NBTTagCompound root = (NBTTagCompound) _tag;
 
@@ -358,14 +355,14 @@ public class NbtChecker implements INbtChecker {
 					final String methodName = "check_" + subTag;
 					getClass().getMethod(methodName, Object.class);
 				} catch (NoSuchMethodException e) {
-					return false;
+					return subTag;
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 
-		return true;
+		return null;
 	}
 
 }

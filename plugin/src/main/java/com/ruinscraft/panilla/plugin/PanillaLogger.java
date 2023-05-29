@@ -73,7 +73,7 @@ public class PanillaLogger implements IPanillaLogger {
 		if (e instanceof OversizedPacketException) {
 			OversizedPacketException oversizedPacketException = (OversizedPacketException) e;
 
-			message += String.format(locale.getString("packet-dropped-reason-too-large"),
+			message += " " + String.format(locale.getString("packet-dropped-reason-too-large"),
 					oversizedPacketException.getSizeBytes(),
 					PanillaPlugin.get().getProtocolConstants().packetMaxBytes());
 		}
@@ -81,12 +81,12 @@ public class PanillaLogger implements IPanillaLogger {
 		else if (e instanceof NbtNotPermittedException) {
 			NbtNotPermittedException nbtNotPermittedException = (NbtNotPermittedException) e;
 
-			message += String.format(locale.getString("packet-dropped-reason-invalid-nbt"),
+			message += " " + String.format(locale.getString("packet-dropped-reason-invalid-nbt"),
 					nbtNotPermittedException.getTagName());
 		}
 
 		else if (e instanceof SignLineLengthTooLongException) {
-			message += locale.getString("packet-dropped-reason-sign-length");
+			message += " " + locale.getString("packet-dropped-reason-sign-length");
 		}
 
 		message = ChatColor.translateAlternateColorCodes('&', message);
