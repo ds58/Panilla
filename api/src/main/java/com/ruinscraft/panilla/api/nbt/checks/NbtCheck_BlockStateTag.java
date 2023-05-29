@@ -1,17 +1,18 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_BlockStateTag implements NbtCheck {
+public class NbtCheck_BlockStateTag extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "BlockStateTag";
+	public NbtCheck_BlockStateTag() {
+		super("BlockStateTag", PStrictness.AVERAGE);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
-		return true;	// TODO: implement
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+		return true;
 	}
 	
 }

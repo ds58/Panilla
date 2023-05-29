@@ -1,16 +1,17 @@
 package com.ruinscraft.panilla.api.nbt.checks;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_RepairCost implements NbtCheck {
+public class NbtCheck_RepairCost extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "RepairCost";
+	public NbtCheck_RepairCost() {
+		super("RepairCost", PStrictness.AVERAGE);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
 		return true;
 	}
 	

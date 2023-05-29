@@ -3,8 +3,10 @@ package com.ruinscraft.panilla.v1_12_R1;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
-import com.ruinscraft.panilla.api.INbtChecker;
+import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
+import com.ruinscraft.panilla.v1_12_R1.nbt.NbtTagCompound;
 
 import net.minecraft.server.v1_12_R1.Container;
 import net.minecraft.server.v1_12_R1.ItemStack;
@@ -12,12 +14,12 @@ import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 public class ContainerCleaner implements IContainerCleaner {
 
+	private final IProtocolConstants protocolConstants;
 	private final PStrictness strictness;
-	private final INbtChecker nbtChecker;
 
-	public ContainerCleaner(PStrictness strictness, INbtChecker nbtChecker) {
+	public ContainerCleaner(PStrictness strictness, IProtocolConstants protocolConstants) {
+		this.protocolConstants = protocolConstants;
 		this.strictness = strictness;
-		this.nbtChecker = nbtChecker;
 	}
 
 	@Override
@@ -30,9 +32,10 @@ public class ContainerCleaner implements IContainerCleaner {
 			for (int slot = 0; slot < container.slots.size(); slot++) {
 				ItemStack itemStack = container.getSlot(slot).getItem();
 				NBTTagCompound tag = itemStack.getTag();
-				
-				String failedNbt = nbtChecker.checkAll(tag,
+
+				String failedNbt = NbtChecks.checkAll(new NbtTagCompound(tag),
 						itemStack.getItem().getClass().getSimpleName(),
+						protocolConstants,
 						strictness);
 
 				if (failedNbt != null) {

@@ -3,13 +3,14 @@ package com.ruinscraft.panilla.v1_12_R1.io;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 import com.ruinscraft.panilla.api.exception.SignLineLengthTooLongException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
+import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
+import com.ruinscraft.panilla.v1_12_R1.nbt.NbtTagCompound;
 
 import io.netty.buffer.UnpooledByteBufAllocator;
 import net.minecraft.server.v1_12_R1.ItemStack;
@@ -25,14 +26,11 @@ public class PacketInspector implements IPacketInspector {
 
 	private final PStrictness strictness;
 	private final IProtocolConstants protocolConstants;
-	private final INbtChecker nbtChecker;
 
 	public PacketInspector(PStrictness strictness,
-			IProtocolConstants protocolConstants,
-			INbtChecker nbtChecker) {
+			IProtocolConstants protocolConstants) {
 		this.strictness = strictness;
 		this.protocolConstants = protocolConstants;
-		this.nbtChecker = nbtChecker;
 	}
 
 	@Override
@@ -72,11 +70,12 @@ public class PacketInspector implements IPacketInspector {
 			PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
 			ItemStack itemStack = packet.getItemStack();
-			
-			nbtChecker.checkPlayIn(itemStack.getTag(),
+
+			NbtChecks.checkPacketPlayIn(new NbtTagCompound(itemStack.getTag()),
 					itemStack.getItem().getClass().getSimpleName(),
-					strictness,
-					packet.getClass().getSimpleName());
+					packet.getClass().getSimpleName(), 
+					protocolConstants, 
+					strictness);
 		}
 	}
 
@@ -105,10 +104,11 @@ public class PacketInspector implements IPacketInspector {
 
 				ItemStack itemStack = (ItemStack) itemStackField.get(packet);
 
-				nbtChecker.checkPlayOut(itemStack.getTag(),
+				NbtChecks.checkPacketPlayOut(new NbtTagCompound(itemStack.getTag()),
 						itemStack.getItem().getClass().getSimpleName(),
-						strictness,
-						packet.getClass().getSimpleName());
+						packet.getClass().getSimpleName(), 
+						protocolConstants, 
+						strictness);
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}

@@ -4,7 +4,7 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
-import com.ruinscraft.panilla.api.IPanillaLogger;
+import com.ruinscraft.panilla.api.PanillaLogger;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 import com.ruinscraft.panilla.api.io.PlayerInbound;
@@ -17,11 +17,11 @@ public class PlayerInjector implements IPlayerInjector {
 
 	private final IPacketInspector packetInspector;
 	private final IContainerCleaner containerCleaner;
-	private final IPanillaLogger panillaLogger;
+	private final PanillaLogger panillaLogger;
 
 	public PlayerInjector(IPacketInspector packetInspector,
 			IContainerCleaner containerCleaner,
-			IPanillaLogger panillaLogger) {
+			PanillaLogger panillaLogger) {
 		this.packetInspector = packetInspector;
 		this.containerCleaner = containerCleaner;
 		this.panillaLogger = panillaLogger;

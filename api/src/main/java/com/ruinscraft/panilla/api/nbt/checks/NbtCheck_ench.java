@@ -2,24 +2,20 @@ package com.ruinscraft.panilla.api.nbt.checks;
 
 import org.bukkit.enchantments.Enchantment;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
-public class NbtCheck_ench implements NbtCheck {
+public class NbtCheck_ench extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "ench";
+	public NbtCheck_ench() {
+		super("ench", PStrictness.AVERAGE, "Enchantments", "StoredEnchantments");
 	}
 
 	@Override
-	public String[] getAliases() {
-		return new String[] {"Enchantments", "StoredEnchantments"};
-	}
-
-	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
 		String using = null;
 
 		if (tag.hasKey("ench")) {
@@ -32,27 +28,25 @@ public class NbtCheck_ench implements NbtCheck {
 			}
 		}
 
-		if (using != null) {
-			INbtTagList enchantments = tag.getList(using, NbtDataType.COMPOUND);
+		INbtTagList enchantments = tag.getList(using, NbtDataType.COMPOUND);
 
-			for (int i = 0; i < enchantments.size(); i++) {
-				Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));	// TODO: does not exist in 1.13
-				int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
+		for (int i = 0; i < enchantments.size(); i++) {
+			Enchantment current = Enchantment.getById(enchantments.get(i).getShort("id"));	// TODO: does not exist in 1.13
+			int lvl = 0xFFFF & enchantments.get(i).getShort("lvl");
 
-				if (lvl > current.getMaxLevel()) {
+			if (lvl > current.getMaxLevel()) {
+				return false;
+			}
+
+			if (lvl < current.getStartLevel()) {
+				return false;
+			}
+
+			for (int j = 0; j < enchantments.size(); j++) {
+				Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id")); // TODO: does not exist in 1.13
+
+				if (current != other && current.conflictsWith(other)) {
 					return false;
-				}
-
-				if (lvl < current.getStartLevel()) {
-					return false;
-				}
-
-				for (int j = 0; j < enchantments.size(); j++) {
-					Enchantment other = Enchantment.getById(enchantments.get(j).getShort("id")); // TODO: does not exist in 1.13
-
-					if (current != other && current.conflictsWith(other)) {
-						return false;
-					}
 				}
 			}
 		}

@@ -2,29 +2,27 @@ package com.ruinscraft.panilla.api.nbt.checks;
 
 import org.bukkit.Color;
 
+import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 
-public class NbtCheck_CustomPotionColor implements NbtCheck {
+public class NbtCheck_CustomPotionColor extends NbtCheck {
 
-	@Override
-	public String getName() {
-		return "CustomPotionColor";
+	public NbtCheck_CustomPotionColor() {
+		super("CustomPotionColor", PStrictness.LENIENT);
 	}
 
 	@Override
-	public boolean check(INbtTagCompound tag, String nmsItemClassName) {
-		if (tag.hasKey(getName())) {
-			int bgr = tag.getInt(getName());
+	public boolean check(INbtTagCompound tag, String nmsItemClassName, IProtocolConstants protocolConstants) {
+		int bgr = tag.getInt(getName());
 
-			try {
-				Color.fromBGR(bgr);
-			} catch (IllegalArgumentException e) {
-				return false;
-			}
-			
+		try {
+			Color.fromBGR(bgr);
+		} catch (IllegalArgumentException e) {
+			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 }
