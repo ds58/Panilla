@@ -13,6 +13,24 @@ public class PanillaLogger {
         this.panilla = panilla;
     }
 
+    public void preventedException(IPanillaPlayer player, Throwable throwable) {
+        String message = panilla.getPanillaLocale().getTranslation("prefix");
+        message += "Prevented exception from being thrown (prevented a kick) to [" + player.getName() + "]: " + throwable.getMessage();
+        message = panilla.getPlatform().translateColorCodes(message);
+
+        if (panilla.getPanillaConfig().chatLogging) {
+            for (IPanillaPlayer onlinePlayer : panilla.getPlatform().getOnlinePlayers()) {
+                if (onlinePlayer.hasPermission(CHAT_PERMISSION)) {
+                    onlinePlayer.sendMessage(message);
+                }
+            }
+        }
+
+        if (panilla.getPanillaConfig().consoleLogging) {
+            panilla.getPlatform().getLogger().info(message);
+        }
+    }
+
     public void warn(IPanillaPlayer player, PacketException e) {
         if (panilla.getPanillaLocale() == null) {
             panilla.getPlatform().getLogger().warning("Locale is not loaded");

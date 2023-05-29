@@ -19,63 +19,42 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
 
     // player -> server
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        try {
-            if (!player.canBypassChecks()) {
-                try {
-                    panilla.getPacketInspector().checkPlayIn(player, msg);
-                } catch (PacketException e) {
-                    panilla.getContainerCleaner().clean(player);
-                    panilla.getPanlliaLogger().warn(player, e);
-                    // drop the packet
-                    return;
-                }
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        if (!player.canBypassChecks()) {
+            try {
+                panilla.getPacketInspector().checkPlayIn(player, msg);
+            } catch (PacketException e) {
+                panilla.getContainerCleaner().clean(player);
+                panilla.getPanlliaLogger().warn(player, e);
+                // drop the packet
+                return;
             }
-
-            // pass the packet along
-            super.channelRead(ctx, msg);
         }
 
-        // prevent exceptions from being thrown to the player
-        catch (Exception e) {
-            logException(e);
-        }
+        super.channelRead(ctx, msg);
     }
 
     // server -> player
     @Override
-    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-        try {
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        if (!player.canBypassChecks()) {
             try {
-                if (!player.canBypassChecks()) {
-                    try {
-                        panilla.getPacketInspector().checkPlayOut(msg);
-                    } catch (PacketException e) {
-                        panilla.getContainerCleaner().clean(player);
-                        panilla.getPanlliaLogger().warn(player, e);
-                        // drop the packet
-                        return;
-                    }
-                }
-
-                // pass the packet along
-                super.write(ctx, msg, promise);
-            }
-
-            // prevent exceptions from being thrown to the player
-            catch (Exception e) {
-                logException(e);
+                panilla.getPacketInspector().checkPlayOut(msg);
+            } catch (PacketException e) {
+                panilla.getContainerCleaner().clean(player);
+                panilla.getPanlliaLogger().warn(player, e);
+                // drop the packet
+                return;
             }
         }
 
-        // prevent exceptions from being thrown to the player
-        catch (Exception e) {
-            logException(e);
-        }
+        super.write(ctx, msg, promise);
     }
 
-    private static void logException(Exception e) {
-        e.printStackTrace();
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        panilla.getPanlliaLogger().preventedException(player, cause);
+        panilla.getContainerCleaner().clean(player);
     }
 
 }

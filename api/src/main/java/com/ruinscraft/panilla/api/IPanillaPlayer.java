@@ -6,8 +6,6 @@ public interface IPanillaPlayer {
 
     String getName();
 
-    boolean isOp();
-
     boolean hasPermission(String node);
 
     void sendMessage(String message);
