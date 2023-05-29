@@ -63,7 +63,7 @@ public interface IProtocolConstants {
     }
 
     default int NOT_PROTOCOL_maxLoreLineLength() {
-        return NOT_PROTOCOL_maxItemNameLength() * 4;    // TODO: use max item name length for lore lines as well?
+        return NOT_PROTOCOL_maxItemNameLength() * 16;    // TODO: use max item name length for lore lines as well?
     }
 
     default int NOT_PROTOCOL_maxBlockEntityTagLengthBytes() {

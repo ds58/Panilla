@@ -2,10 +2,14 @@ package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
+import com.ruinscraft.panilla.api.exception.FailedBlockEntityTagItemsNbt;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NbtCheck_BlockEntityTag extends NbtCheck {
 
@@ -13,22 +17,28 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         super("BlockEntityTag", PStrictness.LENIENT);
     }
 
-    public static FailedNbt checkItems(String nbtTagName, INbtTagList items, String itemName, IPanilla panilla) {
+    public static FailedBlockEntityTagItemsNbt checkItems(String nbtTagName, INbtTagList items, String itemName, IPanilla panilla) {
         int charCount = NbtCheck_pages.getCharCountForItems(items);
 
         if (charCount > 100_000) {
-            return new FailedNbt(nbtTagName, NbtCheck.NbtCheckResult.CRITICAL);
+            return new FailedBlockEntityTagItemsNbt(nbtTagName, NbtCheck.NbtCheckResult.CRITICAL);
         }
+
+        Map<Integer, FailedNbt> itemFails = new HashMap<>();
 
         for (int i = 0; i < items.size(); i++) {
             FailedNbt failedNbt = checkItem(items.getCompound(i), itemName, panilla);
 
             if (FailedNbt.fails(failedNbt)) {
-                return failedNbt;
+                itemFails.put(i, failedNbt);
             }
         }
 
-        return FailedNbt.NO_FAIL;
+        if (!itemFails.isEmpty()) {
+            return new FailedBlockEntityTagItemsNbt(nbtTagName, NbtCheckResult.FAIL, itemFails);
+        }
+
+        return new FailedBlockEntityTagItemsNbt(nbtTagName, NbtCheckResult.PASS);
     }
 
     public static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
@@ -116,11 +126,14 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
 
             INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
-            FailedNbt failedNbt = checkItems(getName(), items, itemName, panilla);
+            FailedBlockEntityTagItemsNbt failedNbt = checkItems(getName(), items, itemName, panilla);
 
-            if (FailedNbt.fails(failedNbt)) {
-                return failedNbt.result;
-            }
+            // Only remove NBT from shulkerbox if it contains a CRITICAL item
+            if (failedNbt.critical()) return NbtCheckResult.CRITICAL;
+
+//            if (FailedNbt.fails(failedNbt)) {
+//                return failedNbt.result;
+//            }
         }
 
         // /give @p furnace{BlockEntityTag:{RecipesUsed:{"minecraft:bow":1}}} 1
