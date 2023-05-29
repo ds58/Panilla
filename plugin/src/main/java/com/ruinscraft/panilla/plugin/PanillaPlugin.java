@@ -9,7 +9,6 @@ import com.ruinscraft.panilla.api.INbtChecker;
 import com.ruinscraft.panilla.api.IProtocolConstants;
 import com.ruinscraft.panilla.api.config.PConfig;
 import com.ruinscraft.panilla.api.config.PStrictness;
-import com.ruinscraft.panilla.api.exception.UnsupportedMinecraftVersionException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
 
@@ -73,23 +72,19 @@ public class PanillaPlugin extends JavaPlugin {
 
 		final String v_Version = v_Version();
 
-		try {
-			switch (v_Version) {
-			case "v1_12_R1":
-				protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
-				containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, nbtChecker);
-				packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker);
-				playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner);
-				break;
-			case "v1_13_R2":
-				// TODO: impl 1.13.2
-				break;
-			default:
-				throw new UnsupportedMinecraftVersionException(v_Version);
-			}
-		} catch (UnsupportedMinecraftVersionException e) {
-			e.printStackTrace();
+		switch (v_Version) {
+		case "v1_12_R1":
+			protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
+			nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
+			containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig.strictness, nbtChecker);
+			packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig.strictness, protocolConstants, nbtChecker);
+			playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner);
+			break;
+		case "v1_13_R2":
+			// TODO: impl 1.13.2
+			break;
+		default:
+			getLogger().severe("Minecraft version " + v_Version + " is not supported.");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}

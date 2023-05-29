@@ -21,7 +21,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 	@Override
 	public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 		try {
-			packetInspector.checkOut(_player, msg);
+			packetInspector.checkPlayOut(msg);
 			super.write(ctx, msg, promise);
 		} catch (Exception e) {
 			containerCleaner.clean(_player);
