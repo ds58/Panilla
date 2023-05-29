@@ -46,6 +46,7 @@ public final class NbtChecks {
         register(new NbtCheck_Decorations());
         register(new NbtCheck_Effects());
         register(new NbtCheck_CustomModelData());
+        register(new NbtCheck_HasVisualFire()); // 1.17
 
         // non-vanilla
         register(new NbtCheck_weBrushJson());
