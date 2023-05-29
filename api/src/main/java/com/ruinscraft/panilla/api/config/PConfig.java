@@ -11,5 +11,6 @@ public class PConfig {
     public boolean chatLogging = false;
     public PStrictness strictness = PStrictness.AVERAGE;
     public List<String> nbtWhitelist = new ArrayList<>();
+    public int maxNonMinecraftNbtKeys = 16;
 
 }

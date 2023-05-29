@@ -15,14 +15,14 @@ import java.io.IOException;
 
 public class PanillaPlugin extends JavaPlugin {
 
-    private PConfig panillaConfig;
+    private PConfig config;
     private IProtocolConstants protocolConstants;
     private IContainerCleaner containerCleaner;
     private IPacketInspector packetInspector;
     private IPlayerInjector playerInjector;
 
     public PConfig getPanillaConfig() {
-        return panillaConfig;
+        return config;
     }
 
     public IProtocolConstants getProtocolConstants() {
@@ -44,13 +44,14 @@ public class PanillaPlugin extends JavaPlugin {
     private synchronized void loadConfig() {
         saveDefaultConfig();
 
-        panillaConfig = new PConfig();
+        config = new PConfig();
 
-        panillaConfig.localeFile = getConfig().getString("locale-file");
-        panillaConfig.consoleLogging = getConfig().getBoolean("logging.console");
-        panillaConfig.chatLogging = getConfig().getBoolean("logging.chat");
-        panillaConfig.strictness = PStrictness.valueOf(getConfig().getString("strictness").toUpperCase());
-        panillaConfig.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
+        config.localeFile = getConfig().getString("locale-file", config.localeFile);
+        config.consoleLogging = getConfig().getBoolean("logging.console");
+        config.chatLogging = getConfig().getBoolean("logging.chat");
+        config.strictness = PStrictness.valueOf(getConfig().getString("strictness", config.strictness.name()).toUpperCase());
+        config.nbtWhitelist = getConfig().getStringList("nbt-whitelist");
+        config.maxNonMinecraftNbtKeys = getConfig().getInt("max-non-minecraft-nbt-keys", config.maxNonMinecraftNbtKeys);
     }
 
     private String v_Version() {
@@ -66,7 +67,7 @@ public class PanillaPlugin extends JavaPlugin {
         PanillaLogger panillaLogger = new PanillaLogger(this);
 
         try {
-            panillaLogger.loadLocale(panillaConfig.localeFile);
+            panillaLogger.loadLocale(config.localeFile);
         } catch (IOException e) {
             getLogger().severe(e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
@@ -78,30 +79,30 @@ public class PanillaPlugin extends JavaPlugin {
         switch (v_Version) {
             case "v1_12_R1":
                 protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-                containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(panillaConfig,
+                containerCleaner = new com.ruinscraft.panilla.v1_12_R1.ContainerCleaner(config,
                         protocolConstants);
-                packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(panillaConfig,
+                packetInspector = new com.ruinscraft.panilla.v1_12_R1.io.PacketInspector(config,
                         protocolConstants);
                 playerInjector = new com.ruinscraft.panilla.v1_12_R1.io.PlayerInjector(packetInspector, containerCleaner,
-                        protocolConstants, panillaConfig, panillaLogger);
+                        protocolConstants, config, panillaLogger);
                 break;
             case "v1_13_R2":
                 protocolConstants = new com.ruinscraft.panilla.v1_13_R2.ProtocolConstants();
-                containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(panillaConfig,
+                containerCleaner = new com.ruinscraft.panilla.v1_13_R2.ContainerCleaner(config,
                         protocolConstants);
-                packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(panillaConfig,
+                packetInspector = new com.ruinscraft.panilla.v1_13_R2.io.PacketInspector(config,
                         protocolConstants);
                 playerInjector = new com.ruinscraft.panilla.v1_13_R2.io.PlayerInjector(packetInspector, containerCleaner,
-                        protocolConstants, panillaConfig, panillaLogger);
+                        protocolConstants, config, panillaLogger);
                 break;
             case "v1_14_R1":
                 protocolConstants = new com.ruinscraft.panilla.v1_14_R1.ProtocolConstants();
-                containerCleaner = new com.ruinscraft.panilla.v1_14_R1.ContainerCleaner(panillaConfig,
+                containerCleaner = new com.ruinscraft.panilla.v1_14_R1.ContainerCleaner(config,
                         protocolConstants);
-                packetInspector = new com.ruinscraft.panilla.v1_14_R1.io.PacketInspector(panillaConfig,
+                packetInspector = new com.ruinscraft.panilla.v1_14_R1.io.PacketInspector(config,
                         protocolConstants);
                 playerInjector = new com.ruinscraft.panilla.v1_14_R1.io.PlayerInjector(packetInspector, containerCleaner,
-                        protocolConstants, panillaConfig, panillaLogger);
+                        protocolConstants, config, panillaLogger);
                 break;
             default:
                 getLogger().severe("Minecraft version " + v_Version + " is not supported.");

@@ -10,7 +10,6 @@ import java.util.Map;
 
 public final class NbtChecks {
 
-    private static final int MAX_NON_MINECRAFT_KEYS = 16;
     private static final Map<String, NbtCheck> checks = new HashMap<>();
 
     static {
@@ -102,7 +101,7 @@ public final class NbtChecks {
             }
         }
 
-        if (nonMinecraftKeys > MAX_NON_MINECRAFT_KEYS) {
+        if (nonMinecraftKeys > config.maxNonMinecraftNbtKeys) {
             for (String key : tag.getKeys()) {
                 if (checks.get(key) == null) {
                     return key;
