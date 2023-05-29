@@ -2,13 +2,18 @@ package com.ruinscraft.panilla.v1_12_R1;
 
 import java.io.IOException;
 
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+
 import com.ruinscraft.panilla.api.IPacketInspector;
 import com.ruinscraft.panilla.api.IProtocolConstants;
+import com.ruinscraft.panilla.api.exception.ModifiedItemStackException;
 import com.ruinscraft.panilla.api.exception.OversizedPacketException;
 
 import io.netty.buffer.UnpooledByteBufAllocator;
+import net.minecraft.server.v1_12_R1.ItemStack;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketDataSerializer;
+import net.minecraft.server.v1_12_R1.PacketPlayInSetCreativeSlot;
 
 public class PacketInspector implements IPacketInspector {
 
@@ -25,19 +30,32 @@ public class PacketInspector implements IPacketInspector {
 			PacketDataSerializer dataSerializer = 
 					new PacketDataSerializer(UnpooledByteBufAllocator.DEFAULT.buffer());
 
+			int sizeBytes = 0;
+
 			try {
 				packet.b(dataSerializer);
+
+				sizeBytes = dataSerializer.readableBytes();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				dataSerializer.release();
 			}
-
-			final int sizeBytes = dataSerializer.readableBytes();
 
 			if (sizeBytes > protocolConstants.packetMaxBytes()) {
 				throw new OversizedPacketException(packet.getClass().getName(), sizeBytes);
 			}
+		}
+	}
 
-			dataSerializer.release();
+	@Override
+	public void checkPacketPlayInSetCreativeSlot(Object nmsPacket) throws ModifiedItemStackException {
+		if (nmsPacket instanceof PacketPlayInSetCreativeSlot) {
+			PacketPlayInSetCreativeSlot packetPlayInSetCreativeSlot = (PacketPlayInSetCreativeSlot) nmsPacket;
+			ItemStack itemStack = packetPlayInSetCreativeSlot.getItemStack();
+
+			CraftItemStack.asBukkitCopy(itemStack);
+
 		}
 	}
 

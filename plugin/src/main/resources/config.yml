@@ -1,0 +1,29 @@
+# Panilla configuration
+
+# Do not change
+configuration_version: 1.0
+
+# Logging options
+logging:
+  console: true
+  chat: false
+
+# Strictness of how much you wish to enforce
+#   lenient - Only prevent game-breaking things or crashes
+#   average    - Prevent most abusive things
+#   strict  - Prevent anything non-vanilla
+strictness: strict
+ 
+# Advanced options  ---------------------------------------
+
+# Whitelist NBT tags from being checked
+nbt-whitelist:
+ - display.Lore
+  - display.Name
+
+# Whitelist of packets from being checked
+# Packet IDs can be found here: https://wiki.vg/Protocol
+packet-whitelist:
+ - 0x20
+
+# ---------------------------------------------------------

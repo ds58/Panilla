@@ -35,15 +35,15 @@ public class PlayerInjector implements IPlayerInjector {
 		Channel channel = getPlayerChannel(bukkitPlayer);
 
 		/* Register inbound */
-		if (channel.pipeline().get(CHANNEL_IN) == null) {
-			PlayerInbound inbound = new PlayerInbound(packetInspector, bukkitPlayer);
-			channel.pipeline().addBefore(MINECRAFT_PACKET_HANDLER, CHANNEL_IN, inbound);
+		if (channel.pipeline().get(PANILLA_CHANNEL_IN) == null) {
+			PlayerInbound inbound = new PlayerInbound(packetInspector);
+			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_IN, inbound);
 		}
 
 		/* Register outbound */
-		if (channel.pipeline().get(CHANNEL_OUT) == null) {
-			PlayerOutbound outbound = new PlayerOutbound(packetInspector, bukkitPlayer);
-			channel.pipeline().addBefore(MINECRAFT_PACKET_HANDLER, CHANNEL_OUT, outbound);
+		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) == null) {
+			PlayerOutbound outbound = new PlayerOutbound(packetInspector);
+			channel.pipeline().addBefore(MINECRAFT_CHANNEL_DPLX, PANILLA_CHANNEL_OUT, outbound);
 		}
 	}
 
@@ -52,13 +52,13 @@ public class PlayerInjector implements IPlayerInjector {
 		Channel channel = getPlayerChannel(bukkitPlayer);
 
 		/* Unregister inbound */
-		if (channel.pipeline().get(CHANNEL_IN) != null) {
-			channel.pipeline().remove(CHANNEL_IN);
+		if (channel.pipeline().get(PANILLA_CHANNEL_IN) != null) {
+			channel.pipeline().remove(PANILLA_CHANNEL_IN);
 		}
 
 		/* Unregister outbound */
-		if (channel.pipeline().get(CHANNEL_OUT) != null) {
-			channel.pipeline().remove(CHANNEL_OUT);
+		if (channel.pipeline().get(PANILLA_CHANNEL_OUT) != null) {
+			channel.pipeline().remove(PANILLA_CHANNEL_OUT);
 		}
 	}
 
