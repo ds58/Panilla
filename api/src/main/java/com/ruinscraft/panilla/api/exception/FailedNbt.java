@@ -4,7 +4,7 @@ import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class FailedNbt {
 
-    public static FailedNbt NOFAIL = new FailedNbt(null, NbtCheck.NbtCheckResult.PASS);
+    public static FailedNbt NO_FAIL = new FailedNbt(null, NbtCheck.NbtCheckResult.PASS);
     public static FailedNbt FAIL_KEY_THRESHOLD = new FailedNbt(null, NbtCheck.NbtCheckResult.CRITICAL);
 
     public final String key;
@@ -18,7 +18,7 @@ public class FailedNbt {
     public static boolean passes(FailedNbt failedNbt) {
         if (failedNbt == null) {
             return true;
-        } else if (failedNbt.equals(NOFAIL)) {
+        } else if (failedNbt.equals(NO_FAIL)) {
             return true;
         } else {
             return failedNbt.result == NbtCheck.NbtCheckResult.PASS;
@@ -27,6 +27,10 @@ public class FailedNbt {
 
     public static boolean fails(FailedNbt failedNbt) {
         return !passes(failedNbt);
+    }
+
+    public static boolean failsThreshold(FailedNbt failedNbt) {
+        return failedNbt.equals(FAIL_KEY_THRESHOLD);
     }
 
 }
