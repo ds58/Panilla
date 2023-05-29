@@ -25,7 +25,7 @@ public class NbtTagCompound implements INbtTagCompound {
 	public Set<String> getKeys() {
 		return handle.c();
 	}
-
+	
 	@Override
 	public int getInt(String key) {
 		return handle.getInt(key);
