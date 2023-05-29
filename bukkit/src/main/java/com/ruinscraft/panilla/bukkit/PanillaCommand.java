@@ -18,7 +18,9 @@ public class PanillaCommand implements CommandExecutor {
             case 1:
                 switch (args[0].toLowerCase()) {
                     case "debug":
-                        return showDebug(sender);
+                        if (sender.hasPermission("panilla.command.debug")) {
+                            return showDebug(sender);
+                        }
                 }
             default:
                 return showInfo(sender);
