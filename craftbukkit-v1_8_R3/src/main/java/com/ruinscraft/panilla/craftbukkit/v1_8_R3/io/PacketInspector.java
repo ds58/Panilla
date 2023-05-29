@@ -80,6 +80,10 @@ public class PacketInspector implements IPacketInspector {
                     if (entity instanceof EntityItem) {
                         EntityItem item = (EntityItem) entity;
 
+                        if (item.getItemStack() == null) {
+                            return;
+                        }
+
                         if (!item.getItemStack().hasTag()) {
                             return;
                         }
@@ -121,6 +125,10 @@ public class PacketInspector implements IPacketInspector {
 
     private Entity getEntityById(int entityId) {
         for (Entity entity : MinecraftServer.getServer().getWorld().entityList) {
+            if (entity == null) {
+                continue;
+            }
+
             if (entity.getId() == entityId) {
                 return entity;
             }
