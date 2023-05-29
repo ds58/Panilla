@@ -2,8 +2,7 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IContainerCleaner;
 import com.ruinscraft.panilla.api.IPanillaLogger;
-import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
-import com.ruinscraft.panilla.api.exception.OversizedPacketException;
+import com.ruinscraft.panilla.api.exception.PacketException;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
@@ -30,7 +29,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 	public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 		try {
 			packetInspector.checkPlayOut(msg);
-		} catch (OversizedPacketException | NbtNotPermittedException e) {
+		} catch (PacketException e) {
 			containerCleaner.clean(_player);
 			panillaLogger.warn(_player, e);
 			
