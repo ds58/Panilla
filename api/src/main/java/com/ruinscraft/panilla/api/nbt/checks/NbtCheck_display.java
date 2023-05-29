@@ -21,7 +21,7 @@ public class NbtCheck_display extends NbtCheck {
         final int maxNameLength;
 
         // if strict, use anvil length
-        if (panilla.getPConfig().strictness.lvl >= PStrictness.STRICT.lvl) {
+        if (panilla.getPConfig().strictness.ordinal() >= PStrictness.STRICT.ordinal()) {
             maxNameLength = panilla.getProtocolConstants().maxAnvilRenameChars();
         } else {
             maxNameLength = panilla.getProtocolConstants().NOT_PROTOCOL_maxItemNameLength();
