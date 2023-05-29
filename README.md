@@ -26,13 +26,7 @@ With this software, you will be able to prevent:
 Currently Panilla supports:
 - Bukkit
   - CraftBukkit* 1.8.8
-  - CraftBukkit* 1.12.x
-  - CraftBukkit* 1.13.x
-  - CraftBukkit* 1.14.x
-  - CraftBukkit* 1.15.x
-  - CraftBukkit* 1.16.x
-  - CraftBukkit* 1.17.x
-  - CraftBukkit* 1.18.x
+  - CraftBukkit* 1.12.x-1.19.x
   
   **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, etc)*
 
