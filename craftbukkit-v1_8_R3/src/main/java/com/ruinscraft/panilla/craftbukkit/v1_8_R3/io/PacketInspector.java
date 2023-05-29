@@ -47,6 +47,17 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayOutSetSlot packet = (PacketPlayOutSetSlot) _packet;
 
             try {
+                Field windowIdField = PacketPlayOutSetSlot.class.getDeclaredField("a");
+
+                windowIdField.setAccessible(true);
+
+                int windowId = (int) windowIdField.get(packet);
+
+                // check if window is not player inventory and we are ignoring non-player inventories
+                if (windowId != 0 && panilla.getPConfig().ignoreNonPlayerInventories) {
+                    return;
+                }
+
                 Field slotField = PacketPlayOutSetSlot.class.getDeclaredField("b");
                 Field itemStackField = PacketPlayOutSetSlot.class.getDeclaredField("c");
 
@@ -75,6 +86,17 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayOutWindowItems packet = (PacketPlayOutWindowItems) _packet;
 
             try {
+                Field windowIdField = PacketPlayOutWindowItems.class.getDeclaredField("a");
+
+                windowIdField.setAccessible(true);
+
+                int windowId = (int) windowIdField.get(packet);
+
+                // check if window is not player inventory
+                if (windowId != 0) {
+                    return;
+                }
+
                 Field itemStacksField = PacketPlayOutWindowItems.class.getDeclaredField("b");
 
                 itemStacksField.setAccessible(true);
