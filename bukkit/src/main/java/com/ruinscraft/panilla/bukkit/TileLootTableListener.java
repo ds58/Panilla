@@ -48,7 +48,9 @@ public class TileLootTableListener implements Listener {
             Lootable lootable = (Lootable) blockState;
 
             try {
-                lootable.getLootTable().getKey();
+                if (lootable.getLootTable() != null) {
+                    lootable.getLootTable().getKey();
+                }
             } catch (Exception e) {
                 lootable.setLootTable(null);
                 blockState.update(true);
