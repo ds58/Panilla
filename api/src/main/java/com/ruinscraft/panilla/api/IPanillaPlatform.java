@@ -7,6 +7,8 @@ public interface IPanillaPlatform {
 
     String translateColorCodes(String string);
 
+    // TODO: move this
+    @Deprecated
     boolean isValidPotionColor(int bgr);
 
     Collection<IPanillaPlayer> getOnlinePlayers();

@@ -5,30 +5,11 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
 
     repositories {
         mavenLocal()
-        maven {
-            url = 'http://repo.maven.apache.org/maven2'
-        }
-
-        maven {
-            url = 'http://repo.spongepowered.org/maven'
-        }
-
-        maven {
-            url = 'http://files.minecraftforge.net/maven'
-        }
+        jcenter()
     }
 
     sourceCompatibility = '1.8'
-
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from(components.java)
-            }
-        }
-    }
 }
