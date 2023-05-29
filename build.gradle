@@ -1,6 +1,6 @@
 allprojects {
     group = 'com.ruinscraft'
-    version = '1.4.8-fix'
+    version = '1.5.0'
 }
 
 subprojects {
