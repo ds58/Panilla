@@ -26,8 +26,6 @@ public class ContainerCleaner implements IContainerCleaner {
     private static Method readNbtMethod;    // writes NBT values to a GlowMetaItem from a CompoundTag
     // See https://github.com/GlowstoneMC/Glowstone/blob/a12eebbf8aad46f4d46ff4af86c59a55a39ad49e/src/main/java/net/glowstone/inventory/GlowMetaItem.java#L155
 
-    private IPanilla panilla;
-
     static {
         try {
             writeNbtMethod = GlowMetaItem.class.getMethod("writeNbt", CompoundTag.class);
@@ -37,6 +35,8 @@ public class ContainerCleaner implements IContainerCleaner {
             canAccessNbt = false;
         }
     }
+
+    private IPanilla panilla;
 
     public ContainerCleaner(IPanilla panilla) {
         this.panilla = panilla;

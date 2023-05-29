@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatform {
 
+    /* singleton ========================================== */
+    private static PanillaPlugin singleton;
     private PanillaLogger panillaLogger;
     private PConfig pConfig;
     private PLocale pLocale;
@@ -32,6 +34,10 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
     private IPacketInspector packetInspector;
     private IContainerCleaner containerCleaner;
     private IEnchantments enchantments;
+
+    public static PanillaPlugin get() {
+        return singleton;
+    }
 
     @Override
     public PanillaLogger getPanlliaLogger() {
@@ -222,13 +228,6 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla, IPanillaPlatf
         }
 
         singleton = null;
-    }
-
-    /* singleton ========================================== */
-    private static PanillaPlugin singleton;
-
-    public static PanillaPlugin get() {
-        return singleton;
     }
     /* singleton ========================================== */
 

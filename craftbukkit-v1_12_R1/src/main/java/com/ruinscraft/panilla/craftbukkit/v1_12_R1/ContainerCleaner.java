@@ -19,8 +19,6 @@ import java.util.List;
 
 public class ContainerCleaner implements IContainerCleaner {
 
-    private final IPanilla panilla;
-
     private static boolean is_1_12_2;
 
     static {
@@ -31,6 +29,8 @@ public class ContainerCleaner implements IContainerCleaner {
             is_1_12_2 = false;
         }
     }
+
+    private final IPanilla panilla;
 
     public ContainerCleaner(IPanilla panilla) {
         this.panilla = panilla;
