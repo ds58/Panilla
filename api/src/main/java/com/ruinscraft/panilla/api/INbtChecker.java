@@ -13,7 +13,7 @@ public interface INbtChecker {
 
 	/* block _tags */
 	boolean check_CanPlaceOn(Object _tag);
-	boolean check_BlockEntityTag(Object _tag);
+	boolean check_BlockEntityTag(Object _tag, PStrictness strictness);	// recursive
 	boolean check_BlockStateTag(Object _tag);
 
 	/* enchantments */
@@ -99,7 +99,7 @@ public interface INbtChecker {
 			if (!check_Decorations(_tag)) return "Decorations";
 			if (!check_Effects(_tag)) return "Effects";
 		case LENIENT:	// game breaking
-			if (!check_BlockEntityTag(_tag)) return "BlockEntityTag";
+			if (!check_BlockEntityTag(_tag, strictness)) return "BlockEntityTag";
 			if (!check_CustomPotionColor(_tag)) return "CustomPotionColor";
 			if (!check_pages(_tag)) return "pages";
 			String invalid = checkForNotValid(_tag);
