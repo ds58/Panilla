@@ -44,7 +44,7 @@ public class PlayerOutbound extends ChannelOutboundHandlerAdapter {
 
         if (!bypass) {
             try {
-                packetInspector.checkPlayOut(msg);
+                packetInspector.checkPlayOut(player, msg);
             } catch (PacketException e) {
                 containerCleaner.clean(player);
                 panillaLogger.warn(player, e, protocolConstants, config);
