@@ -2,6 +2,7 @@ package com.ruinscraft.panilla.glowstone.r2018_9_0.nbt;
 
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
+import net.glowstone.util.nbt.CompoundTag;
 import net.glowstone.util.nbt.ListTag;
 import net.glowstone.util.nbt.Tag;
 import net.glowstone.util.nbt.TagType;
@@ -19,7 +20,7 @@ public class NbtTagList<T extends Tag> implements INbtTagList {
         if (handle.getChildType() != TagType.COMPOUND) {
             return null;    // probably safe...
         }
-        return (INbtTagCompound) handle.getValue().get(index);
+        return new NbtTagCompound((CompoundTag) handle.getValue().get(index));
     }
 
     @Override
