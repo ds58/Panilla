@@ -8,7 +8,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_BlockEntityTag extends NbtCheck {
 
-    private static final int MAX_STRING_SIZE_BYTES = 3612536 / 2;
+    private static final int MAX_STRING_SIZE_BYTES = 707958;
 
     public NbtCheck_BlockEntityTag() {
         super("BlockEntityTag", PStrictness.LENIENT);

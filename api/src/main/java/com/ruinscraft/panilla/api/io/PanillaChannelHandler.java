@@ -45,12 +45,6 @@ public class PanillaChannelHandler extends ChannelDuplexHandler {
         super.write(ctx, msg, promise);
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        panilla.getPanlliaLogger().preventedException(player, cause);
-        panilla.getContainerCleaner().clean(player);
-    }
-
     private boolean handlePacketException(IPanillaPlayer player, PacketException e) {
         if (!player.canBypassChecks()) {
             panilla.getContainerCleaner().clean(player);
