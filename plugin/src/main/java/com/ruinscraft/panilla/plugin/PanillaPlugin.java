@@ -72,7 +72,7 @@ public class PanillaPlugin extends JavaPlugin {
 			switch (v_Version) {
 			case "v1_12_R1":
 				protocolConstants = new com.ruinscraft.panilla.v1_12_R1.ProtocolConstants();
-				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker();
+				nbtChecker = new com.ruinscraft.panilla.v1_12_R1.NbtChecker(protocolConstants);
 				packetInspector = new com.ruinscraft.panilla.v1_12_R1.PacketInspector(protocolConstants, nbtChecker);
 				playerInjector = new com.ruinscraft.panilla.v1_12_R1.PlayerInjector(packetInspector);
 				break;

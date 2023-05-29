@@ -8,5 +8,10 @@ public class ProtocolConstants implements IProtocolConstants {
 	public int packetMaxBytes() {
 		return 2097152;
 	}
+
+	@Override
+	public int maxAnvilRenameChars() {
+		return 35;
+	}
 	
 }
