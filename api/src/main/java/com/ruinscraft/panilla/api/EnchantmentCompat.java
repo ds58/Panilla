@@ -40,7 +40,10 @@ public enum EnchantmentCompat {
     // 1.14
     MULTISHOT("minecraft:multishot", "", -1),
     PIERCING("minecraft:piercing", "", -1),
-    QUICK_CHARGE("minecraft:quick_charge", "", -1);
+    QUICK_CHARGE("minecraft:quick_charge", "", -1),
+
+    // 1.16
+    SOUL_SPEED("minecraft.soul_speed", "", -1);
 
     public final String namedKey;
     public final String legacyName;
