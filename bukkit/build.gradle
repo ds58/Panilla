@@ -14,6 +14,7 @@ dependencies {
 	implementation project(':panilla-craftbukkit-v1_19_R1')
 	implementation project(':panilla-craftbukkit-v1_19_R2')
 	implementation project(':panilla-craftbukkit-v1_19_R3')
+	implementation project(':panilla-craftbukkit-v1_20_R1')
     compileOnly 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT' // use 1.13 Bukkit API
 }
 
