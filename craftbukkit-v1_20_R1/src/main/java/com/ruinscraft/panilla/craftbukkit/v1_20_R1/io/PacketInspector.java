@@ -168,7 +168,7 @@ public class PacketInspector implements IPacketInspector {
                         return;
                     }
 
-                    INbtTagCompound tag = new NbtTagCompound(item.j().v());
+                    INbtTagCompound tag = new NbtTagCompound(item.j().w());
                     String itemName = item.j().d().a();
                     FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
