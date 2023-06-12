@@ -32,7 +32,7 @@ public class InventoryCleaner implements IInventoryCleaner {
                 continue;
             }
 
-            NBTTagCompound nmsTag = itemStack.v();
+            NBTTagCompound nmsTag = itemStack.w();
             INbtTagCompound tag = new NbtTagCompound(nmsTag);
             String itemName = itemStack.d().a();
 
