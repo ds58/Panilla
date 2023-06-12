@@ -79,7 +79,7 @@ public class PacketInspector implements IPacketInspector {
 
             if (itemStack == null || !itemStack.u()) return;
 
-            NbtTagCompound tag = new NbtTagCompound(itemStack.v());
+            NbtTagCompound tag = new NbtTagCompound(itemStack.w());
             String itemClass = itemStack.c().getClass().getSimpleName();
             String packetClass = packet.getClass().getSimpleName();
 
@@ -107,7 +107,7 @@ public class PacketInspector implements IPacketInspector {
                 return;
             }
 
-            NbtTagCompound tag = new NbtTagCompound(itemStack.v());
+            NbtTagCompound tag = new NbtTagCompound(itemStack.w());
             String itemClass = itemStack.getClass().getSimpleName();
             String packetClass = packet.getClass().getSimpleName();
 
@@ -134,7 +134,7 @@ public class PacketInspector implements IPacketInspector {
                     continue;
                 }
 
-                NbtTagCompound tag = new NbtTagCompound(itemStack.v());
+                NbtTagCompound tag = new NbtTagCompound(itemStack.w());
                 String itemClass = itemStack.getClass().getSimpleName();
                 String packetClass = packet.getClass().getSimpleName();
 
