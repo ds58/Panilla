@@ -43,6 +43,11 @@ public class NbtTagCompound implements INbtTagCompound {
     }
 
     @Override
+    public double getDouble(String key) {
+        return handle.k(key);
+    }
+
+    @Override
     public short getShort(String key) {
         return handle.g(key);
     }

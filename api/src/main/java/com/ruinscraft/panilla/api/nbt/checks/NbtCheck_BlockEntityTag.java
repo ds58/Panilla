@@ -162,6 +162,16 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             return NbtCheckResult.FAIL;
         }
 
+        // https://github.com/PaperMC/Paper/blob/master/patches/server/0490-Beacon-API-custom-effect-ranges.patch
+        // Make sure any custom Paper beacon range NBT isn't ridiculous
+        // Related server crash https://pastebin.com/tDPtS60Q
+        if (blockEntityTag.hasKeyOfType("Paper.Range", NbtDataType.DOUBLE)) {
+            double paperRange = blockEntityTag.getDouble("Paper.Range");
+            if (paperRange > 2048) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+
         return NbtCheckResult.PASS;
     }
 
