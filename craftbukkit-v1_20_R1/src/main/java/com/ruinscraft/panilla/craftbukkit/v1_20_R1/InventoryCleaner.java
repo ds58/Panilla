@@ -23,12 +23,12 @@ public class InventoryCleaner implements IInventoryCleaner {
     @Override
     public void clean(IPanillaPlayer player) {
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
-        Container container = craftPlayer.getHandle().bR;
+        Container container = craftPlayer.getHandle().bQ;
 
         for (int slot = 0; slot < container.i.size(); slot++) {
             ItemStack itemStack = container.b(slot).e();
 
-            if (itemStack == null || !itemStack.t()) {
+            if (itemStack == null || !itemStack.u()) {
                 continue;
             }
 
