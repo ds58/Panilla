@@ -57,6 +57,7 @@ public class NbtCheck_display extends NbtCheck {
                     name = createTextFromJsonArray(jsonArray);
                 } catch (Exception e) {
                     // could not parse Json
+                    return NbtCheckResult.CRITICAL;  // can cause crashes
                 }
             }
 
