@@ -54,7 +54,9 @@ public class NbtCheck_display extends NbtCheck {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
                     JsonArray jsonArray = jsonObject.getAsJsonArray("extra");
 
-                    name = createTextFromJsonArray(jsonArray);
+                    if (jsonArray != null) {
+                        name = createTextFromJsonArray(jsonArray);
+                    }
                 } catch (Exception e) {
                     // could not parse Json
                     return NbtCheckResult.CRITICAL;  // can cause crashes
