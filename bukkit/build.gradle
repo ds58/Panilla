@@ -23,7 +23,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0'
+        classpath 'com.github.johnrengelman:shadow:8.1.1'
     }
 }
 
@@ -38,8 +38,8 @@ processResources {
 apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {
-    archiveName('Panilla.jar')
-    destinationDir(file('../target/bukkit'))
+    archiveFileName.set("Panilla.jar")
+    destinationDirectory.set(new File("../target/bukkit"))
 }
 
 build.dependsOn(shadowJar)
