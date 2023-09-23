@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.craftbukkit.v1_20_R1.io;
+package com.ruinscraft.panilla.craftbukkit.v1_20_R2.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
@@ -8,7 +8,7 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
-import com.ruinscraft.panilla.craftbukkit.v1_20_R1.nbt.NbtTagCompound;
+import com.ruinscraft.panilla.craftbukkit.v1_20_R2.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
 import net.minecraft.network.protocol.game.PacketPlayInSetCreativeSlot;
@@ -23,7 +23,7 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.block.Blocks;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -72,7 +72,7 @@ public class PacketInspector implements IPacketInspector {
             PacketPlayInSetCreativeSlot packet = (PacketPlayInSetCreativeSlot) _packet;
 
             int slot = packet.a();
-            ItemStack itemStack = packet.c();
+            ItemStack itemStack = packet.d();
 
             if (itemStack == null || !itemStack.u()) return;
 
@@ -96,9 +96,9 @@ public class PacketInspector implements IPacketInspector {
                 return;
             }
 
-            int slot = packet.c();
+            int slot = packet.a();
 
-            ItemStack itemStack = packet.d();
+            ItemStack itemStack = packet.e();
 
             if (itemStack == null || !itemStack.u()) {
                 return;
@@ -124,7 +124,7 @@ public class PacketInspector implements IPacketInspector {
                 return;
             }
 
-            List<ItemStack> itemStacks = packet.c();
+            List<ItemStack> itemStacks = packet.d();
 
             for (ItemStack itemStack : itemStacks) {
                 if (itemStack == null || !itemStack.u()) {
@@ -145,7 +145,7 @@ public class PacketInspector implements IPacketInspector {
         if (_packet instanceof PacketPlayOutSpawnEntity) {
             PacketPlayOutSpawnEntity packet = (PacketPlayOutSpawnEntity) _packet;
 
-            UUID entityId = packet.c();
+            UUID entityId = packet.d();
             Entity entity = null;
 
             for (WorldServer worldServer : MinecraftServer.getServer().F()) {
@@ -161,12 +161,12 @@ public class PacketInspector implements IPacketInspector {
                         return;
                     }
 
-                    if (!item.j().u()) {
+                    if (!item.q().u()) {
                         return;
                     }
 
-                    INbtTagCompound tag = new NbtTagCompound(item.j().w());
-                    String itemName = item.j().d().a();
+                    INbtTagCompound tag = new NbtTagCompound(item.q().w());
+                    String itemName = item.q().d().a();
                     FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
 
                     if (FailedNbt.fails(failedNbt)) {
@@ -193,7 +193,7 @@ public class PacketInspector implements IPacketInspector {
         CraftPlayer craftPlayer = (CraftPlayer) player.getHandle();
         EntityPlayer entityPlayer = craftPlayer.getHandle();
         PacketPlayOutSetSlot packet = new PacketPlayOutSetSlot(entityPlayer.bR.j, entityPlayer.bR.k(), slot, new ItemStack(Blocks.a));
-        entityPlayer.c.a(packet);
+        entityPlayer.c.b(packet);
     }
 
     @Override
@@ -208,14 +208,14 @@ public class PacketInspector implements IPacketInspector {
         if (entity instanceof EntityItem) {
             EntityItem item = (EntityItem) entity;
             if (item.v() == null) return;
-            if (!item.j().u()) return;
-            item.j().c((NBTTagCompound) null);
+            if (!item.q().u()) return;
+            item.q().c((NBTTagCompound) null);
         }
     }
 
     @Override
     public void stripNbtFromItemEntityLegacy(int entityId) {
-        throw new RuntimeException("cannot use #stripNbtFromItemEntityLegacy on 1.20");
+        throw new RuntimeException("cannot use #stripNbtFromItemEntityLegacy on 1.20.2");
     }
 
     @Override
