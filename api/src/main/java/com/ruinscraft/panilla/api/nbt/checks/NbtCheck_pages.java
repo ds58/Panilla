@@ -82,6 +82,12 @@ public class NbtCheck_pages extends NbtCheck {
 
             // check if contains mojang crash translations
             if (pageNoSpaces.startsWith("{\"translate\"")) {
+                // Prevent a stack overflow
+                if (pageNoSpaces.contains("[[[[[[[[[")) {
+                    return NbtCheckResult.CRITICAL;
+                }
+
+                // Prevent Mojang crash translations
                 for (String crashTranslation : MOJANG_CRASH_TRANSLATIONS) {
                     String translationJson = String.format("{\"translate\":\"%s\"}", crashTranslation);
 
