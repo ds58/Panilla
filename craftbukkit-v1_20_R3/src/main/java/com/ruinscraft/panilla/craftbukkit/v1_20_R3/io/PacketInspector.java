@@ -1,4 +1,4 @@
-package com.ruinscraft.panilla.craftbukkit.v1_20_R2.io;
+package com.ruinscraft.panilla.craftbukkit.v1_20_R3.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
@@ -8,7 +8,7 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
-import com.ruinscraft.panilla.craftbukkit.v1_20_R2.nbt.NbtTagCompound;
+import com.ruinscraft.panilla.craftbukkit.v1_20_R3.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
 import net.minecraft.network.protocol.game.PacketPlayInSetCreativeSlot;
@@ -23,7 +23,7 @@ import net.minecraft.world.entity.item.EntityItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.World;
 import net.minecraft.world.level.block.Blocks;
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -148,7 +148,7 @@ public class PacketInspector implements IPacketInspector {
             UUID entityId = packet.d();
             Entity entity = null;
 
-            for (WorldServer worldServer : MinecraftServer.getServer().F()) {
+            for (WorldServer worldServer : MinecraftServer.getServer().H()) {
                 entity = paperChunkSystem ? getChunkSystemEntity(worldServer, entityId) : worldServer.M.d().a(entityId);
                 if (entity != null) break;
             }
@@ -200,7 +200,7 @@ public class PacketInspector implements IPacketInspector {
     public void stripNbtFromItemEntity(UUID entityId) {
         Entity entity = null;
 
-        for (WorldServer worldServer : MinecraftServer.getServer().F()) {
+        for (WorldServer worldServer : MinecraftServer.getServer().H()) {
             entity = paperChunkSystem ? getChunkSystemEntity(worldServer, entityId) : worldServer.M.d().a(entityId);
             if (entity != null) break;
         }
