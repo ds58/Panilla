@@ -26,8 +26,14 @@ public class NbtCheck_pages extends NbtCheck {
     private static short[] createCharMap(String string) {
         short[] charMap = Arrays.copyOf(EMPTY_CHAR_MAP, EMPTY_CHAR_MAP.length);
 
+        if (string == null || string.isEmpty()) {
+            return charMap;
+        }
+
         for (char c : string.toCharArray()) {
-            charMap[c]++;
+            if (c < MINECRAFT_UNICODE_MAX) {
+                charMap[c]++;
+            }
         }
 
         return charMap;
