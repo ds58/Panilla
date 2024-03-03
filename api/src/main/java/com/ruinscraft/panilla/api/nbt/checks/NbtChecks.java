@@ -29,6 +29,7 @@ public final class NbtChecks {
         register(new NbtCheck_RepairCost());
         register(new NbtCheck_AttributeModifiers());
         register(new NbtCheck_CustomPotionEffects());
+        register(new NbtCheck_custom_potion_effects());
         register(new NbtCheck_Potion());
         register(new NbtCheck_CustomPotionColor());
         register(new NbtCheck_display());
