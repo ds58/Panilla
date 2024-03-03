@@ -2,12 +2,14 @@ package com.ruinscraft.panilla.api.nbt.checks;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.exception.FailedNbtList;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class NbtChecks {
@@ -65,18 +67,34 @@ public final class NbtChecks {
 
     public static void checkPacketPlayIn(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                          IPanilla panilla) throws NbtNotPermittedException {
-        FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
+        List<FailedNbt> failedNbtList = checkAll(tag, nmsItemClassName, panilla);
 
-        if (FailedNbt.fails(failedNbt)) {
-            throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
+        FailedNbt lastNonCritical = null;
+
+        for (FailedNbt failedNbt : failedNbtList) {
+            if (failedNbt.result == NbtCheck.NbtCheckResult.CRITICAL) {
+                throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
+            } else if (FailedNbt.fails(failedNbt)) {
+                lastNonCritical = failedNbt;
+            }
+        }
+
+        if (lastNonCritical != null) {
+            throw new NbtNotPermittedException(nmsPacketClassName, true, lastNonCritical, slot);
         }
     }
 
     public static void checkPacketPlayOut(int slot, INbtTagCompound tag, String nmsItemClassName, String nmsPacketClassName,
                                           IPanilla panilla) throws NbtNotPermittedException {
-        FailedNbt failedNbt = checkAll(tag, nmsItemClassName, panilla);
+        FailedNbtList failedNbtList = checkAll(tag, nmsItemClassName, panilla);
 
-        if (FailedNbt.fails(failedNbt)) {
+        if (failedNbtList.containsCritical()) {
+            throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbtList.getCritical(), slot);
+        }
+
+        FailedNbt failedNbt = failedNbtList.findFirstNonCritical();
+
+        if (failedNbt != null) {
             throw new NbtNotPermittedException(nmsPacketClassName, false, failedNbt, slot);
         }
     }
@@ -101,9 +119,10 @@ public final class NbtChecks {
         return true;
     }
 
-    public static FailedNbt checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+    public static FailedNbtList checkAll(INbtTagCompound tag, String nmsItemClassName, IPanilla panilla) {
+        FailedNbtList failedNbtList = new FailedNbtList();
         if (!tagMeetsKeyThreshold(tag, panilla)) {
-            return FailedNbt.FAIL_KEY_THRESHOLD;
+            failedNbtList.add(FailedNbt.FAIL_KEY_THRESHOLD);
         }
 
         for (String key : tag.getKeys()) {
@@ -115,7 +134,7 @@ public final class NbtChecks {
                 INbtTagList list = tag.getList(key);
 
                 if (list.size() > 128) {
-                    return new FailedNbt((key), NbtCheck.NbtCheckResult.CRITICAL);
+                    failedNbtList.add(new FailedNbt((key), NbtCheck.NbtCheckResult.CRITICAL));
                 }
             }
 
@@ -133,11 +152,11 @@ public final class NbtChecks {
             NbtCheck.NbtCheckResult result = check.check(tag, nmsItemClassName, panilla);
 
             if (result != NbtCheck.NbtCheckResult.PASS) {
-                return new FailedNbt(key, result);
+                failedNbtList.add(new FailedNbt(key, result));
             }
         }
 
-        return FailedNbt.NO_FAIL;
+        return failedNbtList;
     }
 
 }

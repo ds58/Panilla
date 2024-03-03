@@ -4,6 +4,7 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.config.PStrictness;
 import com.ruinscraft.panilla.api.exception.FailedBlockEntityTagItemsNbt;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.exception.FailedNbtList;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
@@ -27,10 +28,12 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         Map<Integer, FailedNbt> itemFails = new HashMap<>();
 
         for (int i = 0; i < items.size(); i++) {
-            FailedNbt failedNbt = checkItem(items.getCompound(i), itemName, panilla);
+            FailedNbtList failedNbtList = checkItem(items.getCompound(i), itemName, panilla);
 
-            if (FailedNbt.fails(failedNbt)) {
-                itemFails.put(i, failedNbt);
+            for (FailedNbt failedNbt : failedNbtList) {
+                if (FailedNbt.fails(failedNbt)) {
+                    itemFails.put(i, failedNbt);
+                }
             }
         }
 
@@ -41,20 +44,17 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         return new FailedBlockEntityTagItemsNbt(nbtTagName, NbtCheckResult.PASS);
     }
 
-    public static FailedNbt checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
+    public static FailedNbtList checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
         if (item.hasKey("tag")) {
-            FailedNbt failedNbt = NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
-
-            if (FailedNbt.fails(failedNbt)) {
-                return failedNbt;
-            }
+            return NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
+        } else {
+            return new FailedNbtList();
         }
-
-        return FailedNbt.NO_FAIL;
     }
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
+        NbtCheckResult result = NbtCheckResult.PASS;
         INbtTagCompound blockEntityTag = tag.getCompound(getName());
 
         int sizeBytes = blockEntityTag.getStringSizeBytes();
@@ -93,7 +93,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         if (panilla.getPConfig().strictness == PStrictness.STRICT) {
             // locked chests
             if (blockEntityTag.hasKey("Lock")) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
             }
 
             // signs with text
@@ -101,7 +101,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
                     || blockEntityTag.hasKey("Text2")
                     || blockEntityTag.hasKey("Text3")
                     || blockEntityTag.hasKey("Text4")) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
             }
         }
 
@@ -111,25 +111,27 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             itemName = itemName.toLowerCase();
 
             if (panilla.getPConfig().noBlockEntityTag) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
             }
 
             if (panilla.getPConfig().strictness == PStrictness.STRICT) {
                 if (!(itemName.contains("shulker") || itemName.contains("itemstack") || itemName.contains("itemblock"))) {
-                    return NbtCheckResult.FAIL;
+                    result = NbtCheckResult.FAIL;
                 }
             }
 
             // Campfires should not have BlockEntityTag
             if (itemName.contains("campfire")) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
             }
 
             INbtTagList items = blockEntityTag.getList("Items", NbtDataType.COMPOUND);
             FailedBlockEntityTagItemsNbt failedNbt = checkItems(getName(), items, itemName, panilla);
 
             // Only remove NBT from shulkerbox if it contains a CRITICAL item
-            if (failedNbt.critical()) return NbtCheckResult.CRITICAL;
+            if (failedNbt.critical()) {
+                return NbtCheckResult.CRITICAL;
+            }
 
 //            if (FailedNbt.fails(failedNbt)) {
 //                return failedNbt.result;
@@ -151,15 +153,17 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
         if (blockEntityTag.hasKey("RecordItem")) {
             INbtTagCompound item = blockEntityTag.getCompound("RecordItem");
 
-            FailedNbt failedNbt = checkItem(item, itemName, panilla);
+            FailedNbtList failedNbtList = checkItem(item, itemName, panilla);
 
-            if (FailedNbt.fails(failedNbt)) {
-                return failedNbt.result;
+            if (failedNbtList.containsCritical()) {
+                return NbtCheckResult.CRITICAL;
+            } else if (failedNbtList.findFirstNonCritical() != null) {
+                result = NbtCheckResult.FAIL;
             }
         }
 
         if (blockEntityTag.hasKey("cursors")) {
-            return NbtCheckResult.FAIL;
+            result = NbtCheckResult.FAIL;
         }
 
         // https://github.com/PaperMC/Paper/blob/master/patches/server/0490-Beacon-API-custom-effect-ranges.patch
@@ -172,7 +176,7 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
             }
         }
 
-        return NbtCheckResult.PASS;
+        return result;
     }
 
 }

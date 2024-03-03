@@ -14,6 +14,7 @@ public class NbtCheck_ChargedProjectiles extends NbtCheck {
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
+        NbtCheckResult result = NbtCheckResult.PASS;
         INbtTagList chargedProjectiles = tag.getList("ChargedProjectiles", NbtDataType.COMPOUND);
 
         for (int i = 0; i < chargedProjectiles.size(); i++) {
@@ -26,13 +27,14 @@ public class NbtCheck_ChargedProjectiles extends NbtCheck {
                     String potion = chargedProjectileTag.getString("Potion");
 
                     if (potion.endsWith("empty")) {
-                        return NbtCheckResult.FAIL;
+                        result = NbtCheckResult.FAIL;
+                        break;
                     }
                 }
             }
         }
 
-        return NbtCheckResult.PASS;
+        return result;
     }
 
 }

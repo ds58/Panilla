@@ -34,6 +34,7 @@ public class NbtCheck_ench extends NbtCheck {
 
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
+        NbtCheckResult result = NbtCheckResult.PASS;
         String using = null;
 
         if (tag.hasKey(getName())) {
@@ -63,11 +64,13 @@ public class NbtCheck_ench extends NbtCheck {
             int lvl = 0xFFFF & enchantments.getCompound(i).getShort("lvl");
 
             if (lvl > panilla.getEnchantments().getMaxLevel(enchCompat)) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
+                break;
             }
 
             if (lvl < panilla.getEnchantments().getStartLevel(enchCompat)) {
-                return NbtCheckResult.FAIL;
+                result = NbtCheckResult.FAIL;
+                break;
             }
 
             for (int j = 0; j < enchantments.size(); j++) {
@@ -80,13 +83,14 @@ public class NbtCheck_ench extends NbtCheck {
 
                 if (enchCompat != _enchCompat) {
                     if (panilla.getEnchantments().conflicting(enchCompat, _enchCompat)) {
-                        return NbtCheckResult.FAIL;
+                        result = NbtCheckResult.FAIL;
+                        break;
                     }
                 }
             }
         }
 
-        return NbtCheckResult.PASS;
+        return result;
     }
 
 }

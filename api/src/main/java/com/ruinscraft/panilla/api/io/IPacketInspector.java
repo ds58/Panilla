@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public interface IPacketInspector {
 
+    void checkPacketPlayInClickContainer(Object packetHandle) throws NbtNotPermittedException;
+
     void checkPacketPlayInSetCreativeSlot(Object packetHandle) throws NbtNotPermittedException;
 
     /**
@@ -42,6 +44,15 @@ public interface IPacketInspector {
     void validateBaseComponentParse(String string) throws Exception;
 
     default void checkPlayIn(IPanilla panilla, IPanillaPlayer player, Object packetHandle) throws PacketException {
+        try {
+            checkPacketPlayInClickContainer(packetHandle);
+        } catch (NbtNotPermittedException e) {
+            if (!player.canBypassChecks(panilla, e)) {
+                sendPacketPlayOutSetSlotAir(player, e.getItemSlot());
+            }
+            throw e;
+        }
+
         try {
             checkPacketPlayInSetCreativeSlot(packetHandle);
         } catch (NbtNotPermittedException e) {

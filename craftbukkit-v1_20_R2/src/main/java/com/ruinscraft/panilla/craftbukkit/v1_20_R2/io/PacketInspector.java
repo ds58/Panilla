@@ -4,6 +4,7 @@ import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.EntityNbtNotPermittedException;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.exception.FailedNbtList;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
@@ -64,6 +65,11 @@ public class PacketInspector implements IPacketInspector {
 
     public PacketInspector(IPanilla panilla) {
         this.panilla = panilla;
+    }
+
+    @Override
+    public void checkPacketPlayInClickContainer(Object packetHandle) throws NbtNotPermittedException {
+
     }
 
     @Override
@@ -167,20 +173,26 @@ public class PacketInspector implements IPacketInspector {
 
                     INbtTagCompound tag = new NbtTagCompound(item.q().w());
                     String itemName = item.q().d().a();
-                    FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
+                    String worldName = "";
 
-                    if (FailedNbt.fails(failedNbt)) {
-                        String worldName = "";
+                    try {
+                        Field worldField = Entity.class.getDeclaredField("t");
+                        worldField.setAccessible(true);
+                        World world = (World) worldField.get(entity);
+                        worldName = world.getWorld().getName();
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
 
-                        try {
-                            Field worldField = Entity.class.getDeclaredField("t");
-                            worldField.setAccessible(true);
-                            World world = (World) worldField.get(entity);
-                            worldName = world.getWorld().getName();
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                    FailedNbtList failedNbtList = NbtChecks.checkAll(tag, itemName, panilla);
 
+                    if (failedNbtList.containsCritical()) {
+                        throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbtList.getCritical(), entityId, worldName);
+                    }
+
+                    FailedNbt failedNbt = failedNbtList.findFirstNonCritical();
+
+                    if (failedNbt != null) {
                         throw new EntityNbtNotPermittedException(packet.getClass().getSimpleName(), false, failedNbt, entityId, worldName);
                     }
                 }

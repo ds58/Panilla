@@ -16,9 +16,9 @@ public class NbtCheck_author extends NbtCheck {
 
         if (authorLength > panilla.getProtocolConstants().maxUsernameLength()) {
             return NbtCheckResult.FAIL;
+        } else {
+            return NbtCheckResult.PASS;
         }
-
-        return NbtCheckResult.PASS;
     }
 
 }

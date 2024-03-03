@@ -14,9 +14,9 @@ public class NbtCheck_weBrushJson extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         if (panilla.getPConfig().preventFaweBrushNbt) {
             return NbtCheckResult.FAIL;
+        } else {
+            return NbtCheckResult.PASS;
         }
-
-        return NbtCheckResult.PASS;
     }
 
 }

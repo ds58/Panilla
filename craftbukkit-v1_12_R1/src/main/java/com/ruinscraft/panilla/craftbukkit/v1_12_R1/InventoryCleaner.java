@@ -4,6 +4,7 @@ import com.ruinscraft.panilla.api.IInventoryCleaner;
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.exception.FailedNbt;
+import com.ruinscraft.panilla.api.exception.FailedNbtList;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_12_R1.nbt.NbtTagCompound;
@@ -71,13 +72,17 @@ public class InventoryCleaner implements IInventoryCleaner {
                 continue;
             }
 
-            FailedNbt failedNbt = NbtChecks.checkAll(tag, itemName, panilla);
+            FailedNbtList failedNbtList = NbtChecks.checkAll(tag, itemName, panilla);
 
-            if (FailedNbt.failsThreshold(failedNbt)) {
-                container.getSlot(slot).getItem().setTag(null);
-            } else if (FailedNbt.fails(failedNbt)) {
-                nmsTag.remove(failedNbt.key);
-                container.getSlot(slot).getItem().setTag(nmsTag);
+            for (FailedNbt failedNbt : failedNbtList) {
+                if (FailedNbt.failsThreshold(failedNbt)) {
+                    container.getSlot(slot).getItem().setTag(null);
+                    break;
+                } else if (FailedNbt.fails(failedNbt)) {
+                    nmsTag.remove(failedNbt.key);
+                    container.getSlot(slot).getItem().setTag(nmsTag);
+                    break;
+                }
             }
         }
     }

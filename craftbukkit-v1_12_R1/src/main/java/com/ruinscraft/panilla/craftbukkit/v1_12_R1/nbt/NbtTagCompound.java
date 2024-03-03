@@ -53,6 +53,11 @@ public class NbtTagCompound implements INbtTagCompound {
     }
 
     @Override
+    public byte getByte(String key) {
+        return handle.getByte(key);
+    }
+
+    @Override
     public String getString(String key) {
         return handle.getString(key);
     }

@@ -16,7 +16,7 @@ public class NbtCheck_CustomModelData extends NbtCheck {
         try {
             tag.getInt("CustomModelData");
         } catch (Exception e) {
-            return NbtCheckResult.FAIL;
+            return NbtCheckResult.CRITICAL;
         }
 
         return NbtCheckResult.PASS;
