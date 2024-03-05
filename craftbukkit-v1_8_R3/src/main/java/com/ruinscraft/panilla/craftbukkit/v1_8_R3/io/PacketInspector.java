@@ -25,8 +25,23 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayInClickContainer(Object packetHandle) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+        if (_packet instanceof PacketPlayInWindowClick) {
+            PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
 
+            int slot = packet.b();
+            ItemStack itemStack = packet.e();
+
+            if (itemStack == null || !itemStack.hasTag()) {
+                return;
+            }
+
+            NbtTagCompound tag = new NbtTagCompound(itemStack.getTag());
+            String itemClass = itemStack.getItem().getClass().getSimpleName();
+            String packetClass = "PacketPlayInWindowClick";
+
+            NbtChecks.checkPacketPlayIn(slot, tag, itemClass, packetClass, panilla);
+        }
     }
 
     @Override

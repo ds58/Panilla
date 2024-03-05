@@ -13,10 +13,7 @@ import com.ruinscraft.panilla.craftbukkit.v1_19_R1.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.IChatBaseComponent;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.PacketPlayInSetCreativeSlot;
-import net.minecraft.network.protocol.game.PacketPlayOutSetSlot;
-import net.minecraft.network.protocol.game.PacketPlayOutSpawnEntity;
-import net.minecraft.network.protocol.game.PacketPlayOutWindowItems;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.WorldServer;
@@ -68,8 +65,23 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayInClickContainer(Object packetHandle) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+        if (_packet instanceof PacketPlayInWindowClick) {
+            PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
 
+            int slot = packet.c();
+            ItemStack itemStack = packet.e();
+
+            if (itemStack == null || !itemStack.t()) {
+                return;
+            }
+
+            NbtTagCompound tag = new NbtTagCompound(itemStack.v());
+            String itemClass = itemStack.c().getClass().getSimpleName();
+            String packetClass = "PacketPlayInWindowClick";
+
+            NbtChecks.checkPacketPlayIn(slot, tag, itemClass, packetClass, panilla);
+        }
     }
 
     @Override
