@@ -248,6 +248,13 @@ public class NbtCheck_EntityTag extends NbtCheck {
                     return NbtCheckResult.CRITICAL;
                 }
             }
+
+            if (effect.hasKeyOfType("Amplifier", NbtDataType.BYTE)) {
+                short amplifier = effect.getByte("Amplifier");
+                if (amplifier > 32) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
         }
 
         return NbtCheckResult.PASS;
