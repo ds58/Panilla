@@ -2,12 +2,17 @@ package com.ruinscraft.panilla.paper.v1_20_6.io;
 
 import com.ruinscraft.panilla.api.IPanillaPlayer;
 import com.ruinscraft.panilla.api.io.IPlayerInjector;
+import de.tr7zw.changeme.nbtapi.NBT;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 
 public class PlayerInjector implements IPlayerInjector {
+
+    static {
+        NBT.preloadApi();
+    }
 
     @Override
     public Channel getPlayerChannel(IPanillaPlayer player) throws IllegalArgumentException {
