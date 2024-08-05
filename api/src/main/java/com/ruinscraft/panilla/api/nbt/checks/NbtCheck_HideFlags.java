@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_HideFlags extends NbtCheck {
 
     public NbtCheck_HideFlags() {
-        super("HideFlags", PStrictness.AVERAGE);
+        super("HideFlags", PStrictness.AVERAGE, "minecraft:hide_tooltip", "minecraft:hide_additional_tooltip");
     }
 
     @Override

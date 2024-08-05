@@ -45,8 +45,8 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
     }
 
     public static FailedNbtList checkItem(INbtTagCompound item, String itemName, IPanilla panilla) {
-        if (item.hasKey("tag")) {
-            return NbtChecks.checkAll(item.getCompound("tag"), itemName, panilla);
+        if (item.hasKey("components")) {
+            return NbtChecks.checkAll(item.getCompound("components"), itemName, panilla);
         } else {
             return new FailedNbtList();
         }

@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class NbtCheck_pages extends NbtCheck {
 
     // translations in the game which (intentionally) crash the user
-    private static final String[] MOJANG_CRASH_TRANSLATIONS = new String[]{
+    public static final String[] MOJANG_CRASH_TRANSLATIONS = new String[]{
             "translation.test.invalid",
             "translation.test.invalid2"
     };
@@ -23,7 +23,7 @@ public class NbtCheck_pages extends NbtCheck {
         super("pages", PStrictness.LENIENT);
     }
 
-    private static short[] createCharMap(String string) {
+    public static short[] createCharMap(String string) {
         short[] charMap = Arrays.copyOf(EMPTY_CHAR_MAP, EMPTY_CHAR_MAP.length);
 
         if (string == null || string.isEmpty()) {

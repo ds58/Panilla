@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 public class NbtCheck_SkullOwner extends NbtCheck {
 
-    private static final Pattern URL_MATCHER = Pattern.compile("url");
+    public static final Pattern URL_MATCHER = Pattern.compile("url");
 
-    private static UUID minecraftSerializableUuid(final int[] ints) {
+    public static UUID minecraftSerializableUuid(final int[] ints) {
         return new UUID((long) ints[0] << 32 | ((long) ints[1] & 0xFFFFFFFFL), (long) ints[2] << 32 | ((long) ints[3] & 0xFFFFFFFFL));
     }
 

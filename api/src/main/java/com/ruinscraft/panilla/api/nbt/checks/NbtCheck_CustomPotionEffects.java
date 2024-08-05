@@ -9,7 +9,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 public class NbtCheck_CustomPotionEffects extends NbtCheck {
 
     public NbtCheck_CustomPotionEffects() {
-        super("CustomPotionEffects", PStrictness.AVERAGE, "custom_potion_effects");
+        super("CustomPotionEffects", PStrictness.AVERAGE);
     }
 
     @Override

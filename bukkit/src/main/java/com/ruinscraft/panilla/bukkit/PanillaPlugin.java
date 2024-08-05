@@ -130,6 +130,40 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
         panillaLogger = new BukkitPanillaLogger(this, getLogger());
         enchantments = new BukkitEnchantments(pConfig);
 
+        initVersion();
+
+        /* Register listeners */
+        getServer().getPluginManager().registerEvents(new JoinQuitListener(this, this), this);
+        getServer().getPluginManager().registerEvents(new TileLootTableListener(), this);
+
+        /* Register command */
+        getCommand("panilla").setExecutor(new PanillaCommand(this));
+
+        /* Inject already online players in case of reload */
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            try {
+                playerInjector.register(this, new BukkitPanillaPlayer(player));
+            } catch (IOException e) {
+                // Ignore
+            }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initVersion() {
+        if (Bukkit.getUnsafe().getDataVersion() == 3839) {
+            packetSerializerClass = com.ruinscraft.panilla.paper.v1_20_6.io.dplx.PacketSerializer.class;
+            protocolConstants = new IProtocolConstants() {
+                @Override
+                public int maxBookPages() {
+                    return 100;
+                }
+            };
+            playerInjector = new com.ruinscraft.panilla.paper.v1_20_6.io.PlayerInjector();
+            packetInspector = new com.ruinscraft.panilla.paper.v1_20_6.io.PacketInspector(this);
+            containerCleaner = new com.ruinscraft.panilla.paper.v1_20_6.InventoryCleaner(this);
+            return;
+        }
         imp:
         switch (SERVER_IMP) {
             case "CraftServer":
@@ -328,22 +362,6 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
             default:
                 getLogger().warning("Unknown server implementation. " + Bukkit.getVersion() + " may not be supported by Panilla.");
                 return;
-        }
-
-        /* Register listeners */
-        getServer().getPluginManager().registerEvents(new JoinQuitListener(this, this), this);
-        getServer().getPluginManager().registerEvents(new TileLootTableListener(), this);
-
-        /* Register command */
-        getCommand("panilla").setExecutor(new PanillaCommand(this));
-
-        /* Inject already online players in case of reload */
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            try {
-                playerInjector.register(this, new BukkitPanillaPlayer(player));
-            } catch (IOException e) {
-                // Ignore
-            }
         }
     }
 

@@ -1,0 +1,18 @@
+repositories{
+    maven {
+        url 'https://repo.codemc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly project(':panilla-api')
+    compileOnly 'org.spigotmc:spigot:1.20.6-R0.1-SNAPSHOT'
+    compileOnly files('paper-1.20.6.jar')
+    implementation 'de.tr7zw:item-nbt-api:2.13.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}

@@ -8,7 +8,7 @@ public class NbtCheck_BlockStateTag extends NbtCheck {
 
     // introduced in 1.14
     public NbtCheck_BlockStateTag() {
-        super("BlockStateTag", PStrictness.STRICT);
+        super("BlockStateTag", PStrictness.STRICT, "minecraft:block_state");
     }
 
     @Override

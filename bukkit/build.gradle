@@ -17,6 +17,7 @@ dependencies {
     implementation project(':panilla-craftbukkit-v1_20_R1')
     implementation project(':panilla-craftbukkit-v1_20_R2')
     implementation project(':panilla-craftbukkit-v1_20_R3')
+    implementation project(':panilla-paper-v1_20_6')
     compileOnly 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT' // use 1.13 Bukkit API
 }
 
@@ -40,8 +41,17 @@ processResources {
 apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {
+    relocate("de.tr7zw.changeme.nbtapi", "com.ruinscraft.panilla.lib.nbtapi")
+
     archiveFileName.set("Panilla.jar")
     destinationDirectory.set(new File("../target/bukkit"))
 }
 
 build.dependsOn(shadowJar)
+
+tasks.register("go", Copy) {
+    dependsOn shadowJar
+
+    from shadowJar.archiveFile.get()
+    into "C:\\Users\\TangJin\\Desktop\\Test Server\\twme\\Panilla\\plugins"
+}
