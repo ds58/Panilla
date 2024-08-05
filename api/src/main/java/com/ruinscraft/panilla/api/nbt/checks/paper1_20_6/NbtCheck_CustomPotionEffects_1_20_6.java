@@ -16,8 +16,8 @@ public class NbtCheck_CustomPotionEffects_1_20_6 extends NbtCheck {
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         tag = tag.getCompound("minecraft:potion_contents");
 
-        if (!tag.hasKey("custom_potion_effects")) return NbtCheckResult.PASS;
-        INbtTagList effectsList = tag.getList("custom_potion_effects", NbtDataType.COMPOUND);
+        if (!tag.hasKey("custom_effects")) return NbtCheckResult.PASS;
+        INbtTagList effectsList = tag.getList("custom_effects", NbtDataType.COMPOUND);
 
         for (int i = 0; i < effectsList.size(); i++) {
             INbtTagCompound effect = effectsList.getCompound(i);

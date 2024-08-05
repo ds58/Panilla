@@ -48,10 +48,3 @@ shadowJar {
 }
 
 build.dependsOn(shadowJar)
-
-tasks.register("go", Copy) {
-    dependsOn shadowJar
-
-    from shadowJar.archiveFile.get()
-    into "C:\\Users\\TangJin\\Desktop\\Test Server\\twme\\Panilla\\plugins"
-}
