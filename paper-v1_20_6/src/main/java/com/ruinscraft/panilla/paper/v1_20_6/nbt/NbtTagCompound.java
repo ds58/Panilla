@@ -3,7 +3,6 @@ package com.ruinscraft.panilla.paper.v1_20_6.nbt;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
-import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTType;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 
