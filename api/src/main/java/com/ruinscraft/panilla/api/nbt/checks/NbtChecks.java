@@ -34,6 +34,7 @@ public final class NbtChecks {
         register(new NbtCheck_WrittenBookContent());
         register(new NbtCheck_EntityData());
         register(new NbtCheck_ChargedProjectiles_1_20_6());
+        register(new NbtCheck_Enchantments_1_20_6());
 
         // non-vanilla
         register(new NbtCheck_weBrushJson1_20_6());

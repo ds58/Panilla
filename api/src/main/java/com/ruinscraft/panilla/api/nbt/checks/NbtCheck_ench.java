@@ -12,7 +12,7 @@ public class NbtCheck_ench extends NbtCheck {
     // 1.12- ench
     // 1.13+ Enchantments
     public NbtCheck_ench() {
-        super("ench", PStrictness.AVERAGE, "Enchantments", "StoredEnchantments", "minecraft:enchantments", "minecraft:stored_enchantments");
+        super("ench", PStrictness.AVERAGE, "Enchantments", "StoredEnchantments");
     }
 
     private static EnchantmentCompat getEnchCompat(INbtTagCompound enchantment, IPanilla panilla) {
