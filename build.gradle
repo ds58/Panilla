@@ -8,7 +8,10 @@ subprojects {
 
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://repo.codemc.io/repository/maven-public/'
+        }
     }
 
     sourceCompatibility = 1.8

@@ -9,6 +9,7 @@ import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import static com.ruinscraft.panilla.api.nbt.checks.paper1_20_6.NbtCheck_Container.checkItem;
 
 public class NbtCheck_BlockEntityData extends NbtCheck {
+
     public NbtCheck_BlockEntityData() {
         super("minecraft:block_entity_data", PStrictness.STRICT);
     }
@@ -34,4 +35,5 @@ public class NbtCheck_BlockEntityData extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

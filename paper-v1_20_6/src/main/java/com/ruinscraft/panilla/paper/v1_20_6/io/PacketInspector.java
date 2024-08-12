@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class PacketInspector implements IPacketInspector {
+
     private final IPanilla panilla;
 
     public PacketInspector(IPanilla panilla) {
@@ -210,4 +211,5 @@ public class PacketInspector implements IPacketInspector {
     public void validateBaseComponentParse(String string) throws Exception {
         CraftChatMessage.fromJSON(string);
     }
+
 }

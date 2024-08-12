@@ -29,13 +29,12 @@ public final class NbtChecks {
         register(new NbtCheck_Lock());
         register(new NbtCheck_Lore());
         register(new NbtCheck_PaperRange());
-        register(new NbtCheck_SkullOwner());
+        register(new NbtCheck_SkullOwner1_20_6());
         register(new NbtCheck_WritableBookContent());
         register(new NbtCheck_WrittenBookContent());
         register(new NbtCheck_EntityData());
         register(new NbtCheck_ChargedProjectiles_1_20_6());
         register(new NbtCheck_Enchantments_1_20_6());
-
         // non-vanilla
         register(new NbtCheck_weBrushJson1_20_6());
 
@@ -73,7 +72,6 @@ public final class NbtChecks {
         register(new NbtCheck_HasVisualFire()); // 1.17
         register(new NbtCheck_ChargedProjectiles());
         register(new NbtCheck_Items());
-
         // non-vanilla
         register(new NbtCheck_weBrushJson());
     }

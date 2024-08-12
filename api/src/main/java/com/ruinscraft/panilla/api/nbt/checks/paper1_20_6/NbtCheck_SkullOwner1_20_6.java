@@ -14,8 +14,9 @@ import java.util.regex.Matcher;
 import static com.ruinscraft.panilla.api.nbt.checks.NbtCheck_SkullOwner.URL_MATCHER;
 import static com.ruinscraft.panilla.api.nbt.checks.NbtCheck_SkullOwner.minecraftSerializableUuid;
 
-public class NbtCheck_SkullOwner extends NbtCheck {
-    public NbtCheck_SkullOwner() {
+public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
+
+    public NbtCheck_SkullOwner1_20_6() {
         super("minecraft:profile", PStrictness.LENIENT);
     }
 

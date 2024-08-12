@@ -15,6 +15,7 @@ import static com.ruinscraft.panilla.api.nbt.checks.NbtCheck_pages.MOJANG_CRASH_
 import static com.ruinscraft.panilla.api.nbt.checks.NbtCheck_pages.createCharMap;
 
 public class NbtCheck_WritableBookContent extends NbtCheck {
+
     public NbtCheck_WritableBookContent() {
         super("minecraft:writable_book_content", PStrictness.AVERAGE);
     }
@@ -88,4 +89,5 @@ public class NbtCheck_WritableBookContent extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

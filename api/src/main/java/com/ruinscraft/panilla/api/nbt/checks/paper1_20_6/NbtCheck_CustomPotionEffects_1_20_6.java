@@ -8,6 +8,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_CustomPotionEffects_1_20_6 extends NbtCheck {
+
     public NbtCheck_CustomPotionEffects_1_20_6() {
         super("minecraft:potion_contents", PStrictness.AVERAGE);
     }
@@ -32,4 +33,5 @@ public class NbtCheck_CustomPotionEffects_1_20_6 extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

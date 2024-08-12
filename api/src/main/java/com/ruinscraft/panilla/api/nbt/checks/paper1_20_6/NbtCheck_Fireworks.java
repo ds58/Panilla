@@ -8,6 +8,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_Fireworks extends NbtCheck {
+
     public NbtCheck_Fireworks() {
         super("minecraft:fireworks", PStrictness.AVERAGE);
     }
@@ -33,4 +34,5 @@ public class NbtCheck_Fireworks extends NbtCheck {
 
         return result;
     }
+
 }

@@ -6,6 +6,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_ContainerLoot extends NbtCheck {
+
     public NbtCheck_ContainerLoot() {
         super("minecraft:container_loot", PStrictness.STRICT);
     }
@@ -39,4 +40,5 @@ public class NbtCheck_ContainerLoot extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

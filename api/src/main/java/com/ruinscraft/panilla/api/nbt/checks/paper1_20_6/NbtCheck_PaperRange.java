@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_PaperRange extends NbtCheck {
+
     public NbtCheck_PaperRange() {
         super("minecraft:custom_data", PStrictness.LENIENT);
     }
@@ -23,4 +24,5 @@ public class NbtCheck_PaperRange extends NbtCheck {
         }
         return NbtCheckResult.PASS;
     }
+
 }

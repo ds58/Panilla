@@ -6,6 +6,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_CustomModelData_1_20_6 extends NbtCheck {
+
     public NbtCheck_CustomModelData_1_20_6() {
         super("minecraft:custom_model_data", PStrictness.AVERAGE);
     }
@@ -20,4 +21,5 @@ public class NbtCheck_CustomModelData_1_20_6 extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

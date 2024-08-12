@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 
 public class NbtCheck_Enchantments_1_20_6 extends NbtCheck {
+
     public NbtCheck_Enchantments_1_20_6() {
         super("minecraft:enchantments", PStrictness.AVERAGE, "minecraft:stored_enchantments");
     }
@@ -43,4 +44,5 @@ public class NbtCheck_Enchantments_1_20_6 extends NbtCheck {
 
         return NbtCheckResult.PASS;
     }
+
 }

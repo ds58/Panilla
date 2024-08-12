@@ -84,4 +84,5 @@ public class NbtTagCompound implements INbtTagCompound {
     public INbtTagCompound getCompound(String key) {
         return new NbtTagCompound(handle.getCompound(key));
     }
+
 }
