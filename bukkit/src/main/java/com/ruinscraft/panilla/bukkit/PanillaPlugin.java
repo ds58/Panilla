@@ -25,7 +25,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
     private PTranslations pTranslations;
     private IPanillaLogger panillaLogger;
     private IProtocolConstants protocolConstants;
-    private IPlayerInjector playerInjector;
+    private IPlayerInjector playerInjector = new com.ruinscraft.panilla.paper.v1_21.io.PlayerInjector();
     private IPacketInspector packetInspector;
     private IInventoryCleaner containerCleaner;
     private IEnchantments enchantments;
@@ -151,6 +151,24 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
 
     @SuppressWarnings("deprecation")
     private void initVersion() {
+        System.out.println("DATA VERSION " + Bukkit.getUnsafe().getDataVersion());
+
+        // Paper 1.21, 1.21.1
+        if (Bukkit.getUnsafe().getDataVersion() == 3953 || Bukkit.getUnsafe().getDataVersion() == 3955) {
+            packetSerializerClass = com.ruinscraft.panilla.paper.v1_21.io.dplx.PacketSerializer.class;
+            protocolConstants = new IProtocolConstants() {
+                @Override
+                public int maxBookPages() {
+                    return 100;
+                }
+            };
+            playerInjector = new com.ruinscraft.panilla.paper.v1_21.io.PlayerInjector();
+            packetInspector = new com.ruinscraft.panilla.paper.v1_21.io.PacketInspector(this);
+            containerCleaner = new com.ruinscraft.panilla.paper.v1_21.InventoryCleaner(this);
+            return;
+        }
+
+        // Paper 1.20.6
         if (Bukkit.getUnsafe().getDataVersion() == 3839) {
             packetSerializerClass = com.ruinscraft.panilla.paper.v1_20_6.io.dplx.PacketSerializer.class;
             protocolConstants = new IProtocolConstants() {
