@@ -12,7 +12,7 @@ import com.ruinscraft.panilla.api.nbt.NbtDataType;
 
 public class NbtCheck_display extends NbtCheck {
 
-    private static final JsonParser PARSER = new JsonParser();
+    public static final JsonParser PARSER = new JsonParser();
 
     public NbtCheck_display() {
         super("display", PStrictness.LENIENT);

@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_AttributeModifiers extends NbtCheck {
 
     public NbtCheck_AttributeModifiers() {
-        super("AttributeModifiers", PStrictness.AVERAGE);
+        super("AttributeModifiers", PStrictness.AVERAGE, "minecraft:attribute_modifiers");
     }
 
     @Override

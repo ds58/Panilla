@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_CanDestroy extends NbtCheck {
 
     public NbtCheck_CanDestroy() {
-        super("CanDestroy", PStrictness.STRICT);
+        super("CanDestroy", PStrictness.STRICT, "minecraft:can_break");
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_CanPlaceOn extends NbtCheck {
 
     public NbtCheck_CanPlaceOn() {
-        super("CanPlaceOn", PStrictness.STRICT);
+        super("CanPlaceOn", PStrictness.STRICT, "minecraft:can_place_on");
     }
 
     @Override

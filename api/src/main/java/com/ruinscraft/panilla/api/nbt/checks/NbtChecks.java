@@ -7,6 +7,7 @@ import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 import com.ruinscraft.panilla.api.nbt.INbtTagList;
 import com.ruinscraft.panilla.api.nbt.NbtDataType;
+import com.ruinscraft.panilla.api.nbt.checks.paper1_20_6.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,28 @@ public final class NbtChecks {
     private static final Map<String, NbtCheck> checks = new HashMap<>();
 
     static {
+        // 1.20.6
+        register(new NbtCheck_BlockEntityData());
+        register(new NbtCheck_Container());
+        register(new NbtCheck_ContainerLoot());
+        register(new NbtCheck_CustomModelData_1_20_6());
+        register(new NbtCheck_CustomName());
+        register(new NbtCheck_CustomPotionEffects_1_20_6());
+        register(new NbtCheck_Fireworks());
+        register(new NbtCheck_Lock());
+        register(new NbtCheck_Lore());
+        register(new NbtCheck_PaperRange());
+        register(new NbtCheck_SkullOwner());
+        register(new NbtCheck_WritableBookContent());
+        register(new NbtCheck_WrittenBookContent());
+        register(new NbtCheck_EntityData());
+        register(new NbtCheck_ChargedProjectiles_1_20_6());
+        register(new NbtCheck_Enchantments_1_20_6());
+
+        // non-vanilla
+        register(new NbtCheck_weBrushJson1_20_6());
+
+        // other
         // vanilla
         register(new NbtCheck_Unbreakable());
         register(new NbtCheck_CanDestroy());
@@ -24,12 +47,9 @@ public final class NbtChecks {
         register(new NbtCheck_BlockEntityTag());
         register(new NbtCheck_BlockStateTag());
         register(new NbtCheck_ench());
-        register(new NbtCheck_Enchantments());
-        register(new NbtCheck_StoredEnchantments());
         register(new NbtCheck_RepairCost());
         register(new NbtCheck_AttributeModifiers());
         register(new NbtCheck_CustomPotionEffects());
-        register(new NbtCheck_custom_potion_effects());
         register(new NbtCheck_Potion());
         register(new NbtCheck_CustomPotionColor());
         register(new NbtCheck_display());
@@ -60,6 +80,7 @@ public final class NbtChecks {
 
     private static void register(NbtCheck check) {
         checks.put(check.getName(), check);
+        for (String alias : check.getAliases()) checks.put(alias, check);
     }
 
     public static Map<String, NbtCheck> getChecks() {
