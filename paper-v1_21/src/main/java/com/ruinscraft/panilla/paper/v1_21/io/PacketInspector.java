@@ -133,7 +133,7 @@ public class PacketInspector implements IPacketInspector {
         Entity entity = null;
 
         for (ServerLevel worldServer : MinecraftServer.getServer().getAllLevels()) {
-            entity = worldServer.getEntity(entityId);
+            entity = worldServer.moonrise$getEntityLookup().get(entityId);
             if (entity != null) break;
         }
 
@@ -189,7 +189,7 @@ public class PacketInspector implements IPacketInspector {
         Entity entity = null;
 
         for (ServerLevel worldServer : MinecraftServer.getServer().getAllLevels()) {
-            entity = worldServer.getEntity(entityId);
+            entity = worldServer.moonrise$getEntityLookup().get(entityId);
             if (entity != null) break;
         }
 
