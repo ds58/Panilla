@@ -43,7 +43,14 @@ public enum EnchantmentCompat {
     QUICK_CHARGE("minecraft:quick_charge", "", -1),
 
     // 1.16
-    SOUL_SPEED("minecraft:soul_speed", "", -1);
+    SOUL_SPEED("minecraft:soul_speed", "", -1),
+
+    // 1.21
+    DENSITY("minecraft:density", "", -1),
+    BREACH("minecraft:breach", "", -1),
+    WIND_BURST("minecraft:wind_burst", "", -1),
+
+    ;
 
     public final String namedKey;
     public final String legacyName;
