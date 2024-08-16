@@ -45,6 +45,9 @@ public enum EnchantmentCompat {
     // 1.16
     SOUL_SPEED("minecraft:soul_speed", "", -1),
 
+    // 1.19
+    SWIFT_SNEAK("minecraft:swift_sneak", "", -1),
+
     // 1.21
     DENSITY("minecraft:density", "", -1),
     BREACH("minecraft:breach", "", -1),
