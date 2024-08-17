@@ -65,7 +65,7 @@ public class NbtCheck_WrittenBookContent extends NbtCheck {
                     }
                 }
             } else {
-                pageContent = pages.getString(i);
+                pageContent = page;
             }
 
             final String pageNoSpaces = pageContent.replace(" ", "");

@@ -32,7 +32,8 @@ public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
             }
         }
 
-        if (skullOwner.hasKey("id")) {
+        // id or Id UUID string
+        if (skullOwner.hasKeyOfType("id", NbtDataType.STRING)) {
             String uuidString = skullOwner.getString("id");
 
             try {
@@ -42,7 +43,6 @@ public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
                 return NbtCheckResult.CRITICAL;
             }
         }
-
         if (skullOwner.hasKeyOfType("Id", NbtDataType.STRING)) {
             String uuidString = skullOwner.getString("Id");
 
@@ -52,8 +52,20 @@ public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
             } catch (Exception e) {
                 return NbtCheckResult.CRITICAL;
             }
-        } else if (skullOwner.hasKeyOfType("Id", NbtDataType.INT_ARRAY)) {
+        }
+
+        // id or Id int array
+        if (skullOwner.hasKeyOfType("Id", NbtDataType.INT_ARRAY)) {
             int[] ints = skullOwner.getIntArray("Id");
+
+            try {
+                UUID check = minecraftSerializableUuid(ints);
+            } catch (Exception e) {
+                return NbtCheckResult.CRITICAL;
+            }
+        }
+        if (skullOwner.hasKeyOfType("id", NbtDataType.INT_ARRAY)) {
+            int[] ints = skullOwner.getIntArray("id");
 
             try {
                 UUID check = minecraftSerializableUuid(ints);
