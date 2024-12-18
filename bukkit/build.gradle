@@ -27,7 +27,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.github.johnrengelman:shadow:8.1.1'
+        classpath 'com.gradleup.shadow:shadow-gradle-plugin:9.0.0-beta4'
     }
 }
 
@@ -39,7 +39,7 @@ processResources {
     }
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.gradleup.shadow'
 
 shadowJar {
     relocate("de.tr7zw.changeme.nbtapi", "com.ruinscraft.panilla.lib.nbtapi")
