@@ -41,6 +41,21 @@ public class NbtCheck_EntityData extends NbtCheck {
         return failedNbt;
     }
 
+    private static NbtCheckResult checkEffectsTag(INbtTagList effectsList) {
+        for (int i = 0; i < effectsList.size(); i++) {
+            INbtTagCompound effect = effectsList.getCompound(i);
+
+            if (effect.hasKeyOfType("Amplifier", NbtDataType.BYTE)) {
+                short amplifier = effect.getByte("Amplifier");
+                if (amplifier > 32) {
+                    return NbtCheckResult.CRITICAL;
+                }
+            }
+        }
+
+        return NbtCheckResult.PASS;
+    }
+
     @Override
     public NbtCheckResult check(INbtTagCompound tag, String itemName, IPanilla panilla) {
         NbtCheckResult result = NbtCheckResult.PASS;
@@ -228,21 +243,6 @@ public class NbtCheck_EntityData extends NbtCheck {
         }
 
         return result;
-    }
-
-    private static NbtCheckResult checkEffectsTag(INbtTagList effectsList) {
-        for (int i = 0; i < effectsList.size(); i++) {
-            INbtTagCompound effect = effectsList.getCompound(i);
-
-            if (effect.hasKeyOfType("Amplifier", NbtDataType.BYTE)) {
-                short amplifier = effect.getByte("Amplifier");
-                if (amplifier > 32) {
-                    return NbtCheckResult.CRITICAL;
-                }
-            }
-        }
-
-        return NbtCheckResult.PASS;
     }
 
 }

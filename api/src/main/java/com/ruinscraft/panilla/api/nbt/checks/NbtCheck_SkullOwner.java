@@ -15,12 +15,12 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
     public static final Pattern URL_MATCHER = Pattern.compile("url");
 
-    public static UUID minecraftSerializableUuid(final int[] ints) {
-        return new UUID((long) ints[0] << 32 | ((long) ints[1] & 0xFFFFFFFFL), (long) ints[2] << 32 | ((long) ints[3] & 0xFFFFFFFFL));
-    }
-
     public NbtCheck_SkullOwner() {
         super("SkullOwner", PStrictness.LENIENT);
+    }
+
+    public static UUID minecraftSerializableUuid(final int[] ints) {
+        return new UUID((long) ints[0] << 32 | ((long) ints[1] & 0xFFFFFFFFL), (long) ints[2] << 32 | ((long) ints[3] & 0xFFFFFFFFL));
     }
 
     @Override
@@ -88,9 +88,9 @@ public class NbtCheck_SkullOwner extends NbtCheck {
 
                             // all lowercase, no parentheses or spaces
                             decoded = decoded.trim()
-                                    .replace(" ", "")
-                                    .replace("\"", "")
-                                    .toLowerCase();
+                                .replace(" ", "")
+                                .replace("\"", "")
+                                .toLowerCase();
 
                             Matcher matcher = URL_MATCHER.matcher(decoded);
 
@@ -100,7 +100,7 @@ public class NbtCheck_SkullOwner extends NbtCheck {
                                 String url = decoded.substring(matcher.end() + 1);
 
                                 if (url.startsWith("http://textures.minecraft.net") ||
-                                        url.startsWith("https://textures.minecraft.net")) {
+                                    url.startsWith("https://textures.minecraft.net")) {
                                     continue;
                                 } else {
                                     return NbtCheckResult.FAIL;

@@ -2,7 +2,6 @@ package com.ruinscraft.panilla.api.io;
 
 import com.ruinscraft.panilla.api.IPanilla;
 import com.ruinscraft.panilla.api.IPanillaPlayer;
-import com.ruinscraft.panilla.api.io.dplx.PacketDecompressorDplx;
 import com.ruinscraft.panilla.api.io.dplx.PacketInspectorDplx;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

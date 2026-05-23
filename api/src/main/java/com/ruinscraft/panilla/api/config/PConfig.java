@@ -12,6 +12,7 @@ public abstract class PConfig {
 
     /* Defaults */
     public String language = "en";
+    public boolean safeMode = false;
     public boolean consoleLogging = true;
     public boolean chatLogging = false;
     public PStrictness strictness = PStrictness.AVERAGE;

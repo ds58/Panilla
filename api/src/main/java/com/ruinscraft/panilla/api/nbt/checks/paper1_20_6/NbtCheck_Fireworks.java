@@ -21,14 +21,14 @@ public class NbtCheck_Fireworks extends NbtCheck {
         int flight = fireworks.getInt("flight_duration");
 
         if (flight > panilla.getProtocolConstants().maxFireworksFlight()
-                || flight < panilla.getProtocolConstants().minFireworksFlight()) {
+            || flight < panilla.getProtocolConstants().minFireworksFlight()) {
             result = NbtCheckResult.FAIL;
         }
 
         INbtTagList explosions = fireworks.getList("explosions", NbtDataType.COMPOUND);
 
         if (explosions != null
-                && explosions.size() > panilla.getProtocolConstants().maxFireworksExplosions()) {
+            && explosions.size() > panilla.getProtocolConstants().maxFireworksExplosions()) {
             result = NbtCheckResult.FAIL;
         }
 

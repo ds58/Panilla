@@ -78,10 +78,14 @@ public class NbtCheck_display extends NbtCheck {
         }
 
         if (display.hasKeyOfType("Lore", NbtDataType.LIST)) {
-            INbtTagList lore = display.getList("Lore");
+            INbtTagList lore = display.getList("Lore", NbtDataType.STRING);
 
             if (lore.size() > panilla.getProtocolConstants().NOT_PROTOCOL_maxLoreLines()) {
                 return NbtCheckResult.CRITICAL; // can cause crashes
+            }
+
+            if (lore.size() > 0 && lore.isCompound(0)) {
+                return NbtCheckResult.CRITICAL;  // can cause crashes
             }
 
             for (int i = 0; i < lore.size(); i++) {

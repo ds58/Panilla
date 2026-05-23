@@ -1,0 +1,66 @@
+name: Java CI with Gradle and Release
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build with Gradle Wrapper
+        id: build
+        run: |
+          ./gradlew build
+          echo "::set-output name=jar_file::$(find target/bukkit -name '*.jar' -print -quit)"
+
+      - name: Extract version from build.gradle.kts
+        id: extract_version
+        run: |
+          VERSION=$(grep '^version\s*=' build.gradle.kts | sed -E 's/version\s*=\s*"([^"]+)"/\1/')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Determine next build number
+        id: build_number
+        run: |
+          git fetch --tags
+          TAG_PATTERN="v${VERSION}-build-"
+          LAST_TAG=$(git tag --list "${TAG_PATTERN}*" | sort -V | tail -n1)
+          if [[ $LAST_TAG =~ -build-([0-9]+)$ ]]; then
+            BUILD_NUMBER=$((BASH_REMATCH[1]+1))
+          else
+            BUILD_NUMBER=1
+          fi
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          NEW_TAG="v${VERSION}-build-${BUILD_NUMBER}"
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.VERSION }}-build-${{ env.BUILD_NUMBER }}"
+          name: "v${{ env.VERSION }}-build-${{ env.BUILD_NUMBER }}"
+          files: ${{ steps.build.outputs.jar_file }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -36,6 +36,7 @@ public class PlayerInjector implements IPlayerInjector {
     }
 
     private class PanillaPacketDecoder extends PacketDecoder {
+
         public PanillaPacketDecoder(EnumProtocolDirection enumProtocolDirection) {
             super(enumProtocolDirection);
         }

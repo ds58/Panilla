@@ -48,6 +48,12 @@ public class PacketInspector implements IPacketInspector {
         }
     }
 
+    private final IPanilla panilla;
+
+    public PacketInspector(IPanilla panilla) {
+        this.panilla = panilla;
+    }
+
     private Entity getChunkSystemEntity(WorldServer worldServer, UUID entityId) {
         try {
             Object entityLookup = getEntityLookupMethodHandle.invoke(worldServer);
@@ -58,14 +64,8 @@ public class PacketInspector implements IPacketInspector {
         return null;
     }
 
-    private final IPanilla panilla;
-
-    public PacketInspector(IPanilla panilla) {
-        this.panilla = panilla;
-    }
-
     @Override
-    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet, IPanillaPlayer player) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInWindowClick) {
             PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
             int windowId = packet.a();

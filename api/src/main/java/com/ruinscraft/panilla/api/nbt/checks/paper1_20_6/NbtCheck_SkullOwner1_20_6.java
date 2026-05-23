@@ -93,9 +93,9 @@ public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
 
                     // all lowercase, no parentheses or spaces
                     decoded = decoded.trim()
-                            .replace(" ", "")
-                            .replace("\"", "")
-                            .toLowerCase();
+                        .replace(" ", "")
+                        .replace("\"", "")
+                        .toLowerCase();
 
                     Matcher matcher = URL_MATCHER.matcher(decoded);
 
@@ -105,7 +105,7 @@ public class NbtCheck_SkullOwner1_20_6 extends NbtCheck {
                         String url = decoded.substring(matcher.end() + 1);
 
                         if (url.startsWith("http://textures.minecraft.net") ||
-                                url.startsWith("https://textures.minecraft.net")) {
+                            url.startsWith("https://textures.minecraft.net")) {
                             continue;
                         } else {
                             return NbtCheckResult.FAIL;

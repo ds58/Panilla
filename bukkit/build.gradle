@@ -19,6 +19,9 @@ dependencies {
     implementation project(':panilla-craftbukkit-v1_20_R3')
     implementation project(':panilla-paper-v1_20_6')
     implementation project(':panilla-paper-v1_21')
+    implementation project(':panilla-paper-v1_21_3')
+    implementation project(':panilla-paper-v1_21_5')
+
     compileOnly 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT' // use 1.13 Bukkit API
 }
 
@@ -27,7 +30,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.github.johnrengelman:shadow:8.1.1'
+        classpath 'com.gradleup.shadow:com.gradleup.shadow.gradle.plugin:9.0.2'
     }
 }
 
@@ -39,7 +42,7 @@ processResources {
     }
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.gradleup.shadow'
 
 shadowJar {
     relocate("de.tr7zw.changeme.nbtapi", "com.ruinscraft.panilla.lib.nbtapi")

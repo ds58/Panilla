@@ -37,7 +37,7 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet, IPanillaPlayer player) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInWindowClick) {
             PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
             int windowId = packet.b();
@@ -214,9 +214,9 @@ public class PacketInspector implements IPacketInspector {
 
         try {
             Class<?> packetPlayOutSetSlotClass = Class.forName("net.minecraft.network.protocol.game.PacketPlayOutSetSlot");
-            Class<?>[] type = { int.class, int.class, int.class, ItemStack.class };
+            Class<?>[] type = {int.class, int.class, int.class, ItemStack.class};
             Constructor<?> constructor = packetPlayOutSetSlotClass.getConstructor(type);
-            Object[] params = { 0, 0, slot, new ItemStack(Blocks.a) };
+            Object[] params = {0, 0, slot, new ItemStack(Blocks.a)};
             Object packetPlayOutSetSlotInstance = constructor.newInstance(params);
             entityPlayer.b.sendPacket((Packet<?>) packetPlayOutSetSlotInstance);
         } catch (ClassNotFoundException e) {

@@ -98,9 +98,9 @@ public class NbtCheck_BlockEntityTag extends NbtCheck {
 
             // signs with text
             if (blockEntityTag.hasKey("Text1")
-                    || blockEntityTag.hasKey("Text2")
-                    || blockEntityTag.hasKey("Text3")
-                    || blockEntityTag.hasKey("Text4")) {
+                || blockEntityTag.hasKey("Text2")
+                || blockEntityTag.hasKey("Text3")
+                || blockEntityTag.hasKey("Text4")) {
                 result = NbtCheckResult.FAIL;
             }
         }

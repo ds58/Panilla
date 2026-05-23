@@ -13,5 +13,4 @@ public interface IPanillaPlayer {
     boolean hasPermission(String node);
 
     boolean canBypassChecks(IPanilla panilla, PacketException e);
-
 }

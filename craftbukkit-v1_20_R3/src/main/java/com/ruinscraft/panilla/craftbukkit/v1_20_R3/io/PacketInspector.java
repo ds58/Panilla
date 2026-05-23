@@ -8,7 +8,6 @@ import com.ruinscraft.panilla.api.exception.FailedNbtList;
 import com.ruinscraft.panilla.api.exception.NbtNotPermittedException;
 import com.ruinscraft.panilla.api.io.IPacketInspector;
 import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
-import com.ruinscraft.panilla.api.nbt.checks.NbtCheck;
 import com.ruinscraft.panilla.api.nbt.checks.NbtChecks;
 import com.ruinscraft.panilla.craftbukkit.v1_20_R3.nbt.NbtTagCompound;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,6 +48,12 @@ public class PacketInspector implements IPacketInspector {
         }
     }
 
+    private final IPanilla panilla;
+
+    public PacketInspector(IPanilla panilla) {
+        this.panilla = panilla;
+    }
+
     private Entity getChunkSystemEntity(WorldServer worldServer, UUID entityId) {
         try {
             Object entityLookup = getEntityLookupMethodHandle.invoke(worldServer);
@@ -59,14 +64,8 @@ public class PacketInspector implements IPacketInspector {
         return null;
     }
 
-    private final IPanilla panilla;
-
-    public PacketInspector(IPanilla panilla) {
-        this.panilla = panilla;
-    }
-
     @Override
-    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet, IPanillaPlayer player) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInWindowClick) {
             PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
             int windowId = packet.a();

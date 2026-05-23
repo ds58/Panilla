@@ -37,7 +37,8 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
 
     @Override
     public boolean canBypassChecks(IPanilla panilla, PacketException e) {
-        if (e.getFailedNbt().result == NbtCheck.NbtCheckResult.CRITICAL) {
+        // Only cancel them when safe mode enabled
+        if (panilla.getPConfig().safeMode && e.getFailedNbt().result == NbtCheck.NbtCheckResult.CRITICAL) {
             return false;   // to prevent crash exploits
         }
 
@@ -45,5 +46,4 @@ public class BukkitPanillaPlayer implements IPanillaPlayer {
 
         return inDisabledWorld || hasPermission(PConfig.PERMISSION_BYPASS);
     }
-
 }

@@ -1,0 +1,5 @@
+[versions]
+item-nbt-api = "2.15.7"
+
+[libraries]
+item-nbt-api = { group = "de.tr7zw", name = "item-nbt-api", version.ref = "item-nbt-api" }

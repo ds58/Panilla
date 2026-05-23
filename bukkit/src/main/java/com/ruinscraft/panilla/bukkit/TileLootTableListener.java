@@ -27,6 +27,27 @@ public class TileLootTableListener implements Listener {
         }
     }
 
+    private static void fixLootTable(Block block) {
+        if (block == null) {
+            return;
+        }
+
+        BlockState blockState = block.getState();
+
+        if (blockState instanceof Lootable) {
+            Lootable lootable = (Lootable) blockState;
+
+            try {
+                if (lootable.getLootTable() != null) {
+                    lootable.getLootTable().getKey();
+                }
+            } catch (Exception e) {
+                lootable.setLootTable(null);
+                blockState.update(true);
+            }
+        }
+    }
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (checkForLootable) {
@@ -67,27 +88,6 @@ public class TileLootTableListener implements Listener {
                         event.setCancelled(true);
                     }
                 }
-            }
-        }
-    }
-
-    private static void fixLootTable(Block block) {
-        if (block == null) {
-            return;
-        }
-
-        BlockState blockState = block.getState();
-
-        if (blockState instanceof Lootable) {
-            Lootable lootable = (Lootable) blockState;
-
-            try {
-                if (lootable.getLootTable() != null) {
-                    lootable.getLootTable().getKey();
-                }
-            } catch (Exception e) {
-                lootable.setLootTable(null);
-                blockState.update(true);
             }
         }
     }

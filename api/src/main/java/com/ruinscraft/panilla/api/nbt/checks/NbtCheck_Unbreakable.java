@@ -7,7 +7,7 @@ import com.ruinscraft.panilla.api.nbt.INbtTagCompound;
 public class NbtCheck_Unbreakable extends NbtCheck {
 
     public NbtCheck_Unbreakable() {
-        super("Unbreakable", PStrictness.LENIENT,"minecraft:unbreakable");
+        super("Unbreakable", PStrictness.LENIENT, "minecraft:unbreakable");
     }
 
     @Override

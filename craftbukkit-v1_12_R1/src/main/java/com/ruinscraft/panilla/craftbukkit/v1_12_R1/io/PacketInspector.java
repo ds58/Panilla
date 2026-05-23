@@ -28,7 +28,7 @@ public class PacketInspector implements IPacketInspector {
     }
 
     @Override
-    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet, IPanillaPlayer player) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInWindowClick) {
             PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
             int windowId = packet.a();

@@ -49,6 +49,12 @@ public class PacketInspector implements IPacketInspector {
         }
     }
 
+    private final IPanilla panilla;
+
+    public PacketInspector(IPanilla panilla) {
+        this.panilla = panilla;
+    }
+
     private Entity getChunkSystemEntity(WorldServer worldServer, UUID entityId) {
         try {
             Object entityLookup = getEntityLookupMethodHandle.invoke(worldServer);
@@ -59,14 +65,8 @@ public class PacketInspector implements IPacketInspector {
         return null;
     }
 
-    private final IPanilla panilla;
-
-    public PacketInspector(IPanilla panilla) {
-        this.panilla = panilla;
-    }
-
     @Override
-    public void checkPacketPlayInClickContainer(Object _packet) throws NbtNotPermittedException {
+    public void checkPacketPlayInClickContainer(Object _packet, IPanillaPlayer player) throws NbtNotPermittedException {
         if (_packet instanceof PacketPlayInWindowClick) {
             PacketPlayInWindowClick packet = (PacketPlayInWindowClick) _packet;
             int windowId = packet.a();
@@ -211,12 +211,13 @@ public class PacketInspector implements IPacketInspector {
 
         try {
             Class<?> packetPlayOutSetSlotClass = Class.forName("net.minecraft.network.protocol.game.PacketPlayOutSetSlot");
-            Class<?>[] type = { int.class, int.class, int.class, ItemStack.class };
+            Class<?>[] type = {int.class, int.class, int.class, ItemStack.class};
             Constructor<?> constructor = packetPlayOutSetSlotClass.getConstructor(type);
-            Object[] params = { 0, 0, slot, new ItemStack(Blocks.a) };
+            Object[] params = {0, 0, slot, new ItemStack(Blocks.a)};
             Object packetPlayOutSetSlotInstance = constructor.newInstance(params);
             entityPlayer.b.a((Packet<?>) packetPlayOutSetSlotInstance);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException |
+                 InvocationTargetException e) {
             e.printStackTrace();
         }
     }

@@ -2,14 +2,14 @@ package com.ruinscraft.panilla.paper.v1_20_6.io.dplx;
 
 import com.ruinscraft.panilla.api.io.IPacketSerializer;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.PacketDataSerializer;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class PacketSerializer implements IPacketSerializer {
 
-    private final PacketDataSerializer handle;
+    private final FriendlyByteBuf handle;
 
     public PacketSerializer(ByteBuf byteBuf) {
-        this.handle = new PacketDataSerializer(byteBuf);
+        this.handle = new FriendlyByteBuf(byteBuf);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class PacketSerializer implements IPacketSerializer {
 
     @Override
     public int readVarInt() {
-        return handle.l();
+        return handle.readVarInt();
     }
 
     @Override

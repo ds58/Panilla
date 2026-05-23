@@ -12,8 +12,8 @@ public class NbtCheck_pages extends NbtCheck {
 
     // translations in the game which (intentionally) crash the user
     public static final String[] MOJANG_CRASH_TRANSLATIONS = new String[]{
-            "translation.test.invalid",
-            "translation.test.invalid2"
+        "translation.test.invalid",
+        "translation.test.invalid2"
     };
 
     private static final int MINECRAFT_UNICODE_MAX = 65535;
@@ -37,6 +37,37 @@ public class NbtCheck_pages extends NbtCheck {
         }
 
         return charMap;
+    }
+
+    private static int getCharCountForItem(INbtTagCompound item) {
+        int charCount = 0;
+
+        if (item.hasKey("tag")) {
+            INbtTagCompound tag = item.getCompound("tag");
+
+            if (tag.hasKey("pages")) {
+                INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
+
+                for (int i = 0; i < pages.size(); i++) {
+                    final String page = pages.getString(i);
+                    final String pageNoSpaces = page.replace(" ", "");
+                    charCount += pageNoSpaces.length();
+                }
+            }
+        }
+
+        return charCount;
+    }
+
+    // Gets the amount of characters of books within in a list of items
+    public static int getCharCountForItems(INbtTagList items) {
+        int charCount = 0;
+
+        for (int i = 0; i < items.size(); i++) {
+            charCount += getCharCountForItem(items.getCompound(i));
+        }
+
+        return charCount;
     }
 
     @Override
@@ -105,37 +136,6 @@ public class NbtCheck_pages extends NbtCheck {
         }
 
         return NbtCheckResult.PASS;
-    }
-
-    private static int getCharCountForItem(INbtTagCompound item) {
-        int charCount = 0;
-
-        if (item.hasKey("tag")) {
-            INbtTagCompound tag = item.getCompound("tag");
-
-            if (tag.hasKey("pages")) {
-                INbtTagList pages = tag.getList("pages", NbtDataType.STRING);
-
-                for (int i = 0; i < pages.size(); i++) {
-                    final String page = pages.getString(i);
-                    final String pageNoSpaces = page.replace(" ", "");
-                    charCount += pageNoSpaces.length();
-                }
-            }
-        }
-
-        return charCount;
-    }
-
-    // Gets the amount of characters of books within in a list of items
-    public static int getCharCountForItems(INbtTagList items) {
-        int charCount = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-            charCount += getCharCountForItem(items.getCompound(i));
-        }
-
-        return charCount;
     }
 
 }

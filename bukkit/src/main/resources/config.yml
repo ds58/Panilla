@@ -9,6 +9,10 @@
 # The language option below currently does nothing.
 language: en
 
+# This will be used to reject all "crashable" packets even if player has bypass permission
+# For modern Paper and proper permission control, this feature is mostly useless
+safe-mode: false
+
 # Logging options
 logging:
   console: false

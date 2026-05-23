@@ -1,3 +1,7 @@
+From current maintainer Lumine1909: I'm considering drop support of 1.20.5- servers, so I add bstats to collect user's version info. If there aren't enough users in those legacy versions, I'll do that in roughly next minor version. Then I will rewrite the plugin to improve its performance and readability, just like what I did [here](https://github.com/Lumine1909/CustomBiomeColors_Continue).
+
+-----
+
 # Panilla
 Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
 
@@ -27,8 +31,7 @@ Currently Panilla supports:
 - Bukkit
   - CraftBukkit* 1.8.8
   - CraftBukkit* 1.12.x-1.20.4
-  - Paper 1.20.6
-  - Paper 1.21-1.21.1
+  - Paper 1.20.5-26.1.2
   
   **CraftBukkit includes any CraftBukkit derivatives (Spigot, Paper, Folia, etc)*
 
@@ -39,4 +42,4 @@ In order for you to compile Panilla, you will need to use [BuildTools, by Spigot
 When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
 From there, you can compile the project with `./gradlew build`. The output plugin jars file will located in the `target/` directory.
 
-Java 17 is required to build Panilla.
+Java 21 is required to build Panilla.
